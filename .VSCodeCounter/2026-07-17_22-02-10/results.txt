@@ -1,0 +1,151 @@
+Date : 2026-07-17 22:02:10
+Directory : /Users/mikolaj/Desktop/company mds/invoice-hub
+Total : 78 files,  14711 codes, 155 comments, 746 blanks, all 15612 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| JSON               |          2 |      9,968 |          0 |          2 |      9,970 |
+| TypeScript JSX     |         28 |      2,711 |         45 |        273 |      3,029 |
+| TypeScript         |         32 |      1,525 |         31 |        333 |      1,889 |
+| Prisma             |          1 |        207 |          0 |         43 |        250 |
+| SQLite             |          2 |        188 |         75 |         68 |        331 |
+| JSON with Comments |          1 |         34 |          0 |          1 |         35 |
+| Markdown           |          3 |         26 |          2 |         17 |         45 |
+| JavaScript         |          2 |         20 |          2 |          5 |         27 |
+| YAML               |          1 |         15 |          0 |          1 |         16 |
+| PostCSS            |          1 |         12 |          0 |          3 |         15 |
+| XML                |          5 |          5 |          0 |          0 |          5 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++---------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                | files      | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                   |         78 |     14,711 |        155 |        746 |     15,612 |
+| . (Files)                                                                                                           |         12 |     10,089 |          8 |         33 |     10,130 |
+| prisma                                                                                                              |          4 |        720 |         88 |        137 |        945 |
+| prisma (Files)                                                                                                      |          2 |        532 |         13 |         69 |        614 |
+| prisma/migrations                                                                                                   |          2 |        188 |         75 |         68 |        331 |
+| prisma/migrations/20260712165242_intiial                                                                            |          1 |        171 |         52 |         62 |        285 |
+| prisma/migrations/20260717172250_add_invoice_snapshots                                                              |          1 |         17 |         23 |          6 |         46 |
+| public                                                                                                              |          5 |          5 |          0 |          0 |          5 |
+| src                                                                                                                 |         57 |      3,897 |         59 |        576 |      4,532 |
+| src (Files)                                                                                                         |          3 |         77 |          2 |         15 |         94 |
+| src/app                                                                                                             |         20 |      1,117 |         21 |        188 |      1,326 |
+| src/app (Files)                                                                                                     |          2 |         41 |          0 |          8 |         49 |
+| src/app/(auth)                                                                                                      |          2 |        183 |          0 |         24 |        207 |
+| src/app/(auth)/login                                                                                                |          1 |         77 |          0 |         11 |         88 |
+| src/app/(auth)/register                                                                                             |          1 |        106 |          0 |         13 |        119 |
+| src/app/(dashboard)                                                                                                 |          8 |        401 |         11 |         53 |        465 |
+| src/app/(dashboard) (Files)                                                                                         |          1 |         19 |          0 |          4 |         23 |
+| src/app/(dashboard)/clients                                                                                         |          1 |         24 |          0 |          6 |         30 |
+| src/app/(dashboard)/companies                                                                                       |          1 |         25 |          0 |          6 |         31 |
+| src/app/(dashboard)/dashboard                                                                                       |          1 |         72 |          1 |          9 |         82 |
+| src/app/(dashboard)/invoices                                                                                        |          3 |        230 |         10 |         24 |        264 |
+| src/app/(dashboard)/invoices (Files)                                                                                |          1 |         58 |          3 |          9 |         70 |
+| src/app/(dashboard)/invoices/[id]                                                                                   |          2 |        172 |          7 |         15 |        194 |
+| src/app/(dashboard)/services                                                                                        |          1 |         31 |          0 |          4 |         35 |
+| src/app/actions                                                                                                     |          6 |        303 |          0 |         90 |        393 |
+| src/app/api                                                                                                         |          1 |          2 |          0 |          1 |          3 |
+| src/app/api/auth                                                                                                    |          1 |          2 |          0 |          1 |          3 |
+| src/app/api/auth/[...nextauth]                                                                                      |          1 |          2 |          0 |          1 |          3 |
+| src/app/public                                                                                                      |          1 |        187 |         10 |         12 |        209 |
+| src/app/public/invoice                                                                                              |          1 |        187 |         10 |         12 |        209 |
+| src/app/public/invoice/[id]                                                                                         |          1 |        187 |         10 |         12 |        209 |
+| src/components                                                                                                      |         16 |      1,911 |         24 |        179 |      2,114 |
+| src/components (Files)                                                                                              |         13 |      1,796 |         24 |        168 |      1,988 |
+| src/components/ui                                                                                                   |          3 |        115 |          0 |         11 |        126 |
+| src/lib                                                                                                             |          1 |         14 |          0 |          6 |         20 |
+| src/repositories                                                                                                    |          5 |        291 |          0 |         66 |        357 |
+| src/schemas                                                                                                         |          5 |        151 |          0 |         28 |        179 |
+| src/services                                                                                                        |          7 |        336 |         12 |         94 |        442 |
+| src/services (Files)                                                                                                |          6 |        265 |          2 |         82 |        349 |
+| src/services/___tests___                                                                                            |          1 |         71 |         10 |         12 |         93 |
++---------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++---------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                                                            | language           | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| /Users/mikolaj/Desktop/company mds/invoice-hub/AGENTS.md                                                            | Markdown           |          2 |          2 |          2 |          6 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/CLAUDE.md                                                            | Markdown           |          1 |          0 |          1 |          2 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/README.md                                                            | Markdown           |         23 |          0 |         14 |         37 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/docker-compose.yml                                                   | YAML               |         15 |          0 |          1 |         16 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/eslint.config.mjs                                                    | JavaScript         |         14 |          2 |          3 |         19 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/next.config.ts                                                       | TypeScript         |          4 |          1 |          3 |          8 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/package-lock.json                                                    | JSON               |      9,920 |          0 |          1 |      9,921 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/package.json                                                         | JSON               |         48 |          0 |          1 |         49 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/postcss.config.mjs                                                   | JavaScript         |          6 |          0 |          2 |          8 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/prisma.config.ts                                                     | TypeScript         |         12 |          2 |          2 |         16 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/prisma/migrations/20260712165242_intiial/migration.sql               | SQLite             |        171 |         52 |         62 |        285 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/prisma/migrations/20260717172250_add_invoice_snapshots/migration.sql | SQLite             |         17 |         23 |          6 |         46 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/prisma/schema.prisma                                                 | Prisma             |        207 |          0 |         43 |        250 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/prisma/seed.ts                                                       | TypeScript         |        325 |         13 |         26 |        364 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/public/file.svg                                                      | XML                |          1 |          0 |          0 |          1 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/public/globe.svg                                                     | XML                |          1 |          0 |          0 |          1 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/public/next.svg                                                      | XML                |          1 |          0 |          0 |          1 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/public/vercel.svg                                                    | XML                |          1 |          0 |          0 |          1 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/public/window.svg                                                    | XML                |          1 |          0 |          0 |          1 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/app/(auth)/login/page.tsx                                        | TypeScript JSX     |         77 |          0 |         11 |         88 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/app/(auth)/register/page.tsx                                     | TypeScript JSX     |        106 |          0 |         13 |        119 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/app/(dashboard)/clients/page.tsx                                 | TypeScript JSX     |         24 |          0 |          6 |         30 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/app/(dashboard)/companies/page.tsx                               | TypeScript JSX     |         25 |          0 |          6 |         31 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/app/(dashboard)/dashboard/page.tsx                               | TypeScript JSX     |         72 |          1 |          9 |         82 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/app/(dashboard)/invoices/[id]/StatusSwitcher.tsx                 | TypeScript JSX     |         40 |          0 |          6 |         46 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/app/(dashboard)/invoices/[id]/page.tsx                           | TypeScript JSX     |        132 |          7 |          9 |        148 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/app/(dashboard)/invoices/page.tsx                                | TypeScript JSX     |         58 |          3 |          9 |         70 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/app/(dashboard)/layout.tsx                                       | TypeScript JSX     |         19 |          0 |          4 |         23 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/app/(dashboard)/services/page.tsx                                | TypeScript JSX     |         31 |          0 |          4 |         35 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/app/actions/auth.actions.ts                                      | TypeScript         |         45 |          0 |          9 |         54 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/app/actions/client.actions.ts                                    | TypeScript         |         66 |          0 |         22 |         88 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/app/actions/company.actions.ts                                   | TypeScript         |         84 |          0 |         22 |        106 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/app/actions/gus.actions.ts                                       | TypeScript         |         13 |          0 |          3 |         16 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/app/actions/invoice.actions.ts                                   | TypeScript         |         39 |          0 |         10 |         49 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/app/actions/service.action.ts                                    | TypeScript         |         56 |          0 |         24 |         80 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/app/api/auth/[...nextauth]/route.ts                              | TypeScript         |          2 |          0 |          1 |          3 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/app/globals.css                                                  | PostCSS            |         12 |          0 |          3 |         15 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/app/layout.tsx                                                   | TypeScript JSX     |         29 |          0 |          5 |         34 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/app/public/invoice/[id]/page.tsx                                 | TypeScript JSX     |        187 |         10 |         12 |        209 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/auth.config.ts                                                   | TypeScript         |         21 |          0 |          2 |         23 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/auth.ts                                                          | TypeScript         |         43 |          0 |          8 |         51 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/components/ClientForm.tsx                                        | TypeScript JSX     |        139 |          0 |         15 |        154 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/components/ClientsTable.tsx                                      | TypeScript JSX     |        260 |          0 |         22 |        282 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/components/CompanyForm.tsx                                       | TypeScript JSX     |         80 |          0 |          8 |         88 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/components/CompanyTable.tsx                                      | TypeScript JSX     |        252 |          0 |         18 |        270 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/components/CopyLinkButton.tsx                                    | TypeScript JSX     |         33 |          4 |          8 |         45 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/components/InvoiceForm.tsx                                       | TypeScript JSX     |        384 |         15 |         34 |        433 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/components/InvoiceTable.tsx                                      | TypeScript JSX     |        171 |          2 |         12 |        185 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/components/PdfButtonts.tsx                                       | TypeScript JSX     |         40 |          1 |          9 |         50 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/components/PrintButton.tsx                                       | TypeScript JSX     |         12 |          0 |          3 |         15 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/components/ServiceForm.tsx                                       | TypeScript JSX     |         52 |          0 |          7 |         59 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/components/ServiceTable.tsx                                      | TypeScript JSX     |        209 |          2 |         15 |        226 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/components/SessionHandler.tsx                                    | TypeScript JSX     |          0 |          0 |          1 |          1 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/components/Sidebar.tsx                                           | TypeScript JSX     |        164 |          0 |         16 |        180 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/components/ui/ConfirmModal.tsx                                   | TypeScript JSX     |         50 |          0 |          5 |         55 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/components/ui/Input.tsx                                          | TypeScript JSX     |         38 |          0 |          3 |         41 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/components/ui/Modal.tsx                                          | TypeScript JSX     |         27 |          0 |          3 |         30 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/lib/prisma.ts                                                    | TypeScript         |         14 |          0 |          6 |         20 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/middleware.ts                                                    | TypeScript         |         13 |          2 |          5 |         20 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/repositories/auth.repository.ts                                  | TypeScript         |         14 |          0 |          3 |         17 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/repositories/client.repository.ts                                | TypeScript         |         39 |          0 |         10 |         49 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/repositories/company.repository.ts                               | TypeScript         |         69 |          0 |         18 |         87 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/repositories/invoice.repository.ts                               | TypeScript         |        129 |          0 |         25 |        154 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/repositories/service.repository.ts                               | TypeScript         |         40 |          0 |         10 |         50 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/schemas/auth.schema.ts                                           | TypeScript         |         23 |          0 |          5 |         28 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/schemas/client.schema.ts                                         | TypeScript         |         19 |          0 |          4 |         23 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/schemas/company.schema.ts                                        | TypeScript         |         23 |          0 |          4 |         27 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/schemas/invoice.schema.ts                                        | TypeScript         |         57 |          0 |         12 |         69 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/schemas/service.schema.ts                                        | TypeScript         |         29 |          0 |          3 |         32 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/services/___tests___/auth.service.test.ts                        | TypeScript         |         71 |         10 |         12 |         93 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/services/auth.service.ts                                         | TypeScript         |         17 |          0 |          8 |         25 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/services/client.service.ts                                       | TypeScript         |         52 |          0 |         16 |         68 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/services/company.service.ts                                      | TypeScript         |         32 |          0 |         11 |         43 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/services/gus.service.ts                                          | TypeScript         |         36 |          0 |          9 |         45 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/services/invoice.service.ts                                      | TypeScript         |         85 |          0 |         23 |        108 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/src/services/service.service.ts                                      | TypeScript         |         43 |          2 |         15 |         60 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/tsconfig.json                                                        | JSON with Comments |         34 |          0 |          1 |         35 |
+| /Users/mikolaj/Desktop/company mds/invoice-hub/vitest.config.ts                                                     | TypeScript         |         10 |          1 |          2 |         13 |
+| Total                                                                                                               |                    |     14,711 |        155 |        746 |     15,612 |
++---------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
