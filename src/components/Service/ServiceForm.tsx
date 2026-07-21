@@ -6,42 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { serviceSchema, type ServiceInput } from '@/schemas/service.schema';
 import { createServiceAction } from '@/app/actions/service.action';
-
-type FormInputProps = {
-  label: string;
-  id: keyof ServiceInput;
-  register: UseFormRegister<ServiceInput>;
-  error?: string;
-  type?: string;
-  placeholder?: string;
-  required?: boolean;
-  step?: string;
-};
-const FormInput = ({
-  label,
-  id,
-  register,
-  error,
-  type = 'text',
-  placeholder,
-  required,
-  step,
-}: FormInputProps) => (
-  <div>
-    <label htmlFor={id} className="block text-xs font-medium text-gray-700">
-      {label} {required && <span className="text-red-500">*</span>}
-    </label>
-    <input
-      id={id}
-      type={type}
-      step={step}
-      placeholder={placeholder}
-      {...register(id, { valueAsNumber: type === 'number' })}
-      className={`mt-1 block w-full text-black px-3 py-2 text-sm rounded-md shadow-sm border focus:outline-none focus:ring-1 ${error ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-blue-500'}`}
-    />
-    {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
-  </div>
-);
+import Input from '../ui/Input';
 
 export function ServiceForm() {
   const router = useRouter();
@@ -80,30 +45,29 @@ export function ServiceForm() {
         )}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-5">
           <div className="md:col-span-2">
-            <FormInput
-              id="name"
-              label="Nazwa usługi / produktu"
+            <Input
+              id="description"
+              title="Nazwa usługi / produktu"
               register={register}
-              error={errors.name?.message}
+              errors={errors}
               required
             />
           </div>
-          <FormInput
+          <Input
             id="priceNet"
-            type="number"
-            step="0.01"
-            label="Cena Netto (PLN)"
+            title="Cena Netto (PLN)"
             register={register}
-            error={errors.priceNet?.message}
+            type="number"
+            errors={errors}
             required
           />
-          <FormInput
+          <Input
             id="vatRate"
+            title="Stawka VAT (%)"
+            register={register}
             type="number"
             step="1"
-            label="Stawka VAT (%)"
-            register={register}
-            error={errors.vatRate?.message}
+            errors={errors}
             required
           />
         </div>

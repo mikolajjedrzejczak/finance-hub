@@ -20,13 +20,13 @@ export default async function InvoiceDetailsPage({
     resolvedParams.id,
     session.user.id,
   );
-  
+
   if (!invoice) return <div className="p-10">Nie znaleziono faktury.</div>;
 
   const formatDate = (date: Date) => date.toLocaleDateString('pl-PL');
 
   return (
-    <div className="p-4 md:p-8">
+    <div className="mx-auto max-w-7xl p-4 sm:p-6 lg:p-8 space-y-10">
       <div className="flex flex-wrap items-center justify-between gap-4 mb-8 bg-white p-4 rounded-lg shadow-sm border border-gray-200">
         <Link
           href="/invoices"

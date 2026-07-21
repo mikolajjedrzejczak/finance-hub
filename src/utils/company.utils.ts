@@ -1,3 +1,4 @@
+import { InvoiceDisplay } from '@/components/Invoice/InvoiceTable';
 import { InvoiceStatus, Prisma } from '@prisma/client';
 
 type RawInvoiceWithClient = {
@@ -9,7 +10,9 @@ type RawInvoiceWithClient = {
   client: { name: string; nip: string };
 };
 
-export function serializeInvoices(invoices: RawInvoiceWithClient[]) {
+export function serializeInvoices(
+  invoices: RawInvoiceWithClient[],
+): InvoiceDisplay[] {
   return invoices.map((inv) => ({
     id: inv.id,
     number: inv.number,
@@ -23,7 +26,9 @@ export function serializeInvoices(invoices: RawInvoiceWithClient[]) {
   }));
 }
 
-export function calculateSingleCompanyKPIs(serializedInvoices: ReturnType<typeof serializeInvoices>) {
+export function calculateSingleCompanyKPIs(
+  serializedInvoices: ReturnType<typeof serializeInvoices>,
+) {
   return serializedInvoices.reduce(
     (acc, inv) => {
       acc.total += inv.totalGross;

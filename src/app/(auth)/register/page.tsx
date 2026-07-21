@@ -4,6 +4,7 @@ import { registerUserAction } from '@/app/actions/auth.actions';
 import Input from '@/components/ui/Input';
 import { RegisterInput, registerSchema } from '@/schemas/auth.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -47,71 +48,98 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
-      <div className="w-full max-w-md space-y-8 rounded-xl bg-white p-8 shadow-lg">
-        <div className="text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900">
-            Załóż konto
-          </h2>
-          <p className="mt-2 text-sm text-gray-600">
-            Rozpocznij wystawianie faktur w kilka sekund.
-          </p>
+    <div className="flex min-h-screen items-center justify-center">
+      <div className="relative flex items-center justify-center w-full rounded-xl ">
+        <div className="relative hidden lg:block flex-1 h-screen w-[sc] bg-linear-to-br from-blue-600 to-blue-900 overflow-hidden">
+          <div className="flex items-center p-12 pb-36">
+            <span className="flex items-center text-5xl font-bold text-white">
+              Finance Hub
+            </span>
+          </div>
+          <div className="flex flex-col gap-10 w-130 ml-12 xl:ml-36">
+            <h2 className="text-4xl  text-white text-start">
+              Twój nowy panel finansowy
+            </h2>
+            <p className="text-white/70">
+              Jedno konto. Wiele firm. Pełna kontrola.
+            </p>
+          </div>
+          <Image
+            src="/hero.png"
+            width={700}
+            height={400}
+            alt="hero"
+            className="absolute bottom-0 -right-20 rounded-tl-xl"
+          />
         </div>
-
-        <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-6">
-          {serverError && (
-            <div className="rounded-md bg-red-50 p-4 text-sm text-red-700">
-              {serverError}
-            </div>
-          )}
-
-          <div className="space-y-4">
-            <Input
-              title="Imię i nazwisko / Firma"
-              config={{ ...register('name') }}
-              errors={errors.name}
-              placeholder="Jan Nowak"
-            />
-            <Input
-              title="Adres e-mail"
-              type="email"
-              config={{ ...register('email') }}
-              errors={errors.email}
-              placeholder="jan@example.com"
-              important
-            />
-            <Input
-              title="Hasło"
-              type="password"
-              config={{ ...register('password') }}
-              errors={errors.password}
-              placeholder="*******"
-              important
-            />
-            <Input
-              title="Powtórz hasło"
-              type="password"
-              config={{ ...register('confirmPassword') }}
-              errors={errors.confirmPassword}
-              placeholder="*******"
-              important
-            />
+        <div className="flex-1 flex flex-col items-center space-y-8 bg-white px-8 md:px-0 ">
+          <div className="text-start w-full sm:w-130">
+            <h2 className="text-2xl md:text-3xl  tracking-tight text-gray-900">
+              Załóż konto
+            </h2>
           </div>
 
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="flex w-full justify-center rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:bg-blue-300 disabled:cursor-not-allowed"
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="mt-8 space-y-12  w-full sm:w-130"
           >
-            {isSubmitting ? 'Tworzenie konta...' : 'Zarejestruj się'}
-          </button>
-          <p className="text-black/50 text-end">
-            Masz konto?{' '}
-            <Link className="text-blue-800" href="/login">
-              Zaloguj się
-            </Link>
-          </p>
-        </form>
+            {serverError && (
+              <div className="rounded-md bg-red-50 p-4 text-sm text-red-700">
+                {serverError}
+              </div>
+            )}
+
+            <div className="space-y-6">
+              <Input
+                id="name"
+                title="Imię i nazwisko / Firma"
+                register={register}
+                errors={errors.name}
+                placeholder="Jan Nowak"
+              />
+              <Input
+                id="email"
+                title="Adres e-mail"
+                type="email"
+                register={register}
+                errors={errors.email}
+                placeholder="jan@example.com"
+                required
+              />
+              <Input
+                id="password"
+                title="Hasło"
+                type="password"
+                register={register}
+                errors={errors.password}
+                placeholder="*******"
+                required
+              />
+              <Input
+                id="confirmPassword"
+                title="Powtórz hasło"
+                type="password"
+                register={register}
+                errors={errors.confirmPassword}
+                placeholder="*******"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="flex w-full justify-center rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 disabled:bg-blue-300"
+            >
+              {isSubmitting ? 'Logowanie...' : 'Zarejestruj się'}
+            </button>
+            <p className="text-black/50">
+              Masz konto?{' '}
+              <Link className="text-blue-800" href="/login">
+                &nbsp;Zaloguj się
+              </Link>
+            </p>
+          </form>
+        </div>
       </div>
     </div>
   );

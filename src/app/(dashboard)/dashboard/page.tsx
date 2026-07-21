@@ -93,7 +93,7 @@ export default async function GlobalDashboardPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {companyStats.map((company: any) => (
             <Link
-              href={`/companies/${company.id}`}
+              href={`/company/${company.id}`}
               key={company.id}
               className="group bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:border-blue-500 transition-all"
             >

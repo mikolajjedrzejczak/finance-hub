@@ -3,13 +3,8 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Building2, CheckCircle2, Clock, TrendingUp } from 'lucide-react';
 import { InvoicesTable } from '@/components/Invoice/InvoiceTable';
-
-import { companyService } from '@/services/company.service';
-import {
-  serializeInvoices,
-  calculateSingleCompanyKPIs,
-} from '@/utils/company.utils';
 import { formatCurrency } from '@/utils/dashboard.utils';
+import { getSingleCompanyData } from './data';
 
 export default async function SingleCompanyDashboardPage({
   params,
@@ -22,12 +17,9 @@ export default async function SingleCompanyDashboardPage({
   const resolvedParams = await params;
   const companyId = resolvedParams.id;
 
-  const companyData = await companyService.getCompanyDashboardData(
-    companyId,
-    session.user.id,
-  );
+  const data = await getSingleCompanyData(companyId, session.user.id);
 
-  if (!companyData) {
+  if (!data) {
     return (
       <div className="p-8 text-center max-w-2xl mx-auto mt-10">
         <h2 className="text-2xl font-bold text-gray-900 mb-2">
@@ -43,21 +35,20 @@ export default async function SingleCompanyDashboardPage({
     );
   }
 
-  const serializedInvoices = serializeInvoices(companyData.invoices);
-  const kpi = calculateSingleCompanyKPIs(serializedInvoices);
+  const company = data.company;
+  const invoices = data.invoices;
+  const kpi = data.kpi;
 
   return (
-    <div className="flex flex-col gap-6 mx-auto max-w-6xl p-4 sm:p-6 lg:p-8 space-y-8">
+    <div className="mx-auto max-w-7xl p-4 sm:p-6 lg:p-8 space-y-10">
       <div className="flex items-center gap-3 mb-2">
         <div className="p-3 bg-blue-50 text-blue-600 rounded-xl">
           <Building2 className="w-6 h-6" />
         </div>
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">
-            {companyData.name}
-          </h1>
+          <h1 className="text-2xl font-bold text-gray-900">{company.name}</h1>
           <p className="text-sm text-gray-500">
-            NIP: {companyData.nip} • Panel analityczny
+            NIP: {company.nip} • Panel analityczny
           </p>
         </div>
       </div>
@@ -110,10 +101,7 @@ export default async function SingleCompanyDashboardPage({
         <h2 className="text-lg font-bold text-gray-900 mb-4">
           Wszystkie faktury firmy
         </h2>
-        <InvoicesTable
-          invoices={serializedInvoices}
-          companyId={companyData.id}
-        />
+        <InvoicesTable invoices={invoices} companyId={company.id} />
       </div>
     </div>
   );

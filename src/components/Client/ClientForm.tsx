@@ -86,17 +86,19 @@ export function ClientForm() {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
           <div className="md:col-span-2">
             <Input
+              id="name"
               title="Nazwa firmy / Imię i nazwisko"
-              config={register("name")}
+              register={register}
               errors={errors.name}
-              important
+              required
             />
           </div>
           <Input
+            id="nip"
             title="NIP"
-            config={register("nip")}
+            register={register}
             errors={errors.nip}
-            important
+            required
             actionButton={
               <button
                 type="button"
@@ -109,32 +111,36 @@ export function ClientForm() {
             }
           />
           <Input
+            id="email"
             type="email"
             title="Adres e-mail"
-            config={register("email")}
+            register={register}
             errors={errors.email}
           />
 
           <div className="md:col-span-2">
             <Input
+              id="address"
               title="Ulica i numer"
-              config={register("address")}
+              register={register}
               errors={errors.address}
-              important
+              required
             />
           </div>
           <Input
+            id="postal"
             title="Kod pocztowy"
             placeholder="00-000"
-            config={register("postal")}
+            register={register}
             errors={errors.postal}
-            important
+            required
           />
           <Input
+            id="city"
             title="Miasto"
-            config={register("city")}
+            register={register}
             errors={errors.city}
-            important
+            required
           />
         </div>
 

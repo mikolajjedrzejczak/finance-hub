@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:17-alpine
-    container_name: invoice_hub_postgres
+    container_name: finance_hub_postgres
     restart: always
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
