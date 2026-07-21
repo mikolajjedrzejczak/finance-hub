@@ -68,9 +68,7 @@ export default async function SingleCompanyDashboardPage({
             <p className="text-sm  font-medium mb-1">
               Całkowita sprzedaż (Brutto)
             </p>
-            <p className="text-3xl font-bold">
-              {formatCurrency(kpi.total)}
-            </p>
+            <p className="text-3xl font-bold">{formatCurrency(kpi.total)}</p>
           </div>
           <div className="p-2">
             <TrendingUp className="w-5 h-5" />
@@ -110,7 +108,7 @@ export default async function SingleCompanyDashboardPage({
 
       <div className="">
         <h2 className="text-lg font-bold text-gray-900 mb-4">
-          Wszystkie dokumenty firmy
+          Wszystkie faktury firmy
         </h2>
         <InvoicesTable
           invoices={serializedInvoices}

@@ -1,6 +1,6 @@
 'use client';
 
-import { INVOICE_STATUSES, InvoiceStatus } from '@/lib/contstants';
+import { INVOICE_STATUSES, InvoiceStatus } from '@/lib/constant';
 
 interface StatusSelectProps {
   value: string;

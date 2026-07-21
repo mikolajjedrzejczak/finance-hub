@@ -8,13 +8,14 @@ import { ExportButton } from '../ui/ExportButton';
 import { DataTable, ColumnDef } from '../DataTable';
 import { StatusSwitcher } from '@/app/(dashboard)/invoices/[id]/StatusSwitcher';
 import { StatusSelect } from '../ui/StatusSelect';
+import { InvoiceStatus } from '@prisma/client';
 
 export type InvoiceDisplay = {
   id: string;
   number: string;
   issueDate: string;
   totalGross: number;
-  status: 'PAID' | 'OVERDUE' | 'PENDING' | 'PARTIALLY_PAID';
+  status: InvoiceStatus;
   client: { name: string; nip: string };
 };
 
@@ -152,6 +153,7 @@ export function InvoicesTable({
     <DataTable
       data={filteredData}
       columns={invoiceColumns}
+      getRowId={(row) => row.id}
       toolbarLeft={ToolbarLeft}
       toolbarRight={<ExportButton companyId={companyId} />}
       emptyMessage="Brak faktur spełniających kryteria wyszukiwania."

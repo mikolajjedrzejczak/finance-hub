@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Edit2, Trash2, X, AlertTriangle } from 'lucide-react';
+import { Edit2, Trash2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { serviceSchema, type ServiceInput } from '@/schemas/service.schema';
@@ -12,6 +12,7 @@ import {
 import { useRouter } from 'next/navigation';
 import { Modal } from '../ui/Modal';
 import { ConfirmModal } from '../ui/ConfirmModal';
+import { ColumnDef, DataTable } from '../DataTable';
 
 type Service = {
   id: string;
@@ -22,12 +23,10 @@ type Service = {
 
 export function ServicesTable({ services }: { services: Service[] }) {
   const router = useRouter();
-
   const [editingService, setEditingService] = useState<Service | null>(null);
   const [deletingService, setDeletingService] = useState<Service | null>(null);
   const [isPending, setIsPending] = useState(false);
 
-  // Formularz do edycji
   const {
     register,
     handleSubmit,
@@ -37,7 +36,6 @@ export function ServicesTable({ services }: { services: Service[] }) {
     resolver: zodResolver(serviceSchema),
   });
 
-  // Funkcja odpalana po kliknięciu "Edytuj" - ładuje dane do formularza
   const openEditModal = (service: Service) => {
     reset({
       name: service.name,
@@ -52,7 +50,6 @@ export function ServicesTable({ services }: { services: Service[] }) {
     setIsPending(true);
     const result = await updateServiceAction(editingService.id, data);
     setIsPending(false);
-
     if (result.success) {
       setEditingService(null);
       router.refresh();
@@ -66,7 +63,6 @@ export function ServicesTable({ services }: { services: Service[] }) {
     setIsPending(true);
     const result = await deleteServiceAction(deletingService.id);
     setIsPending(false);
-
     if (result.success) {
       setDeletingService(null);
       router.refresh();
@@ -75,81 +71,71 @@ export function ServicesTable({ services }: { services: Service[] }) {
     }
   };
 
+  const columns: ColumnDef<Service>[] = [
+    {
+      header: 'Nazwa usługi',
+      accessorKey: 'name',
+      sortable: true,
+    },
+    {
+      header: 'Cena Netto',
+      accessorKey: 'priceNet',
+      sortable: true,
+      className: 'text-right',
+      cell: (row) => (
+        <span className="text-sm text-gray-600">
+          {row.priceNet.toFixed(2)} PLN
+        </span>
+      ),
+    },
+    {
+      header: 'VAT',
+      accessorKey: 'vatRate',
+      sortable: true,
+      className: 'text-right',
+      cell: (row) => (
+        <span className="text-sm text-gray-600">{row.vatRate}%</span>
+      ),
+    },
+    {
+      header: 'Akcje',
+      className: 'text-right',
+      cell: (row) => (
+        <div className="flex justify-end gap-2">
+          <button
+            onClick={() => openEditModal(row)}
+            className="p-2 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+            title="Edytuj"
+          >
+            <Edit2 className="h-4 w-4" />
+          </button>
+          <button
+            onClick={() => setDeletingService(row)}
+            className="p-2 text-red-600 hover:bg-red-50 rounded-md transition-colors"
+            title="Usuń"
+          >
+            <Trash2 className="h-4 w-4" />
+          </button>
+        </div>
+      ),
+    },
+  ];
+
   return (
     <>
-      <div className="rounded-xl bg-white shadow-sm border border-gray-100 overflow-hidden">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                Nazwa usługi
-              </th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">
-                Cena Netto
-              </th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">
-                VAT
-              </th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">
-                Akcje
-              </th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {services.map((service) => (
-              <tr
-                key={service.id}
-                className="hover:bg-gray-50 transition-colors"
-              >
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                  {service.name}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-right">
-                  {service.priceNet.toFixed(2)} PLN
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-right">
-                  {service.vatRate}%
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <div className="flex justify-end gap-2">
-                    <button
-                      onClick={() => openEditModal(service)}
-                      className="p-2 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
-                      title="Edytuj"
-                    >
-                      <Edit2 className="h-4 w-4" />
-                    </button>
-                    <button
-                      onClick={() => setDeletingService(service)}
-                      className="p-2 text-red-600 hover:bg-red-50 rounded-md transition-colors"
-                      title="Usuń"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-            {services.length === 0 && (
-              <tr>
-                <td
-                  colSpan={4}
-                  className="px-6 py-8 text-center text-sm text-gray-500"
-                >
-                  Brak usług w katalogu.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+      <DataTable
+        data={services}
+        columns={columns}
+        getRowId={(row) => row.id}
+        emptyMessage="Brak usług w katalogu."
+      />
 
+      {/* Edit Modal */}
       <Modal
         isOpen={!!editingService}
         onClose={() => setEditingService(null)}
         title="Edytuj usługę"
       >
-  
         <form onSubmit={handleSubmit(onUpdate)} className="space-y-4">
           <div>
             <label className="block text-xs font-medium text-gray-700">
@@ -170,7 +156,7 @@ export function ServicesTable({ services }: { services: Service[] }) {
                 Cena Netto
               </label>
               <input
-                {...register('priceNet')}
+                {...register('priceNet', { valueAsNumber: true })}
                 type="number"
                 step="0.01"
                 className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
@@ -181,7 +167,7 @@ export function ServicesTable({ services }: { services: Service[] }) {
                 VAT (%)
               </label>
               <input
-                {...register('vatRate')}
+                {...register('vatRate', { valueAsNumber: true })}
                 type="number"
                 className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
               />
@@ -206,6 +192,7 @@ export function ServicesTable({ services }: { services: Service[] }) {
         </form>
       </Modal>
 
+      {/* Delete Confirmation */}
       <ConfirmModal
         isOpen={!!deletingService}
         onClose={() => setDeletingService(null)}

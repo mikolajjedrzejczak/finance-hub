@@ -36,7 +36,7 @@ const FormInput = ({
       type={type}
       step={step}
       placeholder={placeholder}
-      {...register(id)}
+      {...register(id, { valueAsNumber: type === 'number' })}
       className={`mt-1 block w-full text-black px-3 py-2 text-sm rounded-md shadow-sm border focus:outline-none focus:ring-1 ${error ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-blue-500'}`}
     />
     {error && <p className="mt-1 text-xs text-red-600">{error}</p>}

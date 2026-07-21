@@ -2,7 +2,7 @@
 
 import { updateInvoiceStatusAction } from '@/app/actions/invoice.actions';
 import { StatusSelect } from '@/components/ui/StatusSelect';
-import { INVOICE_STATUSES, InvoiceStatus } from '@/lib/contstants';
+import { INVOICE_STATUSES, InvoiceStatus } from '@/lib/constant';
 import { useTransition } from 'react';
 
 export function StatusSwitcher({

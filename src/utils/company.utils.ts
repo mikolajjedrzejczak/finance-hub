@@ -1,11 +1,11 @@
-import { Prisma } from '@prisma/client';
+import { InvoiceStatus, Prisma } from '@prisma/client';
 
 type RawInvoiceWithClient = {
   id: string;
   number: string;
   issueDate: Date;
   totalGross: Prisma.Decimal | number | string;
-  status: string;
+  status: InvoiceStatus;
   client: { name: string; nip: string };
 };
 
