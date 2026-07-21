@@ -40,7 +40,7 @@ export function PdfButton({ filename }: { filename: string }) {
     <button
       onClick={generatePDF}
       disabled={isGenerating}
-      className="bg-black flex gap-2 items-center text-white px-4 py-2 rounded text-sm hover:bg-gray-800"
+      className="bg-black flex gap-2 items-center text-white px-4 py-2 rounded text-sm hover:bg-gray-800 cursor-pointer"
     >
       <Download className="h-4 w-4" />
       {isGenerating ? 'Generowanie...' : 'Pobierz PDF'}

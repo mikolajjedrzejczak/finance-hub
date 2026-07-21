@@ -52,7 +52,7 @@ export default function RegisterPage() {
       <div className="relative flex items-center justify-center w-full rounded-xl ">
         <div className="relative hidden lg:block flex-1 h-screen w-[sc] bg-linear-to-br from-blue-600 to-blue-900 overflow-hidden">
           <div className="flex items-center p-12 pb-36">
-            <span className="flex items-center text-5xl font-bold text-white">
+            <span className="flex items-center text-6xl font-bold text-white">
               Finance Hub
             </span>
           </div>

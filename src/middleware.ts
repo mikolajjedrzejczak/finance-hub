@@ -7,14 +7,31 @@ export default auth((req) => {
   const isLoggedIn = !!req.auth;
   const { nextUrl } = req;
 
+  const isAuthRoute =
+    nextUrl.pathname === '/login' || nextUrl.pathname === '/register';
+  const isRootRoute = nextUrl.pathname === '/';
 
-  if (
-    !isLoggedIn &&
-    nextUrl.pathname !== '/login' &&
-    nextUrl.pathname !== '/register'
-  ) {
+  const isPublicRoute = nextUrl.pathname.startsWith('/public');
+
+  if (isPublicRoute) return null;
+
+  if (isRootRoute) {
+    if (isLoggedIn) {
+      return Response.redirect(new URL('/dashboard', nextUrl));
+    } else {
+      return Response.redirect(new URL('/login', nextUrl));
+    }
+  }
+
+  if (isLoggedIn && isAuthRoute) {
+    return Response.redirect(new URL('/dashboard', nextUrl));
+  }
+
+  if (!isLoggedIn && !isAuthRoute) {
     return Response.redirect(new URL('/login', nextUrl));
   }
+
+  return null;
 });
 
 export const config = {

@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { Download, CreditCard, CheckCircle2 } from 'lucide-react';
 import { format } from 'date-fns';
 import { PdfButton } from '@/components/ui/PdfButtonts';
+import Link from 'next/link';
 
 export default async function PublicInvoicePage({
   params,
@@ -12,19 +13,22 @@ export default async function PublicInvoicePage({
   const resolvedParams = await params;
   const invoice = await invoiceRepository.getPublicById(resolvedParams.id);
 
-  // Jeśli ktoś wpisał zły ID - zwracamy stronę 404
   if (!invoice) {
     notFound();
   }
 
-  // Pomocnicze zmienne do wyliczania kwot
   const amountDue = invoice.totalGross - invoice.paidAmount;
   const isPaid = invoice.status === 'PAID' || amountDue <= 0;
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 font-sans">
+      <Link
+        href="/dashboard"
+        className="absolute top-10 left-10 hidden xl:flex items-center gap-2 text-3xl font-bold text-blue-600"
+      >
+        Finance Hub
+      </Link>
       <div className="max-w-3xl mx-auto space-y-6">
-        {/* PASEK Z AKCJAMI DLA KLIENTA */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
             <h1 className="text-xl font-bold text-gray-900">
@@ -34,6 +38,14 @@ export default async function PublicInvoicePage({
           </div>
 
           <div className="flex w-full sm:w-auto gap-3">
+            <div>
+              <Link
+                href="/login"
+                className="flex gap-2 items-center text-white px-4 py-2 rounded text-sm bg-blue-600 font-semibold shadow-sm hover:bg-blue-500 disabled:bg-blue-300"
+              >
+                Zaloguj się
+              </Link>
+            </div>
             <PdfButton
               filename={`Faktura_${invoice.number.replace(/\//g, '_')}`}
             />
