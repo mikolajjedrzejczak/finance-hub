@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { CopyLinkButton } from '../ui/CopyLinkButton';
 import { ExportButton } from '../ui/ExportButton';
 import { DataTable, ColumnDef } from '../DataTable';
-import { INVOICE_STATUSES, InvoiceStatus } from '@/lib/contstants';
 import { StatusSwitcher } from '@/app/(dashboard)/invoices/[id]/StatusSwitcher';
 import { StatusSelect } from '../ui/StatusSelect';
 
