@@ -122,7 +122,16 @@ export const invoiceRepository = {
       .filter((i) => i.status === 'PENDING' || i.status === 'OVERDUE')
       .reduce((sum, i) => sum + Number(i.totalGross), 0);
 
-    return { totalRevenue, pendingAmount, count: invoices.length };
+    const recentInvoices = await prisma.invoice.findMany({
+      where: { companyId },
+      orderBy: { issueDate: 'desc' },
+      take: 10,
+      include: {
+        client: true,
+      },
+    });
+
+    return { totalRevenue, pendingAmount, count: invoices.length, recentInvoices };
   },
 
   async getPublicById(id: string): Promise<InvoiceDisplayDTO | null> {

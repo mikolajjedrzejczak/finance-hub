@@ -69,6 +69,7 @@ export default function RegisterPage() {
             width={700}
             height={400}
             alt="hero"
+            preload
             className="absolute bottom-0 -right-20 rounded-tl-xl"
           />
         </div>

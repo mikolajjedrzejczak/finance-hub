@@ -97,12 +97,31 @@ export const companyRepository = {
             totalGross: true,
             status: true,
             issueDate: true,
+            client: true,
           },
         },
       },
       orderBy: { createdAt: 'asc' },
     });
   },
+
+  async getGlobalRecentInvoices(userId: string) {
+  return await prisma.invoice.findMany({
+    where: {
+      company: {
+        userId: userId
+      }
+    },
+    orderBy: {
+      issueDate: 'desc'
+    },
+    take: 10,
+    include: {
+      client: true,
+      company: true,
+    }
+  });
+},
 
   async getCompanyWithInvoices(companyId: string, userId: string) {
     return prisma.company.findFirst({

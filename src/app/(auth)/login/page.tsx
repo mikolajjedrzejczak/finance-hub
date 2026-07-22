@@ -62,6 +62,7 @@ export default function LoginPage() {
             src="/hero.png"
             width={700}
             height={400}
+            preload
             alt="hero"
             className="absolute bottom-0 -right-20 rounded-tl-xl"
           />

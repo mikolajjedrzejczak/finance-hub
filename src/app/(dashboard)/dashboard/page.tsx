@@ -11,6 +11,7 @@ import {
   formatCurrency,
 } from '@/utils/dashboard.utils';
 
+
 export const dynamic = 'force-dynamic';
 
 export default async function GlobalDashboardPage() {
@@ -84,7 +85,7 @@ export default async function GlobalDashboardPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-6">
+      <div className="space-y-8">
         <RevenueChart data={chartData} companyNames={companyNames} />
       </div>
 
