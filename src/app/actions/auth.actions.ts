@@ -10,7 +10,7 @@ export async function registerUserAction(formData: FormData) {
     const validatedData = registerSchema.safeParse(
       Object.fromEntries(formData),
     );
-   
+
     if (!validatedData.success) {
       return {
         error: 'Nieprawidłowe dane',
@@ -40,14 +40,17 @@ export async function loginUserAction(formData: FormData) {
     return { success: true };
   } catch (error) {
     if (error instanceof AuthError) {
-      switch (error.type) {
-        case 'CredentialsSignin':
+      if (error instanceof AuthError) {
+        if (
+          error.type === 'CredentialsSignin' ||
+          error.cause?.err?.message?.includes('Nieprawidłowy e-mail lub hasło')
+        ) {
           return { error: 'Nieprawidłowy e-mail lub hasło.' };
-        default:
-          return { error: 'Wystąpił błąd podczas logowania.' };
+        }
+        return { error: 'Wystąpił błąd podczas logowania.' };
       }
-    }
 
-    throw Error;
+      return { error: 'Wystąpił nieoczekiwany błąd.' };
+    }
   }
 }

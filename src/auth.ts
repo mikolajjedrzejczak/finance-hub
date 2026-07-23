@@ -1,6 +1,7 @@
 import NextAuth from 'next-auth';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import MicrosoftEntraID from 'next-auth/providers/microsoft-entra-id';
 import bcrypt from 'bcryptjs';
 
 import { authConfig } from '@/auth.config';
@@ -46,5 +47,51 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         };
       },
     }),
+    MicrosoftEntraID({
+      clientId: process.env.AZURE_AD_CLIENT_ID!,
+      clientSecret: process.env.AZURE_AD_CLIENT_SECRET!,
+    }),
   ],
+  callbacks: {
+    ...authConfig.callbacks,
+    signIn: async ({ user, account, profile }) => {
+      if (account?.provider === 'microsoft-entra-id') {
+        const existingUser = await prisma.user.findUnique({
+          where: { email: user.email! },
+          include: { accounts: true },
+        });
+
+        if (existingUser) {
+          const hasMicrosoftAccount = existingUser.accounts.some(
+            (acc) => acc.provider === 'microsoft-entra-id',
+          );
+
+          if (!hasMicrosoftAccount) {
+            await prisma.account.create({
+              data: {
+                userId: existingUser.id,
+                type: account.type,
+                provider: account.provider,
+                providerAccountId: account.providerAccountId,
+                access_token: account.access_token,
+                expires_at: account.expires_at,
+                token_type: account.token_type,
+                scope: account.scope,
+                id_token: account.id_token,
+              },
+            });
+          }
+        } else {
+          // Create new user if no existing account
+          await prisma.user.create({
+            data: {
+              email: user.email!,
+              name: user.name || (profile as any)?.name,
+            },
+          });
+        }
+      }
+      return true;
+    },
+  },
 });
