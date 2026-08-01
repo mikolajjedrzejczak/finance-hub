@@ -59,6 +59,7 @@ export function ClientForm() {
   };
 
   const onSubmit = async (data: ClientInput) => {
+    console.log(123);
     setServerError(null);
     const result = await createClientAction(data);
 

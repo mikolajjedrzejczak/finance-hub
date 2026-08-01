@@ -82,7 +82,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             });
           }
         } else {
-          // Create new user if no existing account
           await prisma.user.create({
             data: {
               email: user.email!,

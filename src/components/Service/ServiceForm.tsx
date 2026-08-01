@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useForm, UseFormRegister } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { serviceSchema, type ServiceInput } from '@/schemas/service.schema';
@@ -46,13 +46,19 @@ export function ServiceForm() {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-5">
           <div className="md:col-span-2">
             <Input
-              id="description"
-              title="Nazwa usługi / produktu"
+              id="name"
+              title="Nazwa usługi"
               register={register}
               errors={errors}
               required
             />
           </div>
+          <Input
+            id="description"
+            title="Opis usługi"
+            register={register}
+            errors={errors}
+          />
           <Input
             id="priceNet"
             title="Cena Netto (PLN)"
@@ -75,7 +81,7 @@ export function ServiceForm() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="rounded-md bg-blue-600 px-5 py-2 text-sm font-semibold text-white hover:bg-blue-500 disabled:bg-blue-300"
+            className="rounded-md bg-blue-600 px-5 py-2 text-sm font-semibold text-white hover:bg-blue-500 disabled:bg-blue-300 cursor-pointer"
           >
             {isSubmitting ? 'Dodawanie...' : 'Dodaj do katalogu'}
           </button>
