@@ -39,3 +39,5 @@ jobs:
         run: npm run build
         env:
           DATABASE_URL: 'postgresql://mock:mock@localhost:5432/mockdb'
+          EXTAUTH_SECRET: 'mock_secret_for_ci_build_test_12345'
+          NEXTAUTH_URL: 'http://localhost:3000'

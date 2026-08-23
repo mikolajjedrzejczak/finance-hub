@@ -23,7 +23,7 @@ function money(n: number): string {
   return n.toFixed(2);
 }
 
-// Statusy ważone wg "wieku" faktury - starsze częściej opłacone
+// Statusy ważone wg wieku faktury
 function randomStatus(monthsAgo: number): InvoiceStatus {
   if (monthsAgo >= 3) {
     const roll = Math.random();
@@ -38,13 +38,6 @@ function randomStatus(monthsAgo: number): InvoiceStatus {
   return InvoiceStatus.OVERDUE;
 }
 
-const CURRENCIES: Currency[] = [
-  Currency.PLN,
-  Currency.PLN,
-  Currency.PLN,
-  Currency.PLN,
-];
-
 const PAYMENT_METHODS: PaymentMethod[] = [
   PaymentMethod.TRANSFER,
   PaymentMethod.TRANSFER,
@@ -55,7 +48,7 @@ const PAYMENT_METHODS: PaymentMethod[] = [
 ];
 
 // ---------------------------------------------------------------------------
-// Dane bazowe
+// Szablony usług
 // ---------------------------------------------------------------------------
 
 interface ServiceTemplate {
@@ -305,7 +298,6 @@ async function main() {
     action: string,
     entity: string,
     entityId: string,
-    details?: Record<string, unknown>,
   ) {
     await prisma.auditLog.create({
       data: { userId, action, entity, entityId },
@@ -339,7 +331,7 @@ async function main() {
   });
 
   for (const u of [mainUser, secondUser, thirdUser]) {
-    await logAction(u.id, 'USER_LOGIN', 'User', u.id, { ip: '127.0.0.1' });
+    await logAction(u.id, 'USER_LOGIN', 'User', u.id);
   }
 
   // -------------------------------------------------------------------------
@@ -419,9 +411,7 @@ async function main() {
     companySecondUser,
     companyThirdUser,
   ]) {
-    await logAction(c.userId, 'COMPANY_CREATED', 'Company', c.id, {
-      name: c.name,
-    });
+    await logAction(c.userId, 'COMPANY_CREATED', 'Company', c.id);
   }
 
   // -------------------------------------------------------------------------
@@ -479,21 +469,6 @@ async function main() {
     SERVICE_CATALOG_CONSULTING,
   );
 
-  // Jedna nieaktywna usługa (wycofana z oferty) - przydatna do testów UI
-  await prisma.service.create({
-    data: {
-      name: 'Stara usługa hostingowa (wycofana)',
-      description:
-        'Usługa wycofana z oferty, zachowana ze względu na historyczne faktury',
-      priceNet: money(99),
-      vatRate: '23.00',
-      category: 'Maintenance',
-      isActive: false,
-      userId: mainUser.id,
-      companyId: companyIT.id,
-    },
-  });
-
   // -------------------------------------------------------------------------
   // Klienci
   // -------------------------------------------------------------------------
@@ -522,9 +497,7 @@ async function main() {
         },
       });
       created.push(client);
-      await logAction(userId, 'CLIENT_CREATED', 'Client', client.id, {
-        name: client.name,
-      });
+      await logAction(userId, 'CLIENT_CREATED', 'Client', client.id);
     }
     return created;
   }
@@ -552,7 +525,7 @@ async function main() {
   );
 
   // -------------------------------------------------------------------------
-  // Faktury + pozycje + płatności
+  // Faktury, pozycje i płatności
   // -------------------------------------------------------------------------
   console.log('Generowanie faktur, pozycji i płatności...');
 
@@ -616,27 +589,30 @@ async function main() {
 
       for (let i = 0; i < invoicesThisMonth; i++) {
         const client = randomChoice(ctx.clients);
-        const currency = randomChoice(CURRENCIES);
         const paymentMethod = randomChoice(PAYMENT_METHODS);
         const monthsAgo = 12 - month;
         const status = randomStatus(monthsAgo);
 
         const issueDay = randomInt(1, 25);
-        const issueDate = new Date(2026, month - 1, issueDay);
-        const dueDate = new Date(2026, month - 1, issueDay + randomInt(7, 21));
+        // Precyzyjna data w południe UTC chroniąca przed przesunięciami stref czasowych
+        const issueDate = new Date(
+          Date.UTC(2026, month - 1, issueDay, 12, 0, 0),
+        );
+        const dueDate = new Date(
+          Date.UTC(2026, month - 1, issueDay + randomInt(7, 21), 12, 0, 0),
+        );
 
         const number = `FV/${String(invoiceCounter).padStart(3, '0')}/${String(month).padStart(2, '0')}/2026/${ctx.prefix}`;
         invoiceCounter++;
 
-        // 1-5 pozycji faktury z katalogu usług tej firmy
-        const itemCount = randomInt(1, 5);
+        const itemCount = randomInt(1, 4);
         const chosenServices = shuffle(ctx.services).slice(0, itemCount);
 
         let totalNet = 0;
         let totalGross = 0;
 
         const itemsToCreate = chosenServices.map((service) => {
-          const quantity = randomInt(1, 6);
+          const quantity = randomInt(1, 5);
           const priceNet = Number(service.priceNet);
           const vatRate = Number(service.vatRate);
           const netAmount = quantity * priceNet;
@@ -654,12 +630,11 @@ async function main() {
           };
         });
 
-        // paidAmount zależny od statusu faktury
         let paidAmount = 0;
         if (status === InvoiceStatus.PAID) {
           paidAmount = totalGross;
         } else if (status === InvoiceStatus.PARTIALLY_PAID) {
-          paidAmount = totalGross * (0.3 + Math.random() * 0.4); // 30-70%
+          paidAmount = totalGross * (0.3 + Math.random() * 0.4);
         }
 
         const invoice = await prisma.invoice.create({
@@ -668,8 +643,8 @@ async function main() {
             issueDate,
             dueDate,
             status,
-            currency,
-            exchangeRate: currency,
+            currency: Currency.PLN,
+            exchangeRate: '1.0000',
             paymentMethod,
             totalNet: money(totalNet),
             totalGross: money(totalGross),
@@ -698,24 +673,15 @@ async function main() {
           })),
         });
 
-        // Płatności odzwierciedlające paidAmount
         if (status === InvoiceStatus.PAID) {
           await prisma.payment.create({
             data: {
               invoiceId: invoice.id,
               amount: money(paidAmount),
               method: paymentMethod,
-              date: new Date(
-                issueDate.getFullYear(),
-                issueDate.getMonth(),
-                issueDay + randomInt(1, 6),
-              ),
+              date: new Date(Date.UTC(2026, month - 1, issueDay + 2, 12, 0, 0)),
               reference: `PRZ/${number.replace(/\//g, '-')}`,
             },
-          });
-          await logAction(ctx.userId, 'INVOICE_PAID', 'Invoice', invoice.id, {
-            number,
-            amount: money(paidAmount),
           });
         } else if (status === InvoiceStatus.PARTIALLY_PAID) {
           await prisma.payment.create({
@@ -723,24 +689,10 @@ async function main() {
               invoiceId: invoice.id,
               amount: money(paidAmount),
               method: paymentMethod,
-              date: new Date(
-                issueDate.getFullYear(),
-                issueDate.getMonth(),
-                issueDay + randomInt(1, 10),
-              ),
+              date: new Date(Date.UTC(2026, month - 1, issueDay + 4, 12, 0, 0)),
               reference: `ZAL/${number.replace(/\//g, '-')}`,
             },
           });
-        }
-
-        if (i === 0) {
-          await logAction(
-            ctx.userId,
-            'INVOICE_CREATED',
-            'Invoice',
-            invoice.id,
-            { number, status },
-          );
         }
 
         totalInvoicesCreated++;
@@ -749,21 +701,22 @@ async function main() {
   }
 
   // -------------------------------------------------------------------------
-  // Przypadki brzegowe, przydatne do testów UI
+  // Przypadki brzegowe
   // -------------------------------------------------------------------------
   console.log('Tworzenie przypadków brzegowych...');
 
-  // Mocno zaległa faktura (overdue)
+  // 1. Faktura przeterminowana (OVERDUE)
   const overdueClient = randomChoice(clientsIT);
   const overdueNet = 15000;
   const overdueGross = overdueNet * 1.23;
   const overdueInvoice = await prisma.invoice.create({
     data: {
       number: 'FV/999/03/2026/TS',
-      issueDate: new Date(2026, 2, 1),
-      dueDate: new Date(2026, 2, 15),
+      issueDate: new Date(Date.UTC(2026, 2, 1, 12, 0, 0)), // 1 marca 2026
+      dueDate: new Date(Date.UTC(2026, 2, 15, 12, 0, 0)),
       status: InvoiceStatus.OVERDUE,
       currency: Currency.PLN,
+      exchangeRate: '1.0000',
       paymentMethod: PaymentMethod.TRANSFER,
       totalNet: money(overdueNet),
       totalGross: money(overdueGross),
@@ -795,40 +748,40 @@ async function main() {
     },
   });
 
-  // Faktura w walucie obcej (EUR), w pełni opłacona
-  const eurClient = randomChoice(clientsConsulting);
-  const eurNet = 5000;
-  const eurGross = eurNet * 1.23;
-  const eurInvoice = await prisma.invoice.create({
+  // 2. Faktura w pełni opłacona
+  const standardClient = randomChoice(clientsConsulting);
+  const stdNet = 5000;
+  const stdGross = stdNet * 1.23;
+  const stdInvoice = await prisma.invoice.create({
     data: {
       number: 'FV/998/06/2026/CP',
-      issueDate: new Date(2026, 5, 10),
-      dueDate: new Date(2026, 5, 24),
+      issueDate: new Date(Date.UTC(2026, 5, 10, 12, 0, 0)),
+      dueDate: new Date(Date.UTC(2026, 5, 24, 12, 0, 0)),
       status: InvoiceStatus.PAID,
       currency: Currency.PLN,
-      exchangeRate: '4.2500',
+      exchangeRate: '1.0000',
       paymentMethod: PaymentMethod.CARD,
-      totalNet: money(eurNet),
-      totalGross: money(eurGross),
-      paidAmount: money(eurGross),
+      totalNet: money(stdNet),
+      totalGross: money(stdGross),
+      paidAmount: money(stdGross),
       userId: mainUser.id,
-      clientId: eurClient.id,
+      clientId: standardClient.id,
       companyId: companyConsulting.id,
       sellerName: companyConsulting.name,
       sellerNip: companyConsulting.nip,
       sellerAddress: companyConsulting.address,
       sellerPostal: companyConsulting.postal,
       sellerCity: companyConsulting.city,
-      buyerName: eurClient.name,
-      buyerNip: eurClient.nip,
-      buyerAddress: eurClient.address,
-      buyerPostal: eurClient.postal,
-      buyerCity: eurClient.city,
+      buyerName: standardClient.name,
+      buyerNip: standardClient.nip,
+      buyerAddress: standardClient.address,
+      buyerPostal: standardClient.postal,
+      buyerCity: standardClient.city,
     },
   });
   await prisma.invoiceItem.create({
     data: {
-      invoiceId: eurInvoice.id,
+      invoiceId: stdInvoice.id,
       serviceId: servicesConsulting[0].id,
       description: servicesConsulting[0].name,
       quantity: '12.00',
@@ -838,25 +791,26 @@ async function main() {
   });
   await prisma.payment.create({
     data: {
-      invoiceId: eurInvoice.id,
-      amount: money(eurGross),
+      invoiceId: stdInvoice.id,
+      amount: money(stdGross),
       method: PaymentMethod.CARD,
-      date: new Date(2026, 5, 12),
-      reference: 'PRZ/EUR-998',
+      date: new Date(Date.UTC(2026, 5, 12, 12, 0, 0)),
+      reference: 'PRZ/STD-998',
     },
   });
 
-  // Faktura częściowo opłacona z dwiema wpłatami ratalnymi
+  // 3. Faktura ratalna (PARTIALLY_PAID)
   const partialClient = randomChoice(clientsCreative);
   const partialNet = 4500;
   const partialGross = partialNet * 1.23;
   const partialInvoice = await prisma.invoice.create({
     data: {
       number: 'FV/996/08/2026/CS',
-      issueDate: new Date(2026, 7, 3),
-      dueDate: new Date(2026, 7, 17),
+      issueDate: new Date(Date.UTC(2026, 7, 3, 12, 0, 0)),
+      dueDate: new Date(Date.UTC(2026, 7, 17, 12, 0, 0)),
       status: InvoiceStatus.PARTIALLY_PAID,
       currency: Currency.PLN,
+      exchangeRate: '1.0000',
       paymentMethod: PaymentMethod.TRANSFER,
       totalNet: money(partialNet),
       totalGross: money(partialGross),
@@ -892,54 +846,20 @@ async function main() {
         invoiceId: partialInvoice.id,
         amount: money(partialGross * 0.25),
         method: PaymentMethod.TRANSFER,
-        date: new Date(2026, 7, 5),
+        date: new Date(Date.UTC(2026, 7, 5, 12, 0, 0)),
         reference: 'RATA-1/996',
       },
       {
         invoiceId: partialInvoice.id,
         amount: money(partialGross * 0.25),
         method: PaymentMethod.TRANSFER,
-        date: new Date(2026, 7, 12),
+        date: new Date(Date.UTC(2026, 7, 12, 12, 0, 0)),
         reference: 'RATA-2/996',
       },
     ],
   });
 
-  // -------------------------------------------------------------------------
-  // Podsumowanie
-  // -------------------------------------------------------------------------
-  const [
-    invoiceCount,
-    itemCount,
-    clientCount,
-    serviceCount,
-    paymentCount,
-    auditLogCount,
-  ] = await Promise.all([
-    prisma.invoice.count(),
-    prisma.invoiceItem.count(),
-    prisma.client.count(),
-    prisma.service.count(),
-    prisma.payment.count(),
-    prisma.auditLog.count(),
-  ]);
-
-  console.log('Seedowanie zakończone sukcesem!');
-  console.log(`  Użytkownicy: 3`);
-  console.log(`  Firmy: 5`);
-  console.log(`  Klienci: ${clientCount}`);
-  console.log(`  Usługi: ${serviceCount}`);
-  console.log(
-    `  Faktury: ${invoiceCount} (w tym ${totalInvoicesCreated} wygenerowanych w pętli miesięcy)`,
-  );
-  console.log(`  Pozycje faktur: ${itemCount}`);
-  console.log(`  Płatności: ${paymentCount}`);
-  console.log(`  Logi audytowe: ${auditLogCount}`);
-  console.log('');
-  console.log('Dane logowania (wszyscy użytkownicy, hasło: haslo123):');
-  console.log('  demo@financehub.pl');
-  console.log('  anna.nowak@financehub.pl');
-  console.log('  piotr.wisniewski@financehub.pl');
+  console.log('Seedowanie bazy zakończone z sukcesem!');
 }
 
 main()
