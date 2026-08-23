@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { Download } from 'lucide-react';
-// ZMIANA TUTAJ: Używamy wersji "pro"
 import html2canvas from 'html2canvas-pro';
 import jsPDF from 'jspdf';
 

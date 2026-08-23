@@ -1,10 +1,15 @@
 import { companyRepository } from '@/repositories/company.repository';
 import { CompanyInput } from '@/schemas/company.schema';
+import { invoiceRepository } from '@/repositories/invoice.repository';
 
 export const companyService = {
   async createCompany(data: CompanyInput, userId: string) {
     const count = await companyRepository.countUserCompanies(userId);
     const isDefault = count === 0;
+
+    const existig = await companyRepository.findByNip(data.nip);
+    if (existig)
+      throw new Error('Firma o podanym NIPie istnieje już w systemie.');
 
     return companyRepository.create({
       ...data,
@@ -34,6 +39,14 @@ export const companyService = {
     );
 
     if (!existig) throw new Error('Nie znaleziono firmy');
+
+    const invoicesCount = await invoiceRepository.countByCompanyId(existig.id);
+
+    if (invoicesCount > 0) {
+      throw new Error(
+        'Nie można usunąć firmy, która posiada wystawione faktury.',
+      );
+    }
 
     return companyRepository.delete(companyId, userId);
   },

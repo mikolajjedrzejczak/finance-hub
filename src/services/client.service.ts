@@ -1,5 +1,6 @@
 import { clientRepository } from '@/repositories/client.repository';
 import { companyRepository } from '@/repositories/company.repository';
+import { invoiceRepository } from '@/repositories/invoice.repository';
 import { ClientInput } from '@/schemas/client.schema';
 
 export const clientService = {
@@ -12,9 +13,8 @@ export const clientService = {
       );
     }
 
-
     if (userCompany.nip === data.nip) {
-      throw new Error('Nie możesz dodać własnej firmy jako klienta');
+      throw new Error('Nie możesz przypisać NIP-u własnej firmy do klienta.');
     }
 
     const existingClient = await clientRepository.findByNipAndCompanyId(
@@ -49,6 +49,19 @@ export const clientService = {
 
     if (!userCompany) throw new Error('Brak profilu firmy');
 
+    const client = await clientRepository.findByIdAndCompanyId(id, userCompany.id);
+
+    if (!client) throw new Error("Nie znaleziono klienta.")
+
+    if (userCompany.nip === data.nip) throw new Error("Nie możesz przypisać NIP-u własnej firmy do klienta.")
+
+    if (data.nip !== client.nip) {
+        const duplicate = await clientRepository.findByNipAndCompanyId(data.nip, userCompany.id);
+        if (duplicate && duplicate.id === id) {
+          throw new Error("Inny klient z podanym numerem NIP istnieje w Twojej bazie klientów.")
+        }
+    }
+
     return clientRepository.update(id, userCompany.id, data);
   },
 
@@ -56,6 +69,13 @@ export const clientService = {
     const userCompany = await companyRepository.findDefaultForUser(userId);
 
     if (!userCompany) throw new Error('Brak profilu firmy');
+
+    const client = await clientRepository.findByIdAndCompanyId(id, userCompany.id);
+    
+    if (!client) throw new Error("Nie znaleziono klienta.")
+
+    const invoiceCount = await invoiceRepository.countByClientId(client.id, userCompany.id);
+    if (invoiceCount > 0) throw new Error("Nie można usunąć klienta, który posiada powiązane faktury.")
 
     return clientRepository.delete(id, userCompany.id);
   },

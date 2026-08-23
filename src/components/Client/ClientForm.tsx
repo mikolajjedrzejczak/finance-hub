@@ -6,8 +6,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import Input from '../ui/Input';
 import { fetchCompanyFromGusAction } from '@/app/actions/gus.actions';
+import Input from '../ui/Input';
 
 export function ClientForm() {
   const router = useRouter();
@@ -88,59 +88,59 @@ export function ClientForm() {
           <div className="md:col-span-2">
             <Input
               id="name"
-              title="Nazwa firmy / Imię i nazwisko"
+              label="Nazwa firmy / Imię i nazwisko"
               register={register}
-              errors={errors.name}
+              error={errors.name}
               required
             />
           </div>
           <Input
             id="nip"
-            title="NIP"
+            label="NIP"
             register={register}
-            errors={errors.nip}
+            error={errors.nip}
             required
             actionButton={
               <button
                 type="button"
                 onClick={handleFetchGus}
-                disabled={isFetchingGus}
-                className="inline-flex py-2 items-center justify-center rounded-md border  border-gray-300 bg-gray-50 px-3 text-sm font-medium text-blue-600 hover:bg-gray-100 disabled:text-gray-400"
+                disabled={isFetchingGus || isSubmitting}
+                className="inline-flex items-center rounded-r-md border border-l-0 border-gray-300 bg-gray-50 px-3 text-sm font-medium text-blue-600 hover:bg-gray-100 disabled:text-gray-400"
               >
-                {isFetchingGus ? 'Szukam...' : 'Pobierz'}
+                {isFetchingGus ? 'Szukam...' : 'GUS'}
               </button>
             }
           />
           <Input
             id="email"
             type="email"
-            title="Adres e-mail"
+            label="Adres e-mail"
             register={register}
-            errors={errors.email}
+            error={errors.email}
           />
 
           <div className="md:col-span-2">
             <Input
               id="address"
-              title="Ulica i numer"
+              label="Ulica i numer"
               register={register}
-              errors={errors.address}
+              error={errors.address}
               required
             />
           </div>
           <Input
             id="postal"
-            title="Kod pocztowy"
+            label="Kod pocztowy"
             placeholder="00-000"
             register={register}
-            errors={errors.postal}
+            error={errors.postal}
             required
           />
           <Input
             id="city"
-            title="Miasto"
+            label="Miasto"
             register={register}
-            errors={errors.city}
+            error={errors.city}
             required
           />
         </div>

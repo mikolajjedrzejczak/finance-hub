@@ -14,11 +14,9 @@ export function CopyLinkButton({ invoiceId }: CopyLinkButtonProps) {
     try {
       const url = `${window.location.origin}/public/invoice/${invoiceId}`;
 
-      // Metoda 1: Standardowe API schowka (działa w HTTPS lub localhost)
       if (navigator.clipboard && navigator.clipboard.writeText) {
         await navigator.clipboard.writeText(url);
       } else {
-        // Metoda 2: Fallback dla przeglądarek bez wsparcia lub na Linuxie
         const textArea = document.createElement('textarea');
         textArea.value = url;
         textArea.style.position = 'fixed';
@@ -42,7 +40,6 @@ export function CopyLinkButton({ invoiceId }: CopyLinkButtonProps) {
     } catch (err) {
       console.error('Nie udało się skopiować linku', err);
 
-      // Alternatywa: pokaż link w alert lub prompt
       const url = `${window.location.origin}/public/invoice/${invoiceId}`;
       if (window.prompt) {
         window.prompt('Skopiuj ten link ręcznie (Ctrl+C):', url);

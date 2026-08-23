@@ -8,6 +8,7 @@ import { serviceSchema, type ServiceInput } from '@/schemas/service.schema';
 import { createServiceAction } from '@/app/actions/service.action';
 import Input from '../ui/Input';
 
+
 export function ServiceForm() {
   const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);
@@ -46,34 +47,34 @@ export function ServiceForm() {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-5">
           <div className="md:col-span-2">
             <Input
-              id="name"
-              title="Nazwa usługi"
+              id="description"
+              label="Nazwa usługi / produktu"
               register={register}
-              errors={errors}
+              error={errors.description}
               required
             />
           </div>
           <Input
             id="description"
-            title="Opis usługi"
+            label="Opis usługi"
             register={register}
-            errors={errors}
+            error={errors.description}
           />
           <Input
             id="priceNet"
-            title="Cena Netto (PLN)"
+            label="Cena Netto (PLN)"
             register={register}
             type="number"
-            errors={errors}
+            error={errors.priceNet}
             required
           />
           <Input
             id="vatRate"
-            title="Stawka VAT (%)"
+            label="Stawka VAT (%)"
             register={register}
             type="number"
             step="1"
-            errors={errors}
+            error={errors.vatRate}
             required
           />
         </div>

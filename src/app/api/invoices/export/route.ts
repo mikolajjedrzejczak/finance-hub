@@ -1,7 +1,8 @@
 import { auth } from '@/auth';
 import { NextResponse } from 'next/server';
-import { generateInvoicesCSV } from '@/utils/csv.util';
+import { generateInvoicesCSV } from '@/utils/csv.utils';
 import prisma from '@/lib/prisma';
+import { InvoiceStatus, Prisma } from '@prisma/client';
 
 export async function GET(request: Request) {
   const session = await auth();
@@ -19,16 +20,12 @@ export async function GET(request: Request) {
     return new NextResponse('Brak ID firmy', { status: 400 });
   }
 
-  // 1. Budujemy dynamiczny obiekt filtrowania
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const whereClause: any = {
+  const whereClause: Prisma.InvoiceWhereInput = {
     companyId,
     company: { userId: session.user.id },
   };
 
-  // 2. Jeśli podano miesiąc i rok, ograniczamy daty
   if (month && year) {
-    // Uwaga: w JS miesiące są indeksowane od 0 (styczeń to 0)
     const startDate = new Date(Number(year), Number(month) - 1, 1);
     const endDate = new Date(Number(year), Number(month), 0, 23, 59, 59, 999);
 
@@ -38,12 +35,10 @@ export async function GET(request: Request) {
     };
   }
 
-  // 3. Jeśli wybrano konkretny status (inny niż ALL)
   if (status && status !== 'ALL') {
-    whereClause.status = status;
+    whereClause.status = status as InvoiceStatus;
   }
 
-  // 4. Pobieramy przefiltrowane dane
   const invoices = await prisma.invoice.findMany({
     where: whereClause,
     orderBy: { issueDate: 'desc' },
@@ -57,7 +52,6 @@ export async function GET(request: Request) {
 
   const fileContent = generateInvoicesCSV(invoices);
 
-  // Sprytne nazewnictwo pliku (np. eksport_2026_7.csv)
   const filename =
     month && year ? `eksport_${year}_${month}.csv` : `eksport_pelny.csv`;
 

@@ -15,9 +15,9 @@ enum InvoiceStatus {
 
 enum Currency {
   PLN
-  EUR
-  USD
-  GBP
+  // EUR
+  // USD
+  // GBP
 }
 
 enum PaymentMethod {
@@ -92,11 +92,11 @@ model Invoice {
   sellerCity        String
   sellerBankAccount String?
 
-  buyerName         String
-  buyerNip          String
-  buyerAddress      String
-  buyerPostal       String
-  buyerCity         String
+  buyerName    String
+  buyerNip     String
+  buyerAddress String
+  buyerPostal  String
+  buyerCity    String
 
   userId    String
   clientId  String

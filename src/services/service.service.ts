@@ -46,14 +46,12 @@ export const catalogService = {
   },
 
   async getServices(userId: string) {
-    // 1. Sprawdzamy, która firma jest teraz aktywna
     const userCompany = await companyRepository.findDefaultForUser(userId);
 
     if (!userCompany) {
       return [];
     }
 
-    // 2. Pobieramy usługi przypisane do TEJ firmy (a nie globalnie do usera)
     return serviceRepository.findAllByCompanyId(userCompany.id);
   },
 };

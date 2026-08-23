@@ -1,6 +1,9 @@
 import { invoiceRepository } from '@/repositories/invoice.repository';
 import { companyRepository } from '@/repositories/company.repository';
 import { InvoiceInput } from '@/schemas/invoice.schema';
+import { clientRepository } from '@/repositories/client.repository';
+import { InvoiceStatus } from '@prisma/client';
+import { roundMoney } from '@/utils/money.utils';
 
 export const invoiceService = {
   async createInvoice(data: InvoiceInput, userId: string) {
@@ -9,29 +12,44 @@ export const invoiceService = {
       throw new Error('Musisz najpierw uzupełnić profil swojej firmy.');
     }
 
+    const client = await clientRepository.findByIdAndCompanyId(
+      data.clientId,
+      userCompany.id,
+    );
+
+    if (!client) {
+      throw new Error('Wybrany klient nie istnieje.');
+    }
+
     const existing = await invoiceRepository.findByNumberAndCompanyId(
       data.number,
       userCompany.id,
     );
+
     if (existing) {
       throw new Error(`Faktura o numerze ${data.number} już istnieje.`);
     }
 
-    let totalNet = 0;
-    let totalGross = 0;
+    let calculatedTotalNet = 0;
+    let calculatedTotalGross = 0;
 
     const itemsToCreate = data.items.map((item) => {
-      const itemNet = item.quantity * item.priceNet;
-      const itemGross = itemNet * (1 + item.vatRate / 100);
+      const quantity = Number(item.quantity);
+      const priceNet = Number(item.priceNet);
+      const vatRate = Number(item.vatRate);
 
-      totalNet += itemNet;
-      totalGross += itemGross;
+      const itemNet = roundMoney(quantity * priceNet);
+      const itemVat = roundMoney(itemNet * (vatRate / 100));
+      const itemGross = roundMoney(itemNet + itemVat);
+
+      calculatedTotalNet = roundMoney(calculatedTotalNet + itemNet);
+      calculatedTotalGross = roundMoney(calculatedTotalGross + itemGross);
 
       return {
         description: item.description,
-        quantity: item.quantity,
-        priceNet: item.priceNet,
-        vatRate: item.vatRate,
+        quantity: Number(item.quantity),
+        priceNet: Number(item.priceNet),
+        vatRate: Number(item.vatRate),
         serviceId: item.serviceId || undefined,
       };
     });
@@ -42,11 +60,25 @@ export const invoiceService = {
       dueDate: new Date(data.dueDate),
       currency: data.currency,
       paymentMethod: data.paymentMethod,
-      totalNet,
-      totalGross,
+      totalNet: calculatedTotalNet,
+      totalGross: calculatedTotalGross,
       userId,
       companyId: userCompany.id,
       clientId: data.clientId,
+
+      sellerName: userCompany.name,
+      sellerNip: userCompany.nip,
+      sellerAddress: userCompany.address,
+      sellerPostal: userCompany.postal,
+      sellerCity: userCompany.city,
+      sellerBankAccount: userCompany.bankAccount ?? null,
+
+      buyerName: client.name,
+      buyerNip: client.nip,
+      buyerAddress: client.address,
+      buyerPostal: client.postal,
+      buyerCity: client.city,
+
       items: {
         create: itemsToCreate,
       },
@@ -69,7 +101,11 @@ export const invoiceService = {
   async updateInvoiceStatus(id: string, status: string, userId: string) {
     const userCompany = await companyRepository.findDefaultForUser(userId);
     if (!userCompany) throw new Error('Brak profilu firmy');
-    return invoiceRepository.updateStatus(id, userCompany.id, status);
+    return invoiceRepository.updateStatus(
+      id,
+      userCompany.id,
+      status as InvoiceStatus,
+    );
   },
 
   async getNextInvoiceNumber(userId: string) {
@@ -102,7 +138,7 @@ export const invoiceService = {
 
     const nextSequence = (lastSequenceNumber + 1).toString().padStart(2, '0');
 
-    console.log(lastInvoice)
+    console.log(lastInvoice);
 
     return `FV/${year}/${month}/${nextSequence}`;
   },

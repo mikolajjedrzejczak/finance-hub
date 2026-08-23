@@ -8,9 +8,8 @@ import { dashboardService } from '@/services/dashboard.service';
 import {
   processChartData,
   calculateKPIs,
-  formatCurrency,
 } from '@/utils/dashboard.utils';
-
+import { formatCurrency } from '@/utils/money.utils';
 
 export const dynamic = 'force-dynamic';
 
@@ -21,6 +20,7 @@ export default async function GlobalDashboardPage() {
   const companiesWithInvoices = await dashboardService.getDashboardData(
     session.user.id,
   );
+
 
   if (companiesWithInvoices.length === 0) {
     return (

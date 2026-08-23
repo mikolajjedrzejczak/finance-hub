@@ -56,7 +56,7 @@ describe('authService', () => {
     });
 
     // Działanie (Act)
-    const result = await authService.registerUser(validUserData);
+    const result = await authService.registerUser(validUserData as any);
 
     // Aserty (Assert)
     expect(prisma.user.findUnique).toHaveBeenCalledWith({
@@ -81,7 +81,7 @@ describe('authService', () => {
     });
 
     // Działanie i Aserty - oczekujemy, że obietnica zostanie odrzucona
-    await expect(authService.registerUser(validUserData)).rejects.toThrow(
+    await expect(authService.registerUser(validUserData as any)).rejects.toThrow(
       'Użytkownik o tym adresie e-mail już istnieje.',
     );
 

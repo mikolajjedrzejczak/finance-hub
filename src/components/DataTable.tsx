@@ -15,7 +15,7 @@ export type ColumnDef<T> = {
 interface DataTableProps<T> {
   data: T[];
   columns: ColumnDef<T>[];
-  getRowId: (row: T) => string; 
+  getRowId: (row: T) => string;
   toolbarLeft?: React.ReactNode;
   toolbarRight?: React.ReactNode;
   emptyMessage?: string;
@@ -34,16 +34,18 @@ export function DataTable<T>({
   defaultSortDirection = 'desc',
 }: DataTableProps<T>) {
   const [sortField, setSortField] = useState<string | null>(
-    defaultSortField ? String(defaultSortField) : null
+    defaultSortField ? String(defaultSortField) : null,
   );
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>(defaultSortDirection);
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>(
+    defaultSortDirection,
+  );
 
   const handleSort = (column: ColumnDef<T>) => {
     if (!column.sortable) return;
-    
+
     const key = column.accessorKey ? String(column.accessorKey) : column.header;
     if (key === sortField) {
-      setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc');
+      setSortDirection((prev) => (prev === 'asc' ? 'desc' : 'asc'));
     } else {
       setSortField(key);
       setSortDirection('asc');
@@ -60,7 +62,9 @@ export function DataTable<T>({
     if (!sortField) return 0;
 
     const column = columns.find(
-      (col) => (col.accessorKey && String(col.accessorKey) === sortField) || col.header === sortField
+      (col) =>
+        (col.accessorKey && String(col.accessorKey) === sortField) ||
+        col.header === sortField,
     );
     if (!column) return 0;
 
@@ -102,17 +106,19 @@ export function DataTable<T>({
                 <th
                   key={idx}
                   onClick={() => handleSort(col)}
-                  className={`px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${
-                    col.sortable ? 'cursor-pointer hover:bg-gray-100 select-none' : ''
+                  className={`px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider ${
+                    col.sortable
+                      ? 'cursor-pointer hover:bg-gray-100 select-none'
+                      : ''
                   } ${col.className || ''}`}
                 >
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-3 ">
                     {col.header}
                     {col.sortable && (
-                      <ArrowUpDown 
+                      <ArrowUpDown
                         className={`h-3 w-3 transition-colors ${
                           isSorted(col) ? 'text-blue-500' : 'text-gray-400'
-                        }`} 
+                        }`}
                       />
                     )}
                   </div>
@@ -123,16 +129,22 @@ export function DataTable<T>({
           <tbody className="bg-white divide-y divide-gray-200">
             {sortedData.length === 0 ? (
               <tr>
-                <td colSpan={columns.length} className="px-6 py-8 text-center text-sm text-gray-500">
+                <td
+                  colSpan={columns.length}
+                  className="px-6 py-8 text-center text-sm text-gray-500"
+                >
                   {emptyMessage}
                 </td>
               </tr>
             ) : (
               sortedData.map((row) => (
-                <tr key={getRowId(row)} className="hover:bg-gray-50 transition-colors">
+                <tr
+                  key={getRowId(row)}
+                  className="hover:bg-gray-50 transition-colors"
+                >
                   {columns.map((col, colIndex) => (
-                    <td 
-                      key={colIndex} 
+                    <td
+                      key={colIndex}
                       className={`px-6 py-4 whitespace-nowrap ${col.className || ''}`}
                     >
                       {col.cell ? (

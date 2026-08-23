@@ -6,7 +6,6 @@ export default defineConfig({
     globals: true,
   },
   resolve: {
-    // Włączamy natywną obsługę ścieżek z tsconfig (bez zewnętrznej wtyczki)
     tsconfigPaths: true,
   },
 });

@@ -1,6 +1,5 @@
 import bcrypt from 'bcryptjs';
 import { RegisterInput } from '@/schemas/auth.schema';
-import prisma from '@/lib/prisma';
 import { authRepository } from '@/repositories/auth.repository';
 
 const SALT_ROUNDS = 12;

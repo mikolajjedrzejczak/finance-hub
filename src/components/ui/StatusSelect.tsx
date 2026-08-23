@@ -1,6 +1,7 @@
 'use client';
 
-import { INVOICE_STATUSES, InvoiceStatus } from '@/lib/constant';
+import { INVOICE_STATUSES } from '@/lib/constant';
+import { InvoiceStatus } from '@prisma/client';
 
 interface StatusSelectProps {
   value: string;

@@ -81,7 +81,6 @@ export function ServicesTable({ services }: { services: Service[] }) {
       header: 'Cena Netto',
       accessorKey: 'priceNet',
       sortable: true,
-      className: 'text-right',
       cell: (row) => (
         <span className="text-sm text-gray-600">
           {row.priceNet.toFixed(2)} PLN
@@ -92,16 +91,14 @@ export function ServicesTable({ services }: { services: Service[] }) {
       header: 'VAT',
       accessorKey: 'vatRate',
       sortable: true,
-      className: 'text-right',
       cell: (row) => (
         <span className="text-sm text-gray-600">{row.vatRate}%</span>
       ),
     },
     {
       header: 'Akcje',
-      className: 'text-right',
       cell: (row) => (
-        <div className="flex justify-end gap-2">
+        <div className="flex justify-center gap-2">
           <button
             onClick={() => openEditModal(row)}
             className="p-2 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
@@ -130,7 +127,6 @@ export function ServicesTable({ services }: { services: Service[] }) {
         emptyMessage="Brak usług w katalogu."
       />
 
-      {/* Edit Modal */}
       <Modal
         isOpen={!!editingService}
         onClose={() => setEditingService(null)}
@@ -192,7 +188,6 @@ export function ServicesTable({ services }: { services: Service[] }) {
         </form>
       </Modal>
 
-      {/* Delete Confirmation */}
       <ConfirmModal
         isOpen={!!deletingService}
         onClose={() => setDeletingService(null)}

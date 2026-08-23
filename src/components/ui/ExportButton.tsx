@@ -9,13 +9,12 @@ export function ExportButton({ companyId }: { companyId: string }) {
   const menuRef = useRef<HTMLDivElement>(null);
 
   const currentYear = new Date().getFullYear();
-  const currentMonth = new Date().getMonth() + 1; // 1-12
+  const currentMonth = new Date().getMonth() + 1;
 
   const [year, setYear] = useState(currentYear.toString());
   const [month, setMonth] = useState(currentMonth.toString());
   const [status, setStatus] = useState('ALL');
 
-  // Zamknięcie po kliknięciu na zewnątrz
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -26,7 +25,6 @@ export function ExportButton({ companyId }: { companyId: string }) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Obsługa eksportu przez fetch, by mieć prawdziwy stan ładowania
   const handleExport = async () => {
     setIsExporting(true);
 
@@ -46,30 +44,25 @@ export function ExportButton({ companyId }: { companyId: string }) {
         throw new Error('Błąd podczas generowania pliku');
       }
 
-      // Pobranie pliku jako Blob
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
 
-      // Tworzenie tymczasowego linku do pobrania
       const link = document.createElement('a');
       link.href = url;
 
-      // Jeśli twój serwer zwraca nagłówek Content-Disposition z nazwą,
-      // przeglądarka i tak jej użyje. To jest fallback:
+
       link.download = `eksport_${year}_${month}.csv`;
 
       document.body.appendChild(link);
       link.click();
 
-      // Sprzątanie po pobraniu
       link.remove();
       window.URL.revokeObjectURL(url);
       setIsOpen(false);
     } catch (error) {
       console.error('Błąd eksportu:', error);
-      // Tutaj w przyszłości możesz dodać notyfikację (toast) o błędzie
     } finally {
-      setIsExporting(false); // Zdjęcie loadingu zawsze po faktycznym zakończeniu
+      setIsExporting(false);
     }
   };
 
@@ -117,7 +110,6 @@ export function ExportButton({ companyId }: { companyId: string }) {
                     const monthName = date.toLocaleString('pl-PL', {
                       month: 'long',
                     });
-                    // Powiększamy pierwszą literę (np. styczeń -> Styczeń)
                     const capitalizedMonth =
                       monthName.charAt(0).toUpperCase() + monthName.slice(1);
 

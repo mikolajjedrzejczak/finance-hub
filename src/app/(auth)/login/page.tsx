@@ -9,7 +9,6 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import AuthLayout from '../AuthLayout';
 import AuthForm from '../AuthForm';
-import { signIn } from 'next-auth/react';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -59,18 +58,18 @@ export default function LoginPage() {
       >
         <Input
           id="email"
-          title="Adres e-mail"
+          label="Adres e-mail"
           type="email"
           register={register}
-          errors={errors.email}
+          error={errors.email}
           required
         />
         <Input
           id="password"
-          title="Hasło"
+          label="Hasło"
           type="password"
           register={register}
-          errors={errors.password}
+          error={errors.password}
           required
         />
       </AuthForm>

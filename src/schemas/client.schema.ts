@@ -6,7 +6,7 @@ export const clientSchema = z.object({
     .string()
     .regex(
       /^[0-9]{10}$/,
-      'NIP musi składać się z 10 cyft oraz bez spacji i myślników',
+      'NIP musi składać się z 10 cyfr oraz bez spacji i myślników',
     ),
   city: z.string().min(2, 'Miasto jest wymagane'),
   postal: z

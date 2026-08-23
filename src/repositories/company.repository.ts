@@ -2,6 +2,33 @@ import prisma from '@/lib/prisma';
 import { Prisma } from '@prisma/client';
 
 export const companyRepository = {
+  async create(data: Prisma.CompanyUncheckedCreateInput) {
+    return prisma.company.create({ data });
+  },
+
+  async update(
+    id: string,
+    userId: string,
+    data: Prisma.CompanyUncheckedUpdateInput,
+  ) {
+    return prisma.company.update({
+      where: { userId_id: { userId, id } },
+      data,
+    });
+  },
+
+  async delete(id: string, userId: string) {
+    return prisma.company.delete({
+      where: { userId_id: { userId, id } },
+    });
+  },
+
+  async findByNip(nip: string) {
+    return prisma.company.findFirst({
+      where: { nip },
+    });
+  },
+
   async findDefaultForUser(userId: string) {
     const defaultCompany = await prisma.company.findFirst({
       where: { userId, isDefault: true },
@@ -26,47 +53,6 @@ export const companyRepository = {
     return prisma.invoice.count({ where: { companyId } });
   },
 
-  async create(data: Prisma.CompanyUncheckedCreateInput) {
-    return prisma.company.create({ data });
-  },
-
-  async update(
-    id: string,
-    userId: string,
-    data: Prisma.CompanyUncheckedUpdateInput,
-  ) {
-    const existing = await prisma.company.findFirst({
-      where: { id, userId },
-    });
-
-    if (!existing) throw new Error('Nie znalezionu firmy');
-
-    return prisma.company.updateMany({
-      where: { id, userId },
-      data,
-    });
-  },
-
-  async delete(id: string, userId: string) {
-    const existing = await prisma.company.findFirst({
-      where: { id, userId },
-    });
-
-    if (!existing) throw new Error('Nie znalezionu firmy');
-
-    const invoicesCount = await prisma.invoice.count({
-      where: { companyId: id },
-    });
-
-    if (invoicesCount > 0) {
-      throw new Error('HAS_INVOICES');
-    }
-
-    return prisma.company.delete({
-      where: { id },
-    });
-  },
-
   async findAllByUserId(userId: string) {
     return prisma.company.findMany({
       where: { userId },
@@ -88,40 +74,18 @@ export const companyRepository = {
     ]);
   },
 
-  async getCompaniesWithInvoicesForDashboard(userId: string) {
+  async getCompaniesWithInvoices(userId: string) {
     return prisma.company.findMany({
       where: { userId },
       include: {
         invoices: {
-          select: {
-            totalGross: true,
-            status: true,
-            issueDate: true,
-            client: true,
-          },
+          include: { client: true },
+          orderBy: { issueDate: 'desc' },
         },
       },
       orderBy: { createdAt: 'asc' },
     });
   },
-
-  async getGlobalRecentInvoices(userId: string) {
-  return await prisma.invoice.findMany({
-    where: {
-      company: {
-        userId: userId
-      }
-    },
-    orderBy: {
-      issueDate: 'desc'
-    },
-    take: 10,
-    include: {
-      client: true,
-      company: true,
-    }
-  });
-},
 
   async getCompanyWithInvoices(companyId: string, userId: string) {
     return prisma.company.findFirst({
@@ -134,6 +98,24 @@ export const companyRepository = {
           include: { client: true },
           orderBy: { issueDate: 'desc' },
         },
+      },
+    });
+  },
+
+  async getGlobalRecentInvoices(userId: string) {
+    return await prisma.invoice.findMany({
+      where: {
+        company: {
+          userId: userId,
+        },
+      },
+      orderBy: {
+        issueDate: 'desc',
+      },
+      take: 10,
+      include: {
+        client: true,
+        company: true,
       },
     });
   },

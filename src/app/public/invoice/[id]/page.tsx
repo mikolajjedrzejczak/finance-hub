@@ -1,6 +1,6 @@
 import { invoiceRepository } from '@/repositories/invoice.repository';
 import { notFound } from 'next/navigation';
-import { Download, CreditCard, CheckCircle2 } from 'lucide-react';
+import { CreditCard, CheckCircle2 } from 'lucide-react';
 import { format } from 'date-fns';
 import { PdfButton } from '@/components/ui/PdfButtonts';
 import Link from 'next/link';
@@ -29,7 +29,7 @@ export default async function PublicInvoicePage({
         Finance Hub
       </Link>
       <div className="max-w-3xl mx-auto space-y-6">
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-col sm:flex-row items-center justify-between ">
           <div>
             <h1 className="text-xl font-bold text-gray-900">
               Faktura {invoice.number}
@@ -37,20 +37,18 @@ export default async function PublicInvoicePage({
             <p className="text-sm text-gray-500">Od: {invoice.sellerName}</p>
           </div>
 
-          <div className="flex w-full sm:w-auto gap-3">
-            <div>
-              <Link
-                href="/login"
-                className="flex gap-2 items-center text-white px-4 py-2 rounded text-sm bg-blue-600 font-semibold shadow-sm hover:bg-blue-500 disabled:bg-blue-300"
-              >
-                Zaloguj się
-              </Link>
-            </div>
+          <div className="flex w-full sm:w-auto gap-2">
+            <Link
+              href="/login"
+              className="flex gap-2 items-center text-white px-2 py-2 rounded text-sm bg-blue-600 font-semibold shadow-sm hover:bg-blue-500 disabled:bg-blue-300"
+            >
+              Zaloguj się
+            </Link>
+
             <PdfButton
               filename={`Faktura_${invoice.number.replace(/\//g, '_')}`}
             />
 
-            {/* Przycisk płatności zmienia się w zależności od statusu */}
             {isPaid ? (
               <div className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-green-700 bg-green-50 rounded-md border border-green-200">
                 <CheckCircle2 className="w-4 h-4" />
@@ -65,12 +63,10 @@ export default async function PublicInvoicePage({
           </div>
         </div>
 
-        {/* WIDOK DOKUMENTU FAKTURY */}
         <div
           id="invoice-print-area"
           className="bg-white rounded-xl shadow-lg border border-gray-200 p-8 sm:p-12"
         >
-          {/* Nagłówek dokumentu */}
           <div className="flex justify-between items-start border-b border-gray-100 pb-8 mb-8">
             <div className="space-y-1">
               <p className="text-sm text-gray-500 uppercase tracking-wider font-semibold">
@@ -92,7 +88,6 @@ export default async function PublicInvoicePage({
             </div>
           </div>
 
-          {/* Dane Sprzedawcy i Nabywcy ze Snapshota */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-12 mb-12">
             <div>
               <p className="text-sm text-gray-500 uppercase tracking-wider font-semibold mb-3">
@@ -122,7 +117,6 @@ export default async function PublicInvoicePage({
             </div>
           </div>
 
-          {/* Tabela Pozycji */}
           <div className="mb-8 overflow-x-auto">
             <table className="w-full text-left text-sm">
               <thead className="bg-gray-50 border-y border-gray-200">
@@ -168,7 +162,6 @@ export default async function PublicInvoicePage({
             </table>
           </div>
 
-          {/* Podsumowanie kwot */}
           <div className="flex justify-end border-t border-gray-200 pt-6">
             <div className="w-full sm:w-1/2 md:w-1/3 space-y-3 text-sm">
               <div className="flex justify-between text-gray-600">
@@ -193,7 +186,6 @@ export default async function PublicInvoicePage({
             </div>
           </div>
 
-          {/* Dane do przelewu */}
           {!isPaid && invoice.sellerBankAccount && (
             <div className="mt-12 bg-gray-50 p-6 rounded-lg border border-gray-100 text-sm">
               <p className="font-semibold text-gray-900 mb-2">

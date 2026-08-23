@@ -59,35 +59,35 @@ export default function RegisterPage() {
       >
         <Input
           id="name"
-          title="Imię i nazwisko / Firma"
+          label="Imię i nazwisko / Firma"
           register={register}
-          errors={errors.name}
+          error={errors.name}
           placeholder="Jan Nowak"
         />
         <Input
           id="email"
-          title="Adres e-mail"
+          label="Adres e-mail"
           type="email"
           register={register}
-          errors={errors.email}
+          error={errors.email}
           placeholder="jan@example.com"
           required
         />
         <Input
           id="password"
-          title="Hasło"
+          label="Hasło"
           type="password"
           register={register}
-          errors={errors.password}
+          error={errors.password}
           placeholder="*******"
           required
         />
         <Input
           id="confirmPassword"
-          title="Powtórz hasło"
+          label="Powtórz hasło"
           type="password"
           register={register}
-          errors={errors.confirmPassword}
+          error={errors.confirmPassword}
           placeholder="*******"
           required
         />

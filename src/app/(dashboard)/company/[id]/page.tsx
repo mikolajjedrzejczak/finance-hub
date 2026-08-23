@@ -3,8 +3,12 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Building2, CheckCircle2, Clock, TrendingUp } from 'lucide-react';
 import { InvoicesTable } from '@/components/Invoice/InvoiceTable';
-import { formatCurrency } from '@/utils/dashboard.utils';
+import {
+  processChartCompanyData,
+} from '@/utils/dashboard.utils';
 import { getSingleCompanyData } from './data';
+import { RevenueChart } from '@/components/Dashboard/RevenueChart';
+import { formatCurrency } from '@/utils/money.utils';
 
 export default async function SingleCompanyDashboardPage({
   params,
@@ -17,9 +21,9 @@ export default async function SingleCompanyDashboardPage({
   const resolvedParams = await params;
   const companyId = resolvedParams.id;
 
-  const data = await getSingleCompanyData(companyId, session.user.id);
+  const companyData = await getSingleCompanyData(companyId, session.user.id);
 
-  if (!data) {
+  if (!companyData) {
     return (
       <div className="p-8 text-center max-w-2xl mx-auto mt-10">
         <h2 className="text-2xl font-bold text-gray-900 mb-2">
@@ -35,13 +39,15 @@ export default async function SingleCompanyDashboardPage({
     );
   }
 
-  const company = data.company;
-  const invoices = data.invoices;
-  const kpi = data.kpi;
+  const { chartData, companyName } = processChartCompanyData(companyData);
+
+  const company = companyData.company;
+  const invoices = companyData.invoices;
+  const kpi = companyData.kpi;
 
   return (
     <div className="mx-auto max-w-7xl p-4 sm:p-6 lg:p-8 space-y-10">
-      <div className="flex items-center gap-3 mb-2">
+      <div className="flex items-center gap-5 pb-8 mb-2">
         <div className="p-3 bg-blue-50 text-blue-600 rounded-xl">
           <Building2 className="w-6 h-6" />
         </div>
@@ -95,6 +101,14 @@ export default async function SingleCompanyDashboardPage({
             <Clock className="w-5 h-5" />
           </div>
         </div>
+      </div>
+
+      <div>
+        <RevenueChart
+          data={chartData}
+          companyNames={[companyName]}
+          title="Przychody firmy"
+        />
       </div>
 
       <div className="">

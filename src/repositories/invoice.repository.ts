@@ -3,42 +3,45 @@ import {
   InvoiceDisplayDTO,
   invoiceDisplayDTOSchema,
 } from '@/schemas/invoice.schema';
-import { Prisma } from '@prisma/client';
+import { InvoiceStatus, Prisma } from '@prisma/client';
+
+const invoiceWithItemsInclude = {
+  items: true,
+} satisfies Prisma.InvoiceInclude;
+
+type InvoiceWithItems = Prisma.InvoiceGetPayload<{
+  include: { items: true };
+}>;
+
+function mapToInvoiceDisplayDTO(invoice: InvoiceWithItems): InvoiceDisplayDTO {
+  const rawData = {
+    ...invoice,
+    totalNet: invoice.totalNet.toNumber(),
+    totalGross: invoice.totalGross.toNumber(),
+    paidAmount: invoice.paidAmount ? invoice.paidAmount.toNumber() : 0,
+    items: invoice.items.map((item) => ({
+      ...item,
+      quantity: item.quantity.toNumber(),
+      priceNet: item.priceNet.toNumber(),
+      vatRate: item.vatRate.toNumber(),
+    })),
+  };
+
+  return invoiceDisplayDTOSchema.parse(rawData);
+}
 
 export const invoiceRepository = {
   async create(data: Prisma.InvoiceUncheckedCreateInput) {
-    const company = await prisma.company.findUnique({
-      where: { id: data.companyId },
-    });
-
-    if (!company) throw new Error('Nie znaleziono danych sprzedawcy.');
-
-    const client = await prisma.client.findUnique({
-      where: { id: data.clientId },
-    });
-
-    if (!client) throw new Error('Nie znaleziono danych nabywcy.');
-
     return prisma.invoice.create({
-      data: {
-        ...data,
+      data,
+      include: invoiceWithItemsInclude,
+    });
+  },
 
-        sellerName: company.name,
-        sellerNip: company.nip,
-        sellerAddress: company.address,
-        sellerPostal: company.postal,
-        sellerCity: company.city,
-        sellerBankAccount: company.bankAccount,
-
-        buyerName: client.name,
-        buyerNip: client.nip,
-        buyerAddress: client.address,
-        buyerPostal: client.postal,
-        buyerCity: client.city,
-      },
-      include: {
-        items: true,
-      },
+  async updateStatus(id: string, companyId: string, status: InvoiceStatus) {
+    return prisma.invoice.update({
+      where: { id, companyId },
+      data: { status },
     });
   },
 
@@ -66,29 +69,7 @@ export const invoiceRepository = {
       include: { items: true },
     });
 
-    if (!invoice) return null;
-
-    const rawData = {
-      ...invoice,
-      totalNet: invoice.totalNet.toNumber(),
-      totalGross: invoice.totalGross.toNumber(),
-      paidAmount: invoice.paidAmount.toNumber(),
-      items: invoice.items.map((item) => ({
-        ...item,
-        quantity: item.quantity.toNumber(),
-        priceNet: item.priceNet.toNumber(),
-        vatRate: item.vatRate.toNumber(),
-      })),
-    };
-
-    return invoiceDisplayDTOSchema.parse(rawData);
-  },
-
-  async updateStatus(id: string, companyId: string, status: any) {
-    return prisma.invoice.update({
-      where: { id, companyId },
-      data: { status },
-    });
+    return invoice ? mapToInvoiceDisplayDTO(invoice) : null;
   },
 
   async findLatestInDateRange(
@@ -108,32 +89,6 @@ export const invoiceRepository = {
     });
   },
 
-  async getDashboardStats(companyId: string) {
-    const invoices = await prisma.invoice.findMany({
-      where: { companyId },
-      select: { totalGross: true, status: true, issueDate: true },
-    });
-
-    const totalRevenue = invoices
-      .filter((i) => i.status === 'PAID')
-      .reduce((sum, i) => sum + Number(i.totalGross), 0);
-
-    const pendingAmount = invoices
-      .filter((i) => i.status === 'PENDING' || i.status === 'OVERDUE')
-      .reduce((sum, i) => sum + Number(i.totalGross), 0);
-
-    const recentInvoices = await prisma.invoice.findMany({
-      where: { companyId },
-      orderBy: { issueDate: 'desc' },
-      take: 10,
-      include: {
-        client: true,
-      },
-    });
-
-    return { totalRevenue, pendingAmount, count: invoices.length, recentInvoices };
-  },
-
   async getPublicById(id: string): Promise<InvoiceDisplayDTO | null> {
     if (!id) return null;
 
@@ -142,21 +97,18 @@ export const invoiceRepository = {
       include: { items: true },
     });
 
-    if (!invoice) return null;
+    return invoice ? mapToInvoiceDisplayDTO(invoice) : null;
+  },
 
-    const rawData = {
-      ...invoice,
-      totalNet: invoice.totalNet.toNumber(),
-      totalGross: invoice.totalGross.toNumber(),
-      paidAmount: invoice.paidAmount.toNumber(),
-      items: invoice.items.map((item) => ({
-        ...item,
-        quantity: item.quantity.toNumber(),
-        priceNet: item.priceNet.toNumber(),
-        vatRate: item.vatRate.toNumber(),
-      })),
-    };
+  async countByCompanyId(companyId: string) {
+    return prisma.invoice.count({
+      where: { companyId },
+    });
+  },
 
-    return invoiceDisplayDTOSchema.parse(rawData);
+  async countByClientId(clientId: string, companyId: string) {
+    return prisma.invoice.count({
+      where: { clientId, companyId },
+    });
   },
 };

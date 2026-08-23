@@ -7,8 +7,8 @@ import { useRouter } from 'next/navigation';
 import { Plus, Trash2, X } from 'lucide-react';
 import { invoiceSchema, type InvoiceInput } from '@/schemas/invoice.schema';
 import { createInvoiceAction } from '@/app/actions/invoice.actions';
+import { Currency } from '@prisma/client';
 
-// Typy wyciągnięte z propsów (odarte z Prisma Decimal/Date, gotowe do frontendu)
 type Client = { id: string; name: string; nip: string };
 type Service = { id: string; name: string; priceNet: number; vatRate: number };
 
@@ -26,16 +26,12 @@ export function InvoiceForm({
   const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);
 
-  // Stan kontrolujący czy formularz jest rozwinięty
   const [isOpen, setIsOpen] = useState(false);
 
-  // Domyślne daty: dzisiaj i za 14 dni (wymagane w formacie YYYY-MM-DD dla input type="date")
   const today = new Date().toISOString().split('T')[0];
   const in14Days = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000)
     .toISOString()
     .split('T')[0];
-
-  
 
   const {
     register,
@@ -45,7 +41,7 @@ export function InvoiceForm({
     setValue,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<InvoiceInput>({
+  } = useForm({
     resolver: zodResolver(invoiceSchema),
     defaultValues: {
       number: nextInvoiceNumber,
@@ -66,13 +62,11 @@ export function InvoiceForm({
     },
   });
 
-  // Używamy useFieldArray do dynamicznego dodawania i usuwania wierszy
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'items',
   });
 
-  // Kalkulator: Śledzimy pozycje na żywo i wyliczamy sumę Netto / Brutto
   const watchedItems = watch('items');
   const totals = watchedItems.reduce(
     (acc, item) => {
@@ -83,7 +77,6 @@ export function InvoiceForm({
     { net: 0, gross: 0 },
   );
 
-  // Automatyczne wypełnianie wiersza po wyborze usługi z selecta (Katalogu)
   const handleServiceChange = (index: number, serviceId: string) => {
     const service = services.find((s) => s.id === serviceId);
     if (service) {
@@ -100,7 +93,6 @@ export function InvoiceForm({
     if (result.error) {
       setServerError(result.error);
     } else if (result.success && result.invoiceId) {
-      // Przekierowanie na podstronę nowo utworzonej faktury
       router.push(`/invoices/${result.invoiceId}`);
     }
   };
@@ -118,13 +110,15 @@ export function InvoiceForm({
     );
   }
 
-  // -------------------------------------------------------------
-  // WIDOK 2: ROZWINIĘTY KREATOR FAKTURY
-  // -------------------------------------------------------------
+  const currencyKeys = Object.keys(Currency).filter((key) =>
+    isNaN(Number(key)),
+  );
+
+  console.log(currencyKeys);
+
   return (
     <div className="mb-8 border-b border-gray-200 pb-8 animate-in fade-in slide-in-from-top-4 duration-300">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        {/* NAGŁÓWEK FORMULARZA */}
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-bold text-gray-900">Kreator faktury</h2>
           <button
@@ -137,14 +131,12 @@ export function InvoiceForm({
           </button>
         </div>
 
-        {/* BŁĘDY SERWERA */}
         {serverError && (
           <div className="rounded-md bg-red-50 p-4 text-sm font-medium text-red-700 border border-red-100">
             {serverError}
           </div>
         )}
 
-        {/* SEKCJA 1: GŁÓWNE DANE */}
         <div className="rounded-xl bg-white p-6 shadow-sm border border-gray-100">
           <h3 className="text-base font-bold text-gray-900 mb-4">
             Dane ogólne
@@ -249,15 +241,16 @@ export function InvoiceForm({
                 {...register('currency')}
                 className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
               >
-                <option value="PLN">PLN</option>
-                <option value="EUR">EUR</option>
-                <option value="USD">USD</option>
+                {currencyKeys.map((key) => (
+                  <option key={key} value={key}>
+                    {key}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
         </div>
 
-        {/* SEKCJA 2: POZYCJE NA FAKTURZE */}
         <div className="rounded-xl bg-white p-6 shadow-sm border border-gray-100">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-4">
             <h3 className="text-base font-bold text-gray-900">
@@ -380,7 +373,7 @@ export function InvoiceForm({
                   <button
                     type="button"
                     onClick={() => remove(index)}
-                    disabled={fields.length === 1} // Zablokuj usunięcie, jeśli to jest jedyny wiersz
+                    disabled={fields.length === 1}
                     className="mb-1 rounded-md p-2 text-gray-400 hover:bg-red-50 hover:text-red-600 disabled:opacity-20 transition-colors"
                     title="Usuń pozycję"
                   >
@@ -392,7 +385,6 @@ export function InvoiceForm({
           </div>
         </div>
 
-        {/* SEKCJA 3: PODSUMOWANIE I PRZYCISKI ZAPISU */}
         <div className="flex flex-col items-end rounded-xl bg-gray-50 p-6 shadow-sm border border-gray-200">
           <div className="w-full sm:w-1/2 lg:w-1/3 space-y-3">
             <div className="flex justify-between text-sm text-gray-600">

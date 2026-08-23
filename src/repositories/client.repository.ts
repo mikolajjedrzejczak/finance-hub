@@ -11,26 +11,22 @@ export const clientRepository = {
     companyId: string,
     data: Prisma.ClientUncheckedUpdateInput,
   ) {
-    const existing = await prisma.client.findFirst({
+    return await prisma.client.updateMany({
       where: { id, companyId },
-    });
-
-    if (!existing) throw new Error('Nie znaleziono klienta');
-
-    return prisma.client.update({
-      where: { id },
       data,
     });
   },
 
   async delete(id: string, companyId: string) {
-    const result = await prisma.client.deleteMany({
+    return await prisma.client.deleteMany({
       where: { id, companyId },
     });
+  },
 
-    if (result.count === 0) throw new Error('Nie znaleziono klineta');
-
-    return true;
+  async findByIdAndCompanyId(id: string, companyId: string) {
+    return prisma.client.findFirst({
+      where: { id, companyId },
+    });
   },
 
   async findByNipAndCompanyId(nip: string, companyId: string) {

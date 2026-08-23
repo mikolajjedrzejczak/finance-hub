@@ -1,5 +1,6 @@
 import NextAuth from 'next-auth';
 import { authConfig } from './auth.config';
+import { NextResponse } from 'next/server';
 
 export const { auth } = NextAuth(authConfig);
 
@@ -17,18 +18,18 @@ export default auth((req) => {
 
   if (isRootRoute) {
     if (isLoggedIn) {
-      return Response.redirect(new URL('/dashboard', nextUrl));
+      return NextResponse.redirect(new URL('/dashboard', nextUrl));
     } else {
-      return Response.redirect(new URL('/login', nextUrl));
+      return NextResponse.redirect(new URL('/login', nextUrl));
     }
   }
 
   if (isLoggedIn && isAuthRoute) {
-    return Response.redirect(new URL('/dashboard', nextUrl));
+    return NextResponse.redirect(new URL('/dashboard', nextUrl));
   }
 
   if (!isLoggedIn && !isAuthRoute) {
-    return Response.redirect(new URL('/login', nextUrl));
+    return NextResponse.redirect(new URL('/login', nextUrl));
   }
 
   return null;
