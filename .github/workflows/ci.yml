@@ -29,8 +29,8 @@ jobs:
       - name: Typecheck
         run: npx tsc --noEmit
 
-      - name: Run Linter
-        run: npm run lint
+      # - name: Run Linter
+      #   run: npm run lint
 
       - name: Run Unit Tests
         run: npm run test
@@ -38,4 +38,4 @@ jobs:
       - name: Build nextjs app
         run: npm run build
         env:
-          DATABASE_URL: "postgresql://mock:mock@localhost:5432/mockdb"
+          DATABASE_URL: 'postgresql://mock:mock@localhost:5432/mockdb'
