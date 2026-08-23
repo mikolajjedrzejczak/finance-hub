@@ -14,7 +14,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Setup Node.job
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -29,9 +29,6 @@ jobs:
       - name: Typecheck
         run: npx tsc --noEmit
 
-      # - name: Run Linter
-      #   run: npm run lint
-
       - name: Run Unit Tests
         run: npm run test
 
@@ -39,18 +36,18 @@ jobs:
         run: npm run build
         env:
           DATABASE_URL: 'postgresql://mock:mock@localhost:5432/mockdb'
-          EXTAUTH_SECRET: 'mock_secret_for_ci_build_test_12345'
+          NEXTAUTH_SECRET: 'mock_secret_for_ci_build_test_12345'
           NEXTAUTH_URL: 'http://localhost:3000'
 
       - name: Prepare Deployment Package
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
           mkdir deploy-package
-          cp -r .next deploy-package/.next
+          cp -r .next/standalone/* deploy-package/
+          mkdir -p deploy-package/.next
+          cp -r .next/static deploy-package/.next/static
           cp -r public deploy-package/public 2>/dev/null || true
           cp -r prisma deploy-package/prisma 2>/dev/null || true
-          cp package.json deploy-package/
-          cp package-lock.json deploy-package/
           cd deploy-package
           zip -r ../release.zip .
           cd ..
@@ -62,4 +59,3 @@ jobs:
           app-name: 'app-finance-hub-tx6ls2'
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           package: 'release.zip'
-
