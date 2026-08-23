@@ -23,19 +23,6 @@ function money(n: number): string {
   return n.toFixed(2);
 }
 
-function exchangeRateFor(currency: Currency): string {
-  switch (currency) {
-    case Currency.EUR:
-      return (4.2 + Math.random() * 0.3).toFixed(4);
-    case Currency.USD:
-      return (3.85 + Math.random() * 0.3).toFixed(4);
-    case Currency.GBP:
-      return (4.9 + Math.random() * 0.3).toFixed(4);
-    default:
-      return '1.0000';
-  }
-}
-
 // Statusy ważone wg "wieku" faktury - starsze częściej opłacone
 function randomStatus(monthsAgo: number): InvoiceStatus {
   if (monthsAgo >= 3) {
@@ -56,9 +43,6 @@ const CURRENCIES: Currency[] = [
   Currency.PLN,
   Currency.PLN,
   Currency.PLN,
-  Currency.EUR,
-  Currency.USD,
-  Currency.GBP,
 ];
 
 const PAYMENT_METHODS: PaymentMethod[] = [
@@ -685,7 +669,7 @@ async function main() {
             dueDate,
             status,
             currency,
-            exchangeRate: exchangeRateFor(currency),
+            exchangeRate: currency,
             paymentMethod,
             totalNet: money(totalNet),
             totalGross: money(totalGross),
@@ -821,7 +805,7 @@ async function main() {
       issueDate: new Date(2026, 5, 10),
       dueDate: new Date(2026, 5, 24),
       status: InvoiceStatus.PAID,
-      currency: Currency.EUR,
+      currency: Currency.PLN,
       exchangeRate: '4.2500',
       paymentMethod: PaymentMethod.CARD,
       totalNet: money(eurNet),
