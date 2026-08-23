@@ -41,3 +41,11 @@ jobs:
           DATABASE_URL: 'postgresql://mock:mock@localhost:5432/mockdb'
           EXTAUTH_SECRET: 'mock_secret_for_ci_build_test_12345'
           NEXTAUTH_URL: 'http://localhost:3000'
+
+      - name: Deploy to Azure Web App
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'app-finance-hub-tx6ls2'
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: .
