@@ -21,7 +21,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm CI
+        run: npm ci
 
       - name: Generate Prisma Client
         run: npx prisma Generate
