@@ -1,0 +1,113 @@
+2026-08-24T11:42:12.3050686Z State: Starting, Action: EstablishingSiteNetworks, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: , DetailsLevel: INFO
+2026-08-24T11:42:14.2252823Z State: Starting, Action: StartingSiteContainers, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: , DetailsLevel: INFO
+2026-08-24T11:42:14.2255345Z Container start method called.
+2026-08-24T11:42:14.2255903Z State: Starting, Action: PullingImage, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Pulling image 10.1.0.5:13209/appsvc/node:20-lts_20260710.8.tuxprod for app-finance-hub-tx6ls2., DetailsLevel: INFO
+2026-08-24T11:42:14.2260476Z Establishing network.
+2026-08-24T11:42:14.2261718Z Pulling image: appsvc/node:20-lts_20260710.8.tuxprod.
+2026-08-24T11:42:14.8464623Z Image appsvc/node:20-lts_20260710.8.tuxprod is pulled from registry 10.1.0.5:13209
+2026-08-24T11:42:14.8465567Z Container is starting.
+2026-08-24T11:42:14.8767194Z State: Starting, Action: MountingVolumes, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Mounting volumes for app-finance-hub-tx6ls2., DetailsLevel: INFO
+2026-08-24T11:42:14.8768600Z Establishing user namespace if not established already.
+2026-08-24T11:42:14.8768995Z Establishing network if not established already.
+2026-08-24T11:42:14.8947204Z Mounting volumes.
+2026-08-24T11:42:14.8949242Z Nested mountpoint 
+2026-08-24T11:42:14.9548964Z Nested mountpoint volatile/logs
+2026-08-24T11:42:14.9757898Z Nested mountpoint 
+2026-08-24T11:42:15.1863695Z Nested mountpoint 
+2026-08-24T11:42:15.2143456Z Nested mountpoint 
+2026-08-24T11:42:15.2355084Z Nested mountpoint 
+2026-08-24T11:42:15.5556217Z State: Starting, Action: CreatingContainer, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Finished pulling container image and mounting volumes for app-finance-hub-tx6ls2. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-08-24T11:42:15.5556636Z Creating container.
+2026-08-24T11:42:15.5556907Z Creating pipes for streaming container io.
+2026-08-24T11:42:15.5557160Z Creating stdout named pipe at /podr/container/pipe/eef957eaa952_app-finance-hub-tx6ls2/stdout_a4eedb42848f44c6921eb5bb94ba113f.
+2026-08-24T11:42:15.5569918Z Successfully created stdout named pipe at: /podr/container/pipe/eef957eaa952_app-finance-hub-tx6ls2/stdout_a4eedb42848f44c6921eb5bb94ba113f.
+2026-08-24T11:42:15.5570551Z Opening named pipe /podr/container/pipe/eef957eaa952_app-finance-hub-tx6ls2/stdout_a4eedb42848f44c6921eb5bb94ba113f for reading in non-blocking mode.
+2026-08-24T11:42:15.5946550Z Successfully opened named pipe: /podr/container/pipe/eef957eaa952_app-finance-hub-tx6ls2/stdout_a4eedb42848f44c6921eb5bb94ba113f.
+2026-08-24T11:42:15.5947243Z Successfully removed non-blocking flag from /podr/container/pipe/eef957eaa952_app-finance-hub-tx6ls2/stdout_a4eedb42848f44c6921eb5bb94ba113f.
+2026-08-24T11:42:15.5947885Z Creating stderr named pipe at /podr/container/pipe/eef957eaa952_app-finance-hub-tx6ls2/stderr_10533dac87ad48d6b04451232d6d2739.
+2026-08-24T11:42:15.5948601Z Successfully created stderr named pipe at: /podr/container/pipe/eef957eaa952_app-finance-hub-tx6ls2/stderr_10533dac87ad48d6b04451232d6d2739.
+2026-08-24T11:42:15.5948849Z Opening named pipe /podr/container/pipe/eef957eaa952_app-finance-hub-tx6ls2/stderr_10533dac87ad48d6b04451232d6d2739 for reading in non-blocking mode.
+2026-08-24T11:42:15.5949219Z Successfully opened named pipe: /podr/container/pipe/eef957eaa952_app-finance-hub-tx6ls2/stderr_10533dac87ad48d6b04451232d6d2739.
+2026-08-24T11:42:15.5949545Z Successfully removed non-blocking flag from /podr/container/pipe/eef957eaa952_app-finance-hub-tx6ls2/stderr_10533dac87ad48d6b04451232d6d2739.
+2026-08-24T11:42:15.5950036Z Creating container with image: appsvc/node:20-lts_20260710.8.tuxprod from registry: 10.1.0.5:13209 and fully qualified image name: 10.1.0.5:13209/appsvc/node:20-lts_20260710.8.tuxprod
+2026-08-24T11:42:16.8150655Z Starting container: eef957eaa952_app-finance-hub-tx6ls2.
+2026-08-24T11:42:16.9172471Z Starting watchers and probes.
+2026-08-24T11:42:16.9174198Z Starting metrics collection.
+2026-08-24T11:42:16.9266520Z Container is running.
+2026-08-24T11:42:16.9354322Z State: Starting, Action: CreatingContainer, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Container app-finance-hub-tx6ls2 successfully created and is running., DetailsLevel: INFO
+2026-08-24T11:42:17.1161004Z Container start method finished after 2890 ms.
+2026-08-24T11:42:17.1162550Z State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Container app-finance-hub-tx6ls2 successfully created and is running., DetailsLevel: INFO
+2026-08-24T11:42:17.1162881Z State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-08-24T11:42:42.6727509Z Container has finished running with exit code: 1.
+2026-08-24T11:42:42.6833460Z Container is terminating. Grace period: 5 seconds.
+2026-08-24T11:42:42.7033037Z Stop and delete container. Retry count = 0
+2026-08-24T11:42:42.7121738Z Stopping container: eef957eaa952_app-finance-hub-tx6ls2.
+2026-08-24T11:42:42.7958302Z Deleting container: eef957eaa952_app-finance-hub-tx6ls2. Retry count = 0
+2026-08-24T11:42:43.1334309Z Container spec TerminationMessagePolicy  path 
+2026-08-24T11:42:43.1437271Z Container is terminated. Total time elapsed: 452 ms.
+2026-08-24T11:42:43.1441753Z Site container: app-finance-hub-tx6ls2 terminated during site startup.
+2026-08-24T11:42:43.1541058Z State: Stopping, Action: CancellingStartup, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Site container: app-finance-hub-tx6ls2 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-08-24T11:42:43.2046222Z Site startup probe failed after 26.0110109 seconds.
+2026-08-24T11:42:43.3751312Z State: Stopping, Action: CancellingStartup, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:42:43, LastErrorDetails: Container exited with exit code 1 during startup after 26.2s. Please inspect your container logs for more details., Details: Site container: app-finance-hub-tx6ls2 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-08-24T11:42:43.3845555Z Failed to start site. Revert by stopping site.
+2026-08-24T11:42:43.3962173Z State: Stopping, Action: StoppingSite, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:42:43, LastErrorDetails: Container exited with exit code 1 during startup after 26.2s. Please inspect your container logs for more details., Details: Site container: app-finance-hub-tx6ls2 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-08-24T11:42:43.4140443Z State: Stopping, Action: StoppingSiteContainers, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:42:43, LastErrorDetails: Container exited with exit code 1 during startup after 26.2s. Please inspect your container logs for more details., Details: Site container: app-finance-hub-tx6ls2 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-08-24T11:42:43.4151409Z Site: app-finance-hub-tx6ls2 stopped.
+2026-08-24T11:42:43.4362616Z State: Stopping, Action: UnmountingVolumes, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:42:43, LastErrorDetails: Container exited with exit code 1 during startup after 26.2s. Please inspect your container logs for more details., Details: Site container: app-finance-hub-tx6ls2 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-08-24T11:42:43.7568984Z State: Stopping, Action: StoppingSiteNetworks, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:42:43, LastErrorDetails: Container exited with exit code 1 during startup after 26.2s. Please inspect your container logs for more details., Details: Site container: app-finance-hub-tx6ls2 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-08-24T11:42:43.8850104Z State: Stopped, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:42:43, LastErrorDetails: Container exited with exit code 1 during startup after 26.2s. Please inspect your container logs for more details., Details: Site stopped at 08/24/2026 11:42:43 (UTC), DetailsLevel: ERR
+2026-08-24T11:42:44.2774267Z State: Stopped, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:42:43, LastErrorDetails: Container exited with exit code 1 during startup after 26.2s. Please inspect your container logs for more details., Details: Site stopped at 08/24/2026 11:42:43 (UTC), DetailsLevel: ERR
+2026-08-24T11:42:49.4735692Z State: Starting, Action: EstablishingSiteNetworks, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:42:43, LastErrorDetails: Container exited with exit code 1 during startup after 26.2s. Please inspect your container logs for more details., Details: Site stopped at 08/24/2026 11:42:43 (UTC), DetailsLevel: ERR
+2026-08-24T11:42:50.3479797Z State: Starting, Action: StartingSiteContainers, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:42:43, LastErrorDetails: Container exited with exit code 1 during startup after 26.2s. Please inspect your container logs for more details., Details: Site stopped at 08/24/2026 11:42:43 (UTC), DetailsLevel: ERR
+2026-08-24T11:42:50.3480252Z Container start method called.
+2026-08-24T11:42:50.3480550Z State: Starting, Action: PullingImage, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:42:43, LastErrorDetails: Container exited with exit code 1 during startup after 26.2s. Please inspect your container logs for more details., Details: Pulling image 10.1.0.5:13209/appsvc/node:20-lts_20260710.8.tuxprod for app-finance-hub-tx6ls2., DetailsLevel: INFO
+2026-08-24T11:42:50.3480788Z Establishing network.
+2026-08-24T11:42:50.3481126Z Pulling image: appsvc/node:20-lts_20260710.8.tuxprod.
+2026-08-24T11:42:50.6248402Z Container is starting.
+2026-08-24T11:42:50.6249320Z State: Starting, Action: MountingVolumes, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:42:43, LastErrorDetails: Container exited with exit code 1 during startup after 26.2s. Please inspect your container logs for more details., Details: Mounting volumes for app-finance-hub-tx6ls2., DetailsLevel: INFO
+2026-08-24T11:42:50.6326791Z Establishing user namespace if not established already.
+2026-08-24T11:42:50.6329257Z Establishing network if not established already.
+2026-08-24T11:42:50.6332737Z Mounting volumes.
+2026-08-24T11:42:50.6336935Z Nested mountpoint 
+2026-08-24T11:42:50.6530362Z Nested mountpoint volatile/logs
+2026-08-24T11:42:50.6632688Z Nested mountpoint 
+2026-08-24T11:42:50.6649865Z Nested mountpoint 
+2026-08-24T11:42:50.6932981Z Nested mountpoint 
+2026-08-24T11:42:50.7538528Z Nested mountpoint 
+2026-08-24T11:42:51.0551460Z State: Starting, Action: CreatingContainer, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:42:43, LastErrorDetails: Container exited with exit code 1 during startup after 26.2s. Please inspect your container logs for more details., Details: Finished pulling container image and mounting volumes for app-finance-hub-tx6ls2. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-08-24T11:42:51.0553593Z Creating container.
+2026-08-24T11:42:51.0554269Z Creating pipes for streaming container io.
+2026-08-24T11:42:51.0554710Z Creating stdout named pipe at /podr/container/pipe/cfd3894bcb86_app-finance-hub-tx6ls2/stdout_71c8efe17cc24448bbc58966553831e8.
+2026-08-24T11:42:51.0555723Z Successfully created stdout named pipe at: /podr/container/pipe/cfd3894bcb86_app-finance-hub-tx6ls2/stdout_71c8efe17cc24448bbc58966553831e8.
+2026-08-24T11:42:51.0556250Z Opening named pipe /podr/container/pipe/cfd3894bcb86_app-finance-hub-tx6ls2/stdout_71c8efe17cc24448bbc58966553831e8 for reading in non-blocking mode.
+2026-08-24T11:42:51.0558253Z Successfully opened named pipe: /podr/container/pipe/cfd3894bcb86_app-finance-hub-tx6ls2/stdout_71c8efe17cc24448bbc58966553831e8.
+2026-08-24T11:42:51.0558740Z Successfully removed non-blocking flag from /podr/container/pipe/cfd3894bcb86_app-finance-hub-tx6ls2/stdout_71c8efe17cc24448bbc58966553831e8.
+2026-08-24T11:42:51.0559580Z Creating stderr named pipe at /podr/container/pipe/cfd3894bcb86_app-finance-hub-tx6ls2/stderr_53482586ae6144139032401f21183cf7.
+2026-08-24T11:42:51.0560844Z Successfully created stderr named pipe at: /podr/container/pipe/cfd3894bcb86_app-finance-hub-tx6ls2/stderr_53482586ae6144139032401f21183cf7.
+2026-08-24T11:42:51.0561091Z Opening named pipe /podr/container/pipe/cfd3894bcb86_app-finance-hub-tx6ls2/stderr_53482586ae6144139032401f21183cf7 for reading in non-blocking mode.
+2026-08-24T11:42:51.0561395Z Successfully opened named pipe: /podr/container/pipe/cfd3894bcb86_app-finance-hub-tx6ls2/stderr_53482586ae6144139032401f21183cf7.
+2026-08-24T11:42:51.0561639Z Successfully removed non-blocking flag from /podr/container/pipe/cfd3894bcb86_app-finance-hub-tx6ls2/stderr_53482586ae6144139032401f21183cf7.
+2026-08-24T11:42:51.0562045Z Creating container with image: appsvc/node:20-lts_20260710.8.tuxprod from registry: 10.1.0.5:13209 and fully qualified image name: 10.1.0.5:13209/appsvc/node:20-lts_20260710.8.tuxprod
+2026-08-24T11:42:51.5560617Z Starting container: cfd3894bcb86_app-finance-hub-tx6ls2.
+2026-08-24T11:42:51.5881531Z Starting watchers and probes.
+2026-08-24T11:42:51.5959984Z Starting metrics collection.
+2026-08-24T11:42:51.5961581Z Container is running.
+2026-08-24T11:42:51.5962330Z State: Starting, Action: CreatingContainer, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:42:43, LastErrorDetails: Container exited with exit code 1 during startup after 26.2s. Please inspect your container logs for more details., Details: Container app-finance-hub-tx6ls2 successfully created and is running., DetailsLevel: INFO
+2026-08-24T11:42:51.8670274Z Container start method finished after 1518 ms.
+2026-08-24T11:42:51.8671286Z State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:42:43, LastErrorDetails: Container exited with exit code 1 during startup after 26.2s. Please inspect your container logs for more details., Details: Container app-finance-hub-tx6ls2 successfully created and is running., DetailsLevel: INFO
+2026-08-24T11:42:51.8671412Z State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:42:43, LastErrorDetails: Container exited with exit code 1 during startup after 26.2s. Please inspect your container logs for more details., Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-08-24T11:43:11.3005517Z Container has finished running with exit code: 1.
+2026-08-24T11:43:11.3009323Z Container is terminating. Grace period: 5 seconds.
+2026-08-24T11:43:11.3019715Z Stop and delete container. Retry count = 0
+2026-08-24T11:43:11.3022428Z Stopping container: cfd3894bcb86_app-finance-hub-tx6ls2.
+2026-08-24T11:43:11.3510833Z Deleting container: cfd3894bcb86_app-finance-hub-tx6ls2. Retry count = 0
+2026-08-24T11:43:11.6127625Z Container spec TerminationMessagePolicy  path 
+2026-08-24T11:43:11.6201756Z Container is terminated. Total time elapsed: 311 ms.
+2026-08-24T11:43:11.6202513Z Site container: app-finance-hub-tx6ls2 terminated during site startup.
+2026-08-24T11:43:11.6203463Z State: Stopping, Action: CancellingStartup, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:42:43, LastErrorDetails: Container exited with exit code 1 during startup after 26.2s. Please inspect your container logs for more details., Details: Site container: app-finance-hub-tx6ls2 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-08-24T11:43:11.6514118Z Site startup probe failed after 19.7828791 seconds.
+2026-08-24T11:43:11.8119030Z State: Stopping, Action: CancellingStartup, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:43:11, LastErrorDetails: Container exited with exit code 1 during startup after 20.0s. Please inspect your container logs for more details., Details: Site container: app-finance-hub-tx6ls2 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-08-24T11:43:11.8328633Z Failed to start site. Revert by stopping site.
+2026-08-24T11:43:11.8335039Z State: Stopping, Action: StoppingSite, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:43:11, LastErrorDetails: Container exited with exit code 1 during startup after 20.0s. Please inspect your container logs for more details., Details: Site container: app-finance-hub-tx6ls2 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-08-24T11:43:11.8340543Z State: Stopping, Action: StoppingSiteContainers, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:43:11, LastErrorDetails: Container exited with exit code 1 during startup after 20.0s. Please inspect your container logs for more details., Details: Site container: app-finance-hub-tx6ls2 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-08-24T11:43:11.8340744Z Site: app-finance-hub-tx6ls2 stopped.

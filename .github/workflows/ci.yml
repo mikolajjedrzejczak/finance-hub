@@ -40,14 +40,19 @@ jobs:
           NEXTAUTH_URL: 'http://localhost:3000'
 
       - name: Prepare Deployment Package
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
-          mkdir deploy-package
+          mkdir -p deploy-package
           cp -r .next/standalone/* deploy-package/
           mkdir -p deploy-package/.next
           cp -r .next/static deploy-package/.next/static
           cp -r public deploy-package/public 2>/dev/null || true
-          cp -r prisma deploy-package/prisma 2>/dev/null || true
+          
+          # Kopiowanie silnika Prismy i schematu
+          mkdir -p deploy-package/node_modules/.prisma
+          cp -r node_modules/.prisma/* deploy-package/node_modules/.prisma/ 2>/dev/null || true
+          mkdir -p deploy-package/prisma
+          cp -r prisma/* deploy-package/prisma/ 2>/dev/null || true
+          
           cd deploy-package
           zip -r ../release.zip .
           cd ..

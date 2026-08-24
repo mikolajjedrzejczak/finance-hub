@@ -1,0 +1,255 @@
+========== New Cold Start Attempt (2026-08-24T11:42:12.3050686+00:00) ==========
+2026-08-24T11:42:12.3050686+00:00 ContainerStatus: State: Starting, Action: EstablishingSiteNetworks, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: , DetailsLevel: INFO
+2026-08-24T11:42:14.2252823+00:00 ContainerStatus: State: Starting, Action: StartingSiteContainers, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: , DetailsLevel: INFO
+2026-08-24T11:42:14.2255345+00:00 ContainerStatus: Container start method called.
+2026-08-24T11:42:14.2255903+00:00 ContainerStatus: State: Starting, Action: PullingImage, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Pulling image 10.1.0.5:13209/appsvc/node:20-lts_20260710.8.tuxprod for app-finance-hub-tx6ls2., DetailsLevel: INFO
+2026-08-24T11:42:14.2260476+00:00 ContainerStatus: Establishing network.
+2026-08-24T11:42:14.2261718+00:00 ContainerStatus: Pulling image: appsvc/node:20-lts_20260710.8.tuxprod.
+2026-08-24T11:42:14.8464623+00:00 ContainerStatus: Image appsvc/node:20-lts_20260710.8.tuxprod is pulled from registry 10.1.0.5:13209
+2026-08-24T11:42:14.8465567+00:00 ContainerStatus: Container is starting.
+2026-08-24T11:42:14.8767194+00:00 ContainerStatus: State: Starting, Action: MountingVolumes, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Mounting volumes for app-finance-hub-tx6ls2., DetailsLevel: INFO
+2026-08-24T11:42:14.8768600+00:00 ContainerStatus: Establishing user namespace if not established already.
+2026-08-24T11:42:14.8768995+00:00 ContainerStatus: Establishing network if not established already.
+2026-08-24T11:42:14.8947204+00:00 ContainerStatus: Mounting volumes.
+2026-08-24T11:42:14.8949242+00:00 ContainerStatus: Nested mountpoint 
+2026-08-24T11:42:14.9548964+00:00 ContainerStatus: Nested mountpoint volatile/logs
+2026-08-24T11:42:14.9757898+00:00 ContainerStatus: Nested mountpoint 
+2026-08-24T11:42:15.1863695+00:00 ContainerStatus: Nested mountpoint 
+2026-08-24T11:42:15.2143456+00:00 ContainerStatus: Nested mountpoint 
+2026-08-24T11:42:15.2355084+00:00 ContainerStatus: Nested mountpoint 
+2026-08-24T11:42:15.5556217+00:00 ContainerStatus: State: Starting, Action: CreatingContainer, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Finished pulling container image and mounting volumes for app-finance-hub-tx6ls2. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-08-24T11:42:15.5556636+00:00 ContainerStatus: Creating container.
+2026-08-24T11:42:15.5556907+00:00 ContainerStatus: Creating pipes for streaming container io.
+2026-08-24T11:42:15.5557160+00:00 ContainerStatus: Creating stdout named pipe at /podr/container/pipe/eef957eaa952_app-finance-hub-tx6ls2/stdout_a4eedb42848f44c6921eb5bb94ba113f.
+2026-08-24T11:42:15.5569918+00:00 ContainerStatus: Successfully created stdout named pipe at: /podr/container/pipe/eef957eaa952_app-finance-hub-tx6ls2/stdout_a4eedb42848f44c6921eb5bb94ba113f.
+2026-08-24T11:42:15.5570551+00:00 ContainerStatus: Opening named pipe /podr/container/pipe/eef957eaa952_app-finance-hub-tx6ls2/stdout_a4eedb42848f44c6921eb5bb94ba113f for reading in non-blocking mode.
+2026-08-24T11:42:15.5946550+00:00 ContainerStatus: Successfully opened named pipe: /podr/container/pipe/eef957eaa952_app-finance-hub-tx6ls2/stdout_a4eedb42848f44c6921eb5bb94ba113f.
+2026-08-24T11:42:15.5947243+00:00 ContainerStatus: Successfully removed non-blocking flag from /podr/container/pipe/eef957eaa952_app-finance-hub-tx6ls2/stdout_a4eedb42848f44c6921eb5bb94ba113f.
+2026-08-24T11:42:15.5947885+00:00 ContainerStatus: Creating stderr named pipe at /podr/container/pipe/eef957eaa952_app-finance-hub-tx6ls2/stderr_10533dac87ad48d6b04451232d6d2739.
+2026-08-24T11:42:15.5948601+00:00 ContainerStatus: Successfully created stderr named pipe at: /podr/container/pipe/eef957eaa952_app-finance-hub-tx6ls2/stderr_10533dac87ad48d6b04451232d6d2739.
+2026-08-24T11:42:15.5948849+00:00 ContainerStatus: Opening named pipe /podr/container/pipe/eef957eaa952_app-finance-hub-tx6ls2/stderr_10533dac87ad48d6b04451232d6d2739 for reading in non-blocking mode.
+2026-08-24T11:42:15.5949219+00:00 ContainerStatus: Successfully opened named pipe: /podr/container/pipe/eef957eaa952_app-finance-hub-tx6ls2/stderr_10533dac87ad48d6b04451232d6d2739.
+2026-08-24T11:42:15.5949545+00:00 ContainerStatus: Successfully removed non-blocking flag from /podr/container/pipe/eef957eaa952_app-finance-hub-tx6ls2/stderr_10533dac87ad48d6b04451232d6d2739.
+2026-08-24T11:42:15.5950036+00:00 ContainerStatus: Creating container with image: appsvc/node:20-lts_20260710.8.tuxprod from registry: 10.1.0.5:13209 and fully qualified image name: 10.1.0.5:13209/appsvc/node:20-lts_20260710.8.tuxprod
+2026-08-24T11:42:16.8150655+00:00 ContainerStatus: Starting container: eef957eaa952_app-finance-hub-tx6ls2.
+2026-08-24T11:42:16.9172471+00:00 ContainerStatus: Starting watchers and probes.
+2026-08-24T11:42:16.9174198+00:00 ContainerStatus: Starting metrics collection.
+2026-08-24T11:42:16.9266520+00:00 ContainerStatus: Container is running.
+2026-08-24T11:42:16.9354322+00:00 ContainerStatus: State: Starting, Action: CreatingContainer, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Container app-finance-hub-tx6ls2 successfully created and is running., DetailsLevel: INFO
+2026-08-24T11:42:17.1161004+00:00 ContainerStatus: Container start method finished after 2890 ms.
+2026-08-24T11:42:17.1162550+00:00 ContainerStatus: State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Container app-finance-hub-tx6ls2 successfully created and is running., DetailsLevel: INFO
+2026-08-24T11:42:17.1162881+00:00 ContainerStatus: State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-08-24T11:42:17.8867805+00:00 ContainerStream:    _____                               
+2026-08-24T11:42:17.9350181+00:00 ContainerStream:   /  _  \ __________ _________   ____  
+2026-08-24T11:42:17.9350414+00:00 ContainerStream:  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2026-08-24T11:42:17.9350437+00:00 ContainerStream: /    |    \/    /|  |  /|  | \/\  ___/ 
+2026-08-24T11:42:17.9350454+00:00 ContainerStream: \____|__  /_____ \____/ |__|    \___  >
+2026-08-24T11:42:17.9350502+00:00 ContainerStream:         \/      \/                  \/ 
+2026-08-24T11:42:17.9350546+00:00 ContainerStream: A P P   S E R V I C E   O N   L I N U X
+2026-08-24T11:42:17.9350562+00:00 ContainerStream: 
+2026-08-24T11:42:17.9350588+00:00 ContainerStream: Documentation    : http://aka.ms/webapp-linux
+2026-08-24T11:42:17.9350606+00:00 ContainerStream: NodeJS quickstart: https://aka.ms/node-qs
+2026-08-24T11:42:17.9350634+00:00 ContainerStream: NodeJS Version   : v20.20.2
+2026-08-24T11:42:17.9350652+00:00 ContainerStream: Instance Name    : lw1sdlwk0000TN
+2026-08-24T11:42:17.9350701+00:00 ContainerStream: Instance Id      : 6d9f0c416609b3f92c63d961112cfaae9bf51598bf68294535541d084d9c3cf3
+2026-08-24T11:42:17.9350716+00:00 ContainerStream: 
+2026-08-24T11:42:17.9350733+00:00 ContainerStream: Note: Any data outside '/home' is not persisted
+2026-08-24T11:42:21.4271588+00:00 ContainerStream: Starting OpenBSD Secure Shell server: sshd.
+2026-08-24T11:42:21.4465055+00:00 ContainerStream: WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2026-08-24T11:42:21.4981526+00:00 ContainerStream: Updating certificates in /etc/ssl/certs...
+2026-08-24T11:42:37.2427711+00:00 ContainerStream: rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_ECC_Root_CA_2022.pem
+2026-08-24T11:42:37.2437113+00:00 ContainerStream: rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_RSA_Root_CA_2022.pem
+2026-08-24T11:42:37.3820967+00:00 ContainerStream: rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+2026-08-24T11:42:37.4135476+00:00 ContainerStream: 4 added, 0 removed; done.
+2026-08-24T11:42:37.4141554+00:00 ContainerStream: Running hooks in /etc/ca-certificates/update.d...
+2026-08-24T11:42:37.4233346+00:00 ContainerStream: done.
+2026-08-24T11:42:37.4435834+00:00 ContainerStream: CA certificates copied and updated successfully.
+2026-08-24T11:42:37.5833117+00:00 ContainerStream: Starting periodic command scheduler: cron.
+2026-08-24T11:42:37.7035553+00:00 ContainerStream: Found build manifest file at '/home/site/wwwroot/oryx-manifest.toml'. Deserializing it...
+2026-08-24T11:42:37.7057089+00:00 ContainerStream: Could not find operation ID in manifest. Generating an operation id...
+2026-08-24T11:42:37.7112515+00:00 ContainerStream: Build Operation ID: 4faa0720-b799-4e37-ab94-dcb20a53c00b
+2026-08-24T11:42:37.9605512+00:00 ContainerStream: Environment Variables for Application Insight's IPA Codeless Configuration exists..
+2026-08-24T11:42:37.9841188+00:00 ContainerStream: Writing output script to '/opt/startup/startup.sh'
+2026-08-24T11:42:38.0336417+00:00 ContainerStream: Running #!/bin/sh
+2026-08-24T11:42:38.0336797+00:00 ContainerStream: 
+2026-08-24T11:42:38.0336939+00:00 ContainerStream: # Enter the source directory to make sure the script runs where the user expects
+2026-08-24T11:42:38.0336965+00:00 ContainerStream: cd "/home/site/wwwroot"
+2026-08-24T11:42:38.0336980+00:00 ContainerStream: 
+2026-08-24T11:42:38.0336997+00:00 ContainerStream: export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
+2026-08-24T11:42:38.0337014+00:00 ContainerStream: if [ -z "$PORT" ]; then
+2026-08-24T11:42:38.0337030+00:00 ContainerStream: 		export PORT=8080
+2026-08-24T11:42:38.0337043+00:00 ContainerStream: fi
+2026-08-24T11:42:38.0337057+00:00 ContainerStream: 
+2026-08-24T11:42:38.0337084+00:00 ContainerStream: echo Found tar.gz based node_modules.
+2026-08-24T11:42:38.0337103+00:00 ContainerStream: extractionCommand="tar -xzf node_modules.tar.gz -C /node_modules"
+2026-08-24T11:42:38.0337121+00:00 ContainerStream: echo "Removing existing modules directory from root..."
+2026-08-24T11:42:38.0337137+00:00 ContainerStream: rm -fr /node_modules
+2026-08-24T11:42:38.0337152+00:00 ContainerStream: mkdir -p /node_modules
+2026-08-24T11:42:38.0337168+00:00 ContainerStream: echo Extracting modules...
+2026-08-24T11:42:38.0337183+00:00 ContainerStream: $extractionCommand
+2026-08-24T11:42:38.0337337+00:00 ContainerStream: export NODE_PATH="/node_modules":$NODE_PATH
+2026-08-24T11:42:38.0337356+00:00 ContainerStream: export PATH=/node_modules/.bin:$PATH
+2026-08-24T11:42:38.0337371+00:00 ContainerStream: if [ -d node_modules ]; then
+2026-08-24T11:42:38.0337387+00:00 ContainerStream:     mv -f node_modules _del_node_modules || true
+2026-08-24T11:42:38.0337401+00:00 ContainerStream: fi
+2026-08-24T11:42:38.0337414+00:00 ContainerStream: 
+2026-08-24T11:42:38.0337428+00:00 ContainerStream: if [ -d /node_modules ]; then
+2026-08-24T11:42:38.0337443+00:00 ContainerStream:     ln -sfn /node_modules ./node_modules 
+2026-08-24T11:42:38.0337468+00:00 ContainerStream: fi
+2026-08-24T11:42:38.0337481+00:00 ContainerStream: 
+2026-08-24T11:42:38.0337495+00:00 ContainerStream: echo "Done."
+2026-08-24T11:42:38.0419545+00:00 ContainerStream: PATH="$PATH:/home/site/wwwroot" node server.js
+2026-08-24T11:42:38.0438595+00:00 ContainerStream: Found tar.gz based node_modules.
+2026-08-24T11:42:38.0440508+00:00 ContainerStream: Removing existing modules directory from root...
+2026-08-24T11:42:38.0643699+00:00 ContainerStream: Extracting modules...
+2026-08-24T11:42:41.2308936+00:00 ContainerStream: Done.
+2026-08-24T11:42:42.5246283+00:00 ContainerStream: ▲ Next.js 16.2.10
+2026-08-24T11:42:42.5344317+00:00 ContainerStream: - Local:         http://10248e007eb1:3000
+2026-08-24T11:42:42.5344558+00:00 ContainerStream: - Network:       http://10248e007eb1:3000
+2026-08-24T11:42:42.5344583+00:00 ContainerStream: ✓ Ready in 0ms
+2026-08-24T11:42:42.5828988+00:00 ContainerStream: Error: Could not find a production build in the './.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+2026-08-24T11:42:42.5829370+00:00 ContainerStream:     at ignore-listed frames
+2026-08-24T11:42:42.6727509+00:00 ContainerStatus: Container has finished running with exit code: 1.
+2026-08-24T11:42:42.6833460+00:00 ContainerStatus: Container is terminating. Grace period: 5 seconds.
+2026-08-24T11:42:42.7033037+00:00 ContainerStatus: Stop and delete container. Retry count = 0
+2026-08-24T11:42:42.7121738+00:00 ContainerStatus: Stopping container: eef957eaa952_app-finance-hub-tx6ls2.
+2026-08-24T11:42:42.7958302+00:00 ContainerStatus: Deleting container: eef957eaa952_app-finance-hub-tx6ls2. Retry count = 0
+2026-08-24T11:42:43.1334309+00:00 ContainerStatus: Container spec TerminationMessagePolicy  path 
+2026-08-24T11:42:43.1437271+00:00 ContainerStatus: Container is terminated. Total time elapsed: 452 ms.
+2026-08-24T11:42:43.1441753+00:00 ContainerStatus: Site container: app-finance-hub-tx6ls2 terminated during site startup.
+2026-08-24T11:42:43.1541058+00:00 ContainerStatus: State: Stopping, Action: CancellingStartup, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Site container: app-finance-hub-tx6ls2 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-08-24T11:42:43.2046222+00:00 ContainerStatus: Site startup probe failed after 26.0110109 seconds.
+2026-08-24T11:42:43.3751312+00:00 ContainerStatus: State: Stopping, Action: CancellingStartup, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:42:43, LastErrorDetails: Container exited with exit code 1 during startup after 26.2s. Please inspect your container logs for more details., Details: Site container: app-finance-hub-tx6ls2 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-08-24T11:42:43.3845555+00:00 ContainerStatus: Failed to start site. Revert by stopping site.
+2026-08-24T11:42:43.3962173+00:00 ContainerStatus: State: Stopping, Action: StoppingSite, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:42:43, LastErrorDetails: Container exited with exit code 1 during startup after 26.2s. Please inspect your container logs for more details., Details: Site container: app-finance-hub-tx6ls2 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-08-24T11:42:43.4140443+00:00 ContainerStatus: State: Stopping, Action: StoppingSiteContainers, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:42:43, LastErrorDetails: Container exited with exit code 1 during startup after 26.2s. Please inspect your container logs for more details., Details: Site container: app-finance-hub-tx6ls2 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-08-24T11:42:43.4151409+00:00 ContainerStatus: Site: app-finance-hub-tx6ls2 stopped.
+========== New Cold Start Attempt (2026-08-24T11:42:43.4362616+00:00) ==========
+2026-08-24T11:42:43.4362616+00:00 ContainerStatus: State: Stopping, Action: UnmountingVolumes, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:42:43, LastErrorDetails: Container exited with exit code 1 during startup after 26.2s. Please inspect your container logs for more details., Details: Site container: app-finance-hub-tx6ls2 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-08-24T11:42:43.7568984+00:00 ContainerStatus: State: Stopping, Action: StoppingSiteNetworks, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:42:43, LastErrorDetails: Container exited with exit code 1 during startup after 26.2s. Please inspect your container logs for more details., Details: Site container: app-finance-hub-tx6ls2 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-08-24T11:42:43.8850104+00:00 ContainerStatus: State: Stopped, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:42:43, LastErrorDetails: Container exited with exit code 1 during startup after 26.2s. Please inspect your container logs for more details., Details: Site stopped at 08/24/2026 11:42:43 (UTC), DetailsLevel: ERR
+2026-08-24T11:42:44.2774267+00:00 ContainerStatus: State: Stopped, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:42:43, LastErrorDetails: Container exited with exit code 1 during startup after 26.2s. Please inspect your container logs for more details., Details: Site stopped at 08/24/2026 11:42:43 (UTC), DetailsLevel: ERR
+2026-08-24T11:42:49.4735692+00:00 ContainerStatus: State: Starting, Action: EstablishingSiteNetworks, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:42:43, LastErrorDetails: Container exited with exit code 1 during startup after 26.2s. Please inspect your container logs for more details., Details: Site stopped at 08/24/2026 11:42:43 (UTC), DetailsLevel: ERR
+2026-08-24T11:42:50.3479797+00:00 ContainerStatus: State: Starting, Action: StartingSiteContainers, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:42:43, LastErrorDetails: Container exited with exit code 1 during startup after 26.2s. Please inspect your container logs for more details., Details: Site stopped at 08/24/2026 11:42:43 (UTC), DetailsLevel: ERR
+2026-08-24T11:42:50.3480252+00:00 ContainerStatus: Container start method called.
+2026-08-24T11:42:50.3480550+00:00 ContainerStatus: State: Starting, Action: PullingImage, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:42:43, LastErrorDetails: Container exited with exit code 1 during startup after 26.2s. Please inspect your container logs for more details., Details: Pulling image 10.1.0.5:13209/appsvc/node:20-lts_20260710.8.tuxprod for app-finance-hub-tx6ls2., DetailsLevel: INFO
+2026-08-24T11:42:50.3480788+00:00 ContainerStatus: Establishing network.
+2026-08-24T11:42:50.3481126+00:00 ContainerStatus: Pulling image: appsvc/node:20-lts_20260710.8.tuxprod.
+2026-08-24T11:42:50.6248402+00:00 ContainerStatus: Container is starting.
+2026-08-24T11:42:50.6249320+00:00 ContainerStatus: State: Starting, Action: MountingVolumes, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:42:43, LastErrorDetails: Container exited with exit code 1 during startup after 26.2s. Please inspect your container logs for more details., Details: Mounting volumes for app-finance-hub-tx6ls2., DetailsLevel: INFO
+2026-08-24T11:42:50.6326791+00:00 ContainerStatus: Establishing user namespace if not established already.
+2026-08-24T11:42:50.6329257+00:00 ContainerStatus: Establishing network if not established already.
+2026-08-24T11:42:50.6332737+00:00 ContainerStatus: Mounting volumes.
+2026-08-24T11:42:50.6336935+00:00 ContainerStatus: Nested mountpoint 
+2026-08-24T11:42:50.6530362+00:00 ContainerStatus: Nested mountpoint volatile/logs
+2026-08-24T11:42:50.6632688+00:00 ContainerStatus: Nested mountpoint 
+2026-08-24T11:42:50.6649865+00:00 ContainerStatus: Nested mountpoint 
+2026-08-24T11:42:50.6932981+00:00 ContainerStatus: Nested mountpoint 
+2026-08-24T11:42:50.7538528+00:00 ContainerStatus: Nested mountpoint 
+2026-08-24T11:42:51.0551460+00:00 ContainerStatus: State: Starting, Action: CreatingContainer, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:42:43, LastErrorDetails: Container exited with exit code 1 during startup after 26.2s. Please inspect your container logs for more details., Details: Finished pulling container image and mounting volumes for app-finance-hub-tx6ls2. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-08-24T11:42:51.0553593+00:00 ContainerStatus: Creating container.
+2026-08-24T11:42:51.0554269+00:00 ContainerStatus: Creating pipes for streaming container io.
+2026-08-24T11:42:51.0554710+00:00 ContainerStatus: Creating stdout named pipe at /podr/container/pipe/cfd3894bcb86_app-finance-hub-tx6ls2/stdout_71c8efe17cc24448bbc58966553831e8.
+2026-08-24T11:42:51.0555723+00:00 ContainerStatus: Successfully created stdout named pipe at: /podr/container/pipe/cfd3894bcb86_app-finance-hub-tx6ls2/stdout_71c8efe17cc24448bbc58966553831e8.
+2026-08-24T11:42:51.0556250+00:00 ContainerStatus: Opening named pipe /podr/container/pipe/cfd3894bcb86_app-finance-hub-tx6ls2/stdout_71c8efe17cc24448bbc58966553831e8 for reading in non-blocking mode.
+2026-08-24T11:42:51.0558253+00:00 ContainerStatus: Successfully opened named pipe: /podr/container/pipe/cfd3894bcb86_app-finance-hub-tx6ls2/stdout_71c8efe17cc24448bbc58966553831e8.
+2026-08-24T11:42:51.0558740+00:00 ContainerStatus: Successfully removed non-blocking flag from /podr/container/pipe/cfd3894bcb86_app-finance-hub-tx6ls2/stdout_71c8efe17cc24448bbc58966553831e8.
+2026-08-24T11:42:51.0559580+00:00 ContainerStatus: Creating stderr named pipe at /podr/container/pipe/cfd3894bcb86_app-finance-hub-tx6ls2/stderr_53482586ae6144139032401f21183cf7.
+2026-08-24T11:42:51.0560844+00:00 ContainerStatus: Successfully created stderr named pipe at: /podr/container/pipe/cfd3894bcb86_app-finance-hub-tx6ls2/stderr_53482586ae6144139032401f21183cf7.
+2026-08-24T11:42:51.0561091+00:00 ContainerStatus: Opening named pipe /podr/container/pipe/cfd3894bcb86_app-finance-hub-tx6ls2/stderr_53482586ae6144139032401f21183cf7 for reading in non-blocking mode.
+2026-08-24T11:42:51.0561395+00:00 ContainerStatus: Successfully opened named pipe: /podr/container/pipe/cfd3894bcb86_app-finance-hub-tx6ls2/stderr_53482586ae6144139032401f21183cf7.
+2026-08-24T11:42:51.0561639+00:00 ContainerStatus: Successfully removed non-blocking flag from /podr/container/pipe/cfd3894bcb86_app-finance-hub-tx6ls2/stderr_53482586ae6144139032401f21183cf7.
+2026-08-24T11:42:51.0562045+00:00 ContainerStatus: Creating container with image: appsvc/node:20-lts_20260710.8.tuxprod from registry: 10.1.0.5:13209 and fully qualified image name: 10.1.0.5:13209/appsvc/node:20-lts_20260710.8.tuxprod
+2026-08-24T11:42:51.5560617+00:00 ContainerStatus: Starting container: cfd3894bcb86_app-finance-hub-tx6ls2.
+2026-08-24T11:42:51.5881531+00:00 ContainerStatus: Starting watchers and probes.
+2026-08-24T11:42:51.5959984+00:00 ContainerStatus: Starting metrics collection.
+2026-08-24T11:42:51.5961581+00:00 ContainerStatus: Container is running.
+2026-08-24T11:42:51.5962330+00:00 ContainerStatus: State: Starting, Action: CreatingContainer, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:42:43, LastErrorDetails: Container exited with exit code 1 during startup after 26.2s. Please inspect your container logs for more details., Details: Container app-finance-hub-tx6ls2 successfully created and is running., DetailsLevel: INFO
+2026-08-24T11:42:51.8670274+00:00 ContainerStatus: Container start method finished after 1518 ms.
+2026-08-24T11:42:51.8671286+00:00 ContainerStatus: State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:42:43, LastErrorDetails: Container exited with exit code 1 during startup after 26.2s. Please inspect your container logs for more details., Details: Container app-finance-hub-tx6ls2 successfully created and is running., DetailsLevel: INFO
+2026-08-24T11:42:51.8671412+00:00 ContainerStatus: State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:42:43, LastErrorDetails: Container exited with exit code 1 during startup after 26.2s. Please inspect your container logs for more details., Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-08-24T11:42:51.9574689+00:00 ContainerStream:    _____                               
+2026-08-24T11:42:51.9574965+00:00 ContainerStream:   /  _  \ __________ _________   ____  
+2026-08-24T11:42:51.9574980+00:00 ContainerStream:  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2026-08-24T11:42:51.9574993+00:00 ContainerStream: /    |    \/    /|  |  /|  | \/\  ___/ 
+2026-08-24T11:42:51.9575053+00:00 ContainerStream: \____|__  /_____ \____/ |__|    \___  >
+2026-08-24T11:42:51.9575065+00:00 ContainerStream:         \/      \/                  \/ 
+2026-08-24T11:42:51.9575077+00:00 ContainerStream: A P P   S E R V I C E   O N   L I N U X
+2026-08-24T11:42:51.9575088+00:00 ContainerStream: 
+2026-08-24T11:42:51.9575104+00:00 ContainerStream: Documentation    : http://aka.ms/webapp-linux
+2026-08-24T11:42:51.9575117+00:00 ContainerStream: NodeJS quickstart: https://aka.ms/node-qs
+2026-08-24T11:42:51.9575129+00:00 ContainerStream: NodeJS Version   : v20.20.2
+2026-08-24T11:42:51.9575141+00:00 ContainerStream: Instance Name    : lw1sdlwk0000TN
+2026-08-24T11:42:51.9575158+00:00 ContainerStream: Instance Id      : 6d9f0c416609b3f92c63d961112cfaae9bf51598bf68294535541d084d9c3cf3
+2026-08-24T11:42:51.9575168+00:00 ContainerStream: 
+2026-08-24T11:42:51.9575197+00:00 ContainerStream: Note: Any data outside '/home' is not persisted
+2026-08-24T11:42:54.6891930+00:00 ContainerStream: Starting OpenBSD Secure Shell server: sshd.
+2026-08-24T11:42:54.7069401+00:00 ContainerStream: WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2026-08-24T11:42:54.7385809+00:00 ContainerStream: Updating certificates in /etc/ssl/certs...
+2026-08-24T11:43:06.1905755+00:00 ContainerStream: rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_ECC_Root_CA_2022.pem
+2026-08-24T11:43:06.1983823+00:00 ContainerStream: rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_RSA_Root_CA_2022.pem
+2026-08-24T11:43:06.3291617+00:00 ContainerStream: rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+2026-08-24T11:43:06.3590213+00:00 ContainerStream: 4 added, 0 removed; done.
+2026-08-24T11:43:06.3596939+00:00 ContainerStream: Running hooks in /etc/ca-certificates/update.d...
+2026-08-24T11:43:06.3690588+00:00 ContainerStream: done.
+2026-08-24T11:43:06.3804586+00:00 ContainerStream: CA certificates copied and updated successfully.
+2026-08-24T11:43:06.5291891+00:00 ContainerStream: Starting periodic command scheduler: cron.
+2026-08-24T11:43:06.7785682+00:00 ContainerStream: Found build manifest file at '/home/site/wwwroot/oryx-manifest.toml'. Deserializing it...
+2026-08-24T11:43:06.7992404+00:00 ContainerStream: Could not find operation ID in manifest. Generating an operation id...
+2026-08-24T11:43:06.7999107+00:00 ContainerStream: Build Operation ID: be39c4e0-0eea-4916-8b92-f1061e041509
+2026-08-24T11:43:07.3093705+00:00 ContainerStream: Environment Variables for Application Insight's IPA Codeless Configuration exists..
+2026-08-24T11:43:07.3388218+00:00 ContainerStream: Writing output script to '/opt/startup/startup.sh'
+2026-08-24T11:43:07.3713306+00:00 ContainerStream: Running #!/bin/sh
+2026-08-24T11:43:07.3713600+00:00 ContainerStream: 
+2026-08-24T11:43:07.3713620+00:00 ContainerStream: # Enter the source directory to make sure the script runs where the user expects
+2026-08-24T11:43:07.3713632+00:00 ContainerStream: cd "/home/site/wwwroot"
+2026-08-24T11:43:07.3713699+00:00 ContainerStream: 
+2026-08-24T11:43:07.3713712+00:00 ContainerStream: export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
+2026-08-24T11:43:07.3713723+00:00 ContainerStream: if [ -z "$PORT" ]; then
+2026-08-24T11:43:07.3713785+00:00 ContainerStream: 		export PORT=8080
+2026-08-24T11:43:07.3713796+00:00 ContainerStream: fi
+2026-08-24T11:43:07.3713807+00:00 ContainerStream: 
+2026-08-24T11:43:07.3713818+00:00 ContainerStream: echo Found tar.gz based node_modules.
+2026-08-24T11:43:07.3713832+00:00 ContainerStream: extractionCommand="tar -xzf node_modules.tar.gz -C /node_modules"
+2026-08-24T11:43:07.3713845+00:00 ContainerStream: echo "Removing existing modules directory from root..."
+2026-08-24T11:43:07.3713856+00:00 ContainerStream: rm -fr /node_modules
+2026-08-24T11:43:07.3713867+00:00 ContainerStream: mkdir -p /node_modules
+2026-08-24T11:43:07.3713879+00:00 ContainerStream: echo Extracting modules...
+2026-08-24T11:43:07.3713890+00:00 ContainerStream: $extractionCommand
+2026-08-24T11:43:07.3713902+00:00 ContainerStream: export NODE_PATH="/node_modules":$NODE_PATH
+2026-08-24T11:43:07.3713930+00:00 ContainerStream: export PATH=/node_modules/.bin:$PATH
+2026-08-24T11:43:07.3713941+00:00 ContainerStream: if [ -d node_modules ]; then
+2026-08-24T11:43:07.3713954+00:00 ContainerStream:     mv -f node_modules _del_node_modules || true
+2026-08-24T11:43:07.3713964+00:00 ContainerStream: fi
+2026-08-24T11:43:07.3713973+00:00 ContainerStream: 
+2026-08-24T11:43:07.3713985+00:00 ContainerStream: if [ -d /node_modules ]; then
+2026-08-24T11:43:07.3713997+00:00 ContainerStream:     ln -sfn /node_modules ./node_modules 
+2026-08-24T11:43:07.3714007+00:00 ContainerStream: fi
+2026-08-24T11:43:07.3714017+00:00 ContainerStream: 
+2026-08-24T11:43:07.3714028+00:00 ContainerStream: echo "Done."
+2026-08-24T11:43:07.3988148+00:00 ContainerStream: PATH="$PATH:/home/site/wwwroot" node server.js
+2026-08-24T11:43:07.3988272+00:00 ContainerStream: Found tar.gz based node_modules.
+2026-08-24T11:43:07.3988286+00:00 ContainerStream: Removing existing modules directory from root...
+2026-08-24T11:43:07.4001483+00:00 ContainerStream: Extracting modules...
+2026-08-24T11:43:10.0649064+00:00 ContainerStream: Done.
+2026-08-24T11:43:11.1527888+00:00 ContainerStream: ▲ Next.js 16.2.10
+2026-08-24T11:43:11.1614033+00:00 ContainerStream: - Local:         http://7800aa0284f6:3000
+2026-08-24T11:43:11.1620444+00:00 ContainerStream: - Network:       http://7800aa0284f6:3000
+2026-08-24T11:43:11.1797177+00:00 ContainerStream: ✓ Ready in 0ms
+2026-08-24T11:43:11.2420954+00:00 ContainerStream: Error: Could not find a production build in the './.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+2026-08-24T11:43:11.2421223+00:00 ContainerStream:     at ignore-listed frames
+2026-08-24T11:43:11.3005517+00:00 ContainerStatus: Container has finished running with exit code: 1.
+2026-08-24T11:43:11.3009323+00:00 ContainerStatus: Container is terminating. Grace period: 5 seconds.
+2026-08-24T11:43:11.3019715+00:00 ContainerStatus: Stop and delete container. Retry count = 0
+2026-08-24T11:43:11.3022428+00:00 ContainerStatus: Stopping container: cfd3894bcb86_app-finance-hub-tx6ls2.
+2026-08-24T11:43:11.3510833+00:00 ContainerStatus: Deleting container: cfd3894bcb86_app-finance-hub-tx6ls2. Retry count = 0
+2026-08-24T11:43:11.6127625+00:00 ContainerStatus: Container spec TerminationMessagePolicy  path 
+2026-08-24T11:43:11.6201756+00:00 ContainerStatus: Container is terminated. Total time elapsed: 311 ms.
+2026-08-24T11:43:11.6202513+00:00 ContainerStatus: Site container: app-finance-hub-tx6ls2 terminated during site startup.
+2026-08-24T11:43:11.6203463+00:00 ContainerStatus: State: Stopping, Action: CancellingStartup, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:42:43, LastErrorDetails: Container exited with exit code 1 during startup after 26.2s. Please inspect your container logs for more details., Details: Site container: app-finance-hub-tx6ls2 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-08-24T11:43:11.6514118+00:00 ContainerStatus: Site startup probe failed after 19.7828791 seconds.
+2026-08-24T11:43:11.8119030+00:00 ContainerStatus: State: Stopping, Action: CancellingStartup, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:43:11, LastErrorDetails: Container exited with exit code 1 during startup after 20.0s. Please inspect your container logs for more details., Details: Site container: app-finance-hub-tx6ls2 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-08-24T11:43:11.8328633+00:00 ContainerStatus: Failed to start site. Revert by stopping site.
+2026-08-24T11:43:11.8335039+00:00 ContainerStatus: State: Stopping, Action: StoppingSite, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:43:11, LastErrorDetails: Container exited with exit code 1 during startup after 20.0s. Please inspect your container logs for more details., Details: Site container: app-finance-hub-tx6ls2 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-08-24T11:43:11.8340543+00:00 ContainerStatus: State: Stopping, Action: StoppingSiteContainers, LastError: ContainerStartupFailure, LastErrorTimestamp: 08/24/2026 11:43:11, LastErrorDetails: Container exited with exit code 1 during startup after 20.0s. Please inspect your container logs for more details., Details: Site container: app-finance-hub-tx6ls2 terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-08-24T11:43:11.8340744+00:00 ContainerStatus: Site: app-finance-hub-tx6ls2 stopped.

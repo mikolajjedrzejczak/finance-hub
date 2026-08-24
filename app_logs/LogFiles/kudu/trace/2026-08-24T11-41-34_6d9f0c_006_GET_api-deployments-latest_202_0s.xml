@@ -1,0 +1,8 @@
+<step title="Incoming Request" date="2026-08-24T11:41:34.856" instance="6d9f0c" url="/api/deployments/latest?deployer=OneDeploy&amp;time=2026-08-24_11-41-27Z" method="GET" type="request" pid="831,1,7" Host="app-finance-hub-tx6ls2.scm.azurewebsites.net" User-Agent="GITHUBACTIONS_DeployWebAppToAzure_0745ca851d5396dc4f72aafb147f959905b55bd7120b22399699203a2cc2f5fd_v3.0.8" Authorization="Bea..." Content-Type="application/json; charset=utf-8" Cookie="ARRAffinity=6d9f0c416609b3f92c63d961112cfaae9bf51598bf68294535541d084d9c3cf3;Path=/;HttpOnly;Secure;Domain=app-finance-hub-tx6ls2.scm.azurewebsites.net; ARRAffinitySameSite=6d9f0c416609b3f92c63d961112cfaae9bf51598bf68294535541d084d9c3cf3;Path=/;HttpOnly;SameSite=None;Secure;Domain=app-finance-hub-tx6ls2.scm.azurewebsites.net" Content-Length="0" X-ARR-LOG-ID="3f9573a9-eb70-4459-a286-df72eddd98bb" CLIENT-IP="20.94.54.81:32833" X-SITE-DEPLOYMENT-ID="app-finance-hub-tx6ls2" WAS-DEFAULT-HOSTNAME="app-finance-hub-tx6ls2.scm.azurewebsites.net" X-Forwarded-Proto="https" X-AppService-Proto="https" X-Forwarded-TlsVersion="1.3" X-WAWS-Unencoded-URL="/api/deployments/latest?deployer=OneDeploy&amp;time=2026-08-24_11-41-27Z" X-Client-IP="20.94.54.81" X-Client-Port="32833" >
+  <step title="DeploymentService.GetResult" date="2026-08-24T11:41:34.877" >
+    <step title="DeploymentService.GetLatestDeployment" date="2026-08-24T11:41:34.878" >
+      <step title="DeploymentManager.GetResults" date="2026-08-24T11:41:34.881" /><!-- duration: 196ms -->
+    </step><!-- duration: 203ms -->
+  </step><!-- duration: 206ms -->
+  <step title="Outgoing response" date="2026-08-24T11:41:35.086" type="response" statusCode="202" statusText="Accepted" /><!-- duration: 3ms -->
+</step><!-- duration: 234ms -->
