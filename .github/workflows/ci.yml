@@ -41,18 +41,26 @@ jobs:
 
       - name: Prepare Deployment Package
         run: |
+          rm -rf deploy-package release.zip
           mkdir -p deploy-package
-          cp -r .next/standalone/* deploy-package/
+
+          cp -R .next/standalone/. deploy-package/
+
           mkdir -p deploy-package/.next
-          cp -r .next/static deploy-package/.next/static
-          cp -r public deploy-package/public 2>/dev/null || true
-          
-          # Kopiowanie silnika Prismy i schematu
-          mkdir -p deploy-package/node_modules/.prisma
-          cp -r node_modules/.prisma/* deploy-package/node_modules/.prisma/ 2>/dev/null || true
+          cp -R .next/static deploy-package/.next/
+
+          if [ -d "public" ]; then
+            cp -R public deploy-package/
+          fi
+
           mkdir -p deploy-package/prisma
-          cp -r prisma/* deploy-package/prisma/ 2>/dev/null || true
-          
+          cp -R prisma/* deploy-package/prisma/ 2>/dev/null || true
+
+          if [ -d "node_modules/.prisma" ]; then
+            mkdir -p deploy-package/node_modules/.prisma
+            cp -R node_modules/.prisma/* deploy-package/node_modules/.prisma/
+          fi
+
           cd deploy-package
           zip -r ../release.zip .
           cd ..
