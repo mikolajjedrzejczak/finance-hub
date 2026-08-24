@@ -52,6 +52,12 @@ jobs:
           zip -r ../release.zip .
           cd ..
 
+      - name: Login to Azure
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        users: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Deploy to Azure Web App
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         uses: azure/webapps-deploy@v3
