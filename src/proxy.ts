@@ -11,20 +11,13 @@ export default auth((req) => {
   const isAuthRoute =
     nextUrl.pathname === '/login' || nextUrl.pathname === '/register';
   const isRootRoute = nextUrl.pathname === '/';
-
   const isPublicRoute = nextUrl.pathname.startsWith('/public');
 
-  if (isPublicRoute) return null;
-
-  if (isRootRoute) {
-    if (isLoggedIn) {
-      return NextResponse.redirect(new URL('/dashboard', nextUrl));
-    } else {
-      return NextResponse.redirect(new URL('/login', nextUrl));
-    }
+  if (isPublicRoute) {
+    return NextResponse.next();
   }
 
-  if (isLoggedIn && isAuthRoute) {
+  if (isLoggedIn && (isAuthRoute || isRootRoute)) {
     return NextResponse.redirect(new URL('/dashboard', nextUrl));
   }
 
@@ -32,11 +25,11 @@ export default auth((req) => {
     return NextResponse.redirect(new URL('/login', nextUrl));
   }
 
-  return null;
+  return NextResponse.next();
 });
 
 export const config = {
   matcher: [
-    '/((?!api|_next/static|_next/image|.*\\.png$|.*\\.jpg$|.*\\.jpeg$|.*\\.gif$|.*\\.svg$|.*\\.webp$).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 };
