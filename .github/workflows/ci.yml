@@ -54,7 +54,7 @@ jobs:
 
       - name: Login to Azure
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        users: azure/login@v2
+        uses: azure/login@v2
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
