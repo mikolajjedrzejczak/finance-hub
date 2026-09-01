@@ -1,5 +1,5 @@
-import { InvoiceDisplay } from '@/components/Invoice/InvoiceTable';
 import { companyService } from '@/services/company.service';
+import { InvoiceDisplay } from '@/types/invoice.type';
 import {
   calculateSingleCompanyKPIs,
   serializeInvoices,

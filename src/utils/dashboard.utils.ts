@@ -1,4 +1,4 @@
-import { InvoiceDisplay } from '@/components/Invoice/InvoiceTable';
+import { InvoiceDisplay } from '@/types/invoice.type';
 import { InvoiceStatus, Prisma } from '@prisma/client';
 
 export type InvoiceData = {

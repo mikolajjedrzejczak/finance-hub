@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { ColumnDef } from '../DataTable';
 import { StatusSwitcher } from '@/app/(dashboard)/invoices/[id]/StatusSwitcher';
 import { CopyLinkButton } from '../ui/CopyLinkButton';
-import { InvoiceDisplay } from './InvoiceTable';
+import { InvoiceDisplay } from '@/types/invoice.type';
 
 export const invoiceColumns: ColumnDef<InvoiceDisplay>[] = [
   {
