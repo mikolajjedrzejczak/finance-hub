@@ -1,14 +1,17 @@
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { Building2, ArrowRight } from 'lucide-react';
+import {
+  Building2,
+  ArrowRight,
+  TrendingUp,
+  CheckCircle2,
+  Clock,
+} from 'lucide-react';
 import { RevenueChart } from '@/components/Dashboard/RevenueChart';
 
 import { dashboardService } from '@/services/dashboard.service';
-import {
-  processChartData,
-  calculateKPIs,
-} from '@/utils/dashboard.utils';
+import { processChartData, calculateKPIs } from '@/utils/dashboard.utils';
 import { formatCurrency } from '@/utils/money.utils';
 
 export const dynamic = 'force-dynamic';
@@ -20,7 +23,6 @@ export default async function GlobalDashboardPage() {
   const companiesWithInvoices = await dashboardService.getDashboardData(
     session.user.id,
   );
-
 
   if (companiesWithInvoices.length === 0) {
     return (
@@ -61,27 +63,46 @@ export default async function GlobalDashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-linear-to-br from-blue-600 to-blue-800 p-6 rounded-2xl shadow-lg text-white">
-          <p className="text-blue-100 font-medium mb-1">
-            Portfel (Całkowita sprzedaż)
-          </p>
-          <p className="text-4xl font-bold">{formatCurrency(globalTotal)}</p>
+        <div className="text-white bg-linear-to-br from-blue-600 to-blue-800 p-6 rounded-xl shadow-sm flex items-start justify-between">
+          <div>
+            <p className="text-md  font-medium mb-1">
+              Portfel (Całkowita sprzedaż)
+            </p>
+            <p className="text-3xl font-bold">{formatCurrency(globalTotal)}</p>
+          </div>
+          <div className="p-2">
+            <TrendingUp className="w-5 h-5" />
+          </div>
         </div>
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-          <p className="text-sm text-gray-500 font-medium mb-1">
-            Globalnie opłacone
-          </p>
-          <p className="text-3xl font-bold text-green-600">
-            {formatCurrency(globalPaid)}
-          </p>
+
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-green-100 flex items-start justify-between relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-2 h-full bg-green-500"></div>
+          <div>
+            <p className="text-sm text-gray-500 font-medium mb-1">
+              Globalnie opłacone
+            </p>
+            <p className="text-3xl font-bold text-green-600">
+              {formatCurrency(globalPaid)}
+            </p>
+          </div>
+          <div className="p-2 bg-green-50 rounded-lg text-green-500">
+            <CheckCircle2 className="w-5 h-5" />
+          </div>
         </div>
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-          <p className="text-sm text-gray-500 font-medium mb-1">
-            Globalnie oczekujące
-          </p>
-          <p className="text-3xl font-bold text-orange-500">
-            {formatCurrency(globalPending)}
-          </p>
+
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-orange-100 flex items-start justify-between relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-2 h-full bg-orange-400"></div>
+          <div>
+            <p className="text-sm text-gray-500 font-medium mb-1">
+              Globalnie oczekujące
+            </p>
+            <p className="text-3xl font-bold text-orange-500">
+              {formatCurrency(globalPending)}
+            </p>
+          </div>
+          <div className="p-2 bg-orange-50 rounded-lg text-orange-400">
+            <Clock className="w-5 h-5" />
+          </div>
         </div>
       </div>
 

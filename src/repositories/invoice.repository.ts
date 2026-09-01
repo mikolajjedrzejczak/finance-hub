@@ -13,6 +13,16 @@ type InvoiceWithItems = Prisma.InvoiceGetPayload<{
   include: { items: true };
 }>;
 
+export interface FindInvoiceParams {
+  companyId: string;
+  query?: string;
+  status?: InvoiceStatus;
+  skip?: number;
+  take?: number;
+  startDate?: Date;
+  endDate?: Date;
+}
+
 function mapToInvoiceDisplayDTO(invoice: InvoiceWithItems): InvoiceDisplayDTO {
   const rawData = {
     ...invoice,
@@ -110,5 +120,56 @@ export const invoiceRepository = {
     return prisma.invoice.count({
       where: { clientId, companyId },
     });
+  },
+
+  buildInvoiceFilter(params: FindInvoiceParams): Prisma.InvoiceWhereInput {
+    const { companyId, query, status, startDate, endDate } = params;
+
+    return {
+      companyId,
+      ...(status ? { status } : {}),
+      ...(startDate || endDate
+        ? {
+            issueDate: {
+              ...(startDate ? { gte: startDate } : {}),
+              ...(endDate ? { lte: endDate } : {}),
+            },
+          }
+        : {}),
+      ...(query
+        ? {
+            OR: [
+              { number: { contains: query, mode: 'insensitive' } },
+              { client: { name: { contains: query, mode: 'insensitive' } } },
+              { client: { nip: { contains: query } } },
+            ],
+          }
+        : {}),
+    };
+  },
+
+  async findPaginatedByCompanyId(params: FindInvoiceParams) {
+    const where = this.buildInvoiceFilter(params);
+
+    return prisma.invoice.findMany({
+      where,
+      skip: params.skip,
+      take: params.take,
+      include: {
+        client: {
+          select: {
+            name: true,
+            nip: true,
+          },
+        },
+      },
+      orderBy: { issueDate: 'desc' },
+    });
+  },
+
+  async countFilteredByCompanyId(params: FindInvoiceParams) {
+    const where = this.buildInvoiceFilter(params);
+
+    return prisma.invoice.count({ where });
   },
 };

@@ -1,3 +1,5 @@
+
+
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
 import { companyService } from '@/services/company.service';

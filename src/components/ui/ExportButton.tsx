@@ -50,7 +50,6 @@ export function ExportButton({ companyId }: { companyId: string }) {
       const link = document.createElement('a');
       link.href = url;
 
-
       link.download = `eksport_${year}_${month}.csv`;
 
       document.body.appendChild(link);
@@ -105,6 +104,8 @@ export function ExportButton({ companyId }: { companyId: string }) {
                   onChange={(e) => setMonth(e.target.value)}
                   className="w-full text-sm border border-gray-200 rounded-md py-1.5 px-2 focus:ring-2 focus:ring-green-500 outline-none"
                 >
+                  <option value="ALL">Cały rok</option>
+
                   {Array.from({ length: 12 }).map((_, i) => {
                     const date = new Date(2024, i, 1);
                     const monthName = date.toLocaleString('pl-PL', {

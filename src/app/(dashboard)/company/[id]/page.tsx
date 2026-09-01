@@ -3,23 +3,44 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Building2, CheckCircle2, Clock, TrendingUp } from 'lucide-react';
 import { InvoicesTable } from '@/components/Invoice/InvoiceTable';
-import {
-  processChartCompanyData,
-} from '@/utils/dashboard.utils';
+import { processChartCompanyData } from '@/utils/dashboard.utils';
 import { getSingleCompanyData } from './data';
 import { RevenueChart } from '@/components/Dashboard/RevenueChart';
 import { formatCurrency } from '@/utils/money.utils';
+import { invoiceService } from '@/services/invoice.service';
 
 export default async function SingleCompanyDashboardPage({
   params,
+  searchParams,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{
+    id: string;
+  }>;
+  searchParams: Promise<{
+    query?: string;
+    status?: string;
+    startDate?: string;
+    endDate?: string;
+    page?: string;
+  }>;
 }) {
   const session = await auth();
   if (!session?.user?.id) redirect('/login');
 
   const resolvedParams = await params;
+  const resolvedSearchParams = await searchParams;
   const companyId = resolvedParams.id;
+
+  const tableResult = await invoiceService.getPaginatedInvoices({
+    userId: session.user.id,
+    companyId: companyId,
+    query: resolvedSearchParams.query,
+    status: resolvedSearchParams.status,
+    startDate: resolvedSearchParams.startDate,
+    endDate: resolvedSearchParams.endDate,
+    page: Number(resolvedSearchParams.page) || 1,
+    pageSize: 10,
+  });
 
   const companyData = await getSingleCompanyData(companyId, session.user.id);
 
@@ -42,7 +63,6 @@ export default async function SingleCompanyDashboardPage({
   const { chartData, companyName } = processChartCompanyData(companyData);
 
   const company = companyData.company;
-  const invoices = companyData.invoices;
   const kpi = companyData.kpi;
 
   return (
@@ -62,7 +82,7 @@ export default async function SingleCompanyDashboardPage({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="text-white bg-linear-to-br from-blue-600 to-blue-800 p-6 rounded-xl shadow-sm flex items-start justify-between">
           <div>
-            <p className="text-sm  font-medium mb-1">
+            <p className="text-md font-medium mb-1">
               Całkowita sprzedaż (Brutto)
             </p>
             <p className="text-3xl font-bold">{formatCurrency(kpi.total)}</p>
@@ -115,7 +135,13 @@ export default async function SingleCompanyDashboardPage({
         <h2 className="text-lg font-bold text-gray-900 mb-4">
           Wszystkie faktury firmy
         </h2>
-        <InvoicesTable invoices={invoices} companyId={company.id} />
+        <InvoicesTable
+          invoices={tableResult.invoices}
+          companyId={tableResult.companyId}
+          totalPages={tableResult.totalPages}
+          currentPage={tableResult.currentPage}
+          totalCount={tableResult.totalCount}
+        />
       </div>
     </div>
   );

@@ -11,7 +11,7 @@ import {
   Line,
 } from 'recharts';
 
-const COLORS = ['#2563eb', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'];
+const COLORS = ['#2563eb', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'] as const;
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
@@ -80,7 +80,7 @@ export function RevenueChart({
   title?: string;
 }) {
   return (
-    <div className="h-[350px]  bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+    <div className="h-[400px]  bg-white pb-14 px-6 pt-6 rounded-2xl shadow-sm border border-gray-100">
       <h3 className="text-lg font-bold text-gray-900 mb-6">
         {title ? title : 'Przychody firm w czasie'}
       </h3>

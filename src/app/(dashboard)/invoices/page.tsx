@@ -3,13 +3,25 @@ import { redirect } from 'next/navigation';
 import { InvoiceForm } from '@/components/Invoice/InvoiceForm';
 import { InvoicesTable } from '@/components/Invoice/InvoiceTable';
 import { getInvoicePageData } from './data';
+import { invoiceService } from '@/services/invoice.service';
 
 export const dynamic = 'force-dynamic';
 
-export default async function InvoicesPage() {
+export default async function InvoicesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    query?: string;
+    status?: string;
+    startDate?: string;
+    endDate?: string;
+    page?: string;
+  }>;
+}) {
   const session = await auth();
   if (!session?.user?.id) redirect('/login');
 
+  const resolvedSearchParams = await searchParams;
   const data = await getInvoicePageData(session.user.id);
 
   if (!data) {
@@ -23,6 +35,17 @@ export default async function InvoicesPage() {
       </div>
     );
   }
+
+  const tableResult = await invoiceService.getPaginatedInvoices({
+    userId: session.user.id,
+    companyId: data.companyId,
+    query: resolvedSearchParams.query,
+    page: Number(resolvedSearchParams.page) || 1,
+    status: resolvedSearchParams.status,
+    startDate: resolvedSearchParams.startDate,
+    endDate: resolvedSearchParams.endDate,
+    pageSize: 10,
+  });
 
   return (
     <div className="mx-auto max-w-7xl p-4 sm:p-6 lg:p-8 space-y-10">
@@ -49,7 +72,13 @@ export default async function InvoicesPage() {
             nextInvoiceNumber={data.nextInvoiceNumber}
           />
 
-          <InvoicesTable invoices={data.invoices} companyId={data.companyId} />
+          <InvoicesTable
+            invoices={tableResult.invoices}
+            companyId={data.companyId}
+            totalPages={tableResult.totalPages}
+            totalCount={tableResult.totalCount}
+            currentPage={tableResult.currentPage}
+          />
         </>
       )}
     </div>

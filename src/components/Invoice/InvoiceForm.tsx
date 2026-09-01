@@ -12,11 +12,11 @@ import { Currency } from '@prisma/client';
 type Client = { id: string; name: string; nip: string };
 type Service = { id: string; name: string; priceNet: number; vatRate: number };
 
-type InvoiceFormProps = {
+interface InvoiceFormProps {
   clients: Client[];
   services: Service[];
   nextInvoiceNumber: string;
-};
+}
 
 export function InvoiceForm({
   clients,
@@ -148,7 +148,7 @@ export function InvoiceForm({
               </label>
               <select
                 {...register('clientId')}
-                className={`mt-1 block w-full rounded-md border px-3 py-2 text-sm ${
+                className={`appearance-none mt-1 block w-full rounded-md border px-3 py-2 text-sm ${
                   errors.clientId
                     ? 'border-red-500 bg-red-50'
                     : 'border-gray-300'
@@ -224,7 +224,7 @@ export function InvoiceForm({
               </label>
               <select
                 {...register('paymentMethod')}
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                className="appearance-none mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
               >
                 <option value="TRANSFER">Przelew bankowy</option>
                 <option value="CASH">Gotówka</option>
@@ -239,7 +239,7 @@ export function InvoiceForm({
               </label>
               <select
                 {...register('currency')}
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                className="appearance-none mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
               >
                 {currencyKeys.map((key) => (
                   <option key={key} value={key}>
@@ -295,7 +295,7 @@ export function InvoiceForm({
                       register(`items.${index}.serviceId`).onChange(e);
                       handleServiceChange(index, e.target.value);
                     }}
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm bg-white"
+                    className="appearance-none mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm bg-white"
                   >
                     <option value="">-- Wpisz ręcznie --</option>
                     {services.map((s) => (

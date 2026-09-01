@@ -75,5 +75,5 @@ jobs:
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'app-finance-hub-tx6ls2'
+          app-name: 'app-finance-hub-nlhejf'
           package: 'release.zip'

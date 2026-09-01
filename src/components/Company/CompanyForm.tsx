@@ -9,9 +9,6 @@ import { fetchCompanyFromGusAction } from "@/app/actions/gus.actions";
 import { createCompanyAction } from "@/app/actions/company.actions";
 import Input from "../ui/Input";
 
-
-
-
 export function CompanyForm() {
   const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);

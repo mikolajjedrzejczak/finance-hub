@@ -4,6 +4,7 @@ import { InvoiceInput } from '@/schemas/invoice.schema';
 import { clientRepository } from '@/repositories/client.repository';
 import { InvoiceStatus } from '@prisma/client';
 import { roundMoney } from '@/utils/money.utils';
+import { GetPaginatedInvoiceInput } from '@/types/invoice.type';
 
 export const invoiceService = {
   async createInvoice(data: InvoiceInput, userId: string) {
@@ -92,6 +93,89 @@ export const invoiceService = {
 
     return invoiceRepository.findAllByCompanyId(userCompany.id);
   },
+
+  async getPaginatedInvoices({
+    userId,
+    companyId: explicitCompanyId,
+    query = '',
+    status,
+    startDate,
+    endDate,
+    page = 1,
+    pageSize = 20,
+  }: GetPaginatedInvoiceInput) {
+    let targetCompanyId = explicitCompanyId;
+
+    if (!targetCompanyId) {
+      const userCompany = await companyRepository.findDefaultForUser(userId);
+      targetCompanyId = userCompany?.id;
+    }
+
+    if (!targetCompanyId) {
+      return {
+        invoices: [],
+        totalPages: 0,
+        currentPage: page,
+        totalCount: 0,
+        companyId: '',
+      };
+    }
+
+    const safeStatus =
+      status && status !== 'ALL' ? (status as InvoiceStatus) : undefined;
+    const skip = (page - 1) * pageSize;
+
+    let parsedStartDate: Date | undefined;
+    if (startDate) {
+      const date = new Date(startDate);
+      if (!isNaN(date.getTime())) parsedStartDate = date;
+    }
+
+    let parsedEndDate: Date | undefined;
+    if (endDate) {
+      const date = new Date(endDate);
+      if (!isNaN(date.getTime())) {
+        date.setHours(23, 59, 59, 999);
+        parsedEndDate = date;
+      }
+    }
+
+    const filterParams = {
+      companyId: targetCompanyId,
+      query: query.trim(),
+      status: safeStatus,
+      startDate: parsedStartDate,
+      endDate: parsedEndDate,
+      skip,
+      take: pageSize,
+    };
+
+    const [rawInvoices, totalCount] = await Promise.all([
+      invoiceRepository.findPaginatedByCompanyId(filterParams),
+      invoiceRepository.countFilteredByCompanyId(filterParams),
+    ]);
+
+    const formattedInvoices = rawInvoices.map((inv) => ({
+      id: inv.id,
+      number: inv.number,
+      issueDate: inv.issueDate.toISOString().split('T')[0],
+      totalGross: inv.totalGross.toNumber(),
+      status: inv.status,
+      client: {
+        name: inv.client.name,
+        nip: inv.client.nip,
+      },
+    }));
+
+    return {
+      invoices: formattedInvoices,
+      totalPages: Math.ceil(totalCount / pageSize),
+      currentPage: page,
+      totalCount,
+      companyId: targetCompanyId,
+    };
+  },
+
   async getInvoiceById(id: string, userId: string) {
     const userCompany = await companyRepository.findDefaultForUser(userId);
     if (!userCompany) return null;
@@ -113,7 +197,7 @@ export const invoiceService = {
 
     const now = new Date();
     const year = now.getFullYear();
-    const month = now.getMonth() + 1; // np. 7
+    const month = now.getMonth() + 1;
 
     const fallbackNumber = `FV/${year}/${month}/01`;
 

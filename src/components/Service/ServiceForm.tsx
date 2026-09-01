@@ -8,7 +8,6 @@ import { serviceSchema, type ServiceInput } from '@/schemas/service.schema';
 import { createServiceAction } from '@/app/actions/service.action';
 import Input from '../ui/Input';
 
-
 export function ServiceForm() {
   const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);
@@ -26,6 +25,7 @@ export function ServiceForm() {
   const onSubmit = async (data: ServiceInput) => {
     setServerError(null);
     const result = await createServiceAction(data);
+    console.log(result);
     if (result.error) setServerError(result.error);
     else if (result.success) {
       reset();
@@ -47,10 +47,10 @@ export function ServiceForm() {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-5">
           <div className="md:col-span-2">
             <Input
-              id="description"
+              id="name"
               label="Nazwa usługi / produktu"
               register={register}
-              error={errors.description}
+              error={errors.name}
               required
             />
           </div>
