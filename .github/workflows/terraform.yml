@@ -19,6 +19,9 @@ jobs:
     name: Terraform Plan & Apply
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: terraform
     environment: ${{ (github.ref == 'refs/heads/main' && github.event_name == 'push') && 'production' || ''}}
 
     env:
