@@ -2,6 +2,7 @@
 
 import { Download, ChevronDown } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
+import { DomainError } from '@/errors/domain.errors';
 
 export function ExportButton({ companyId }: { companyId: string }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -41,7 +42,7 @@ export function ExportButton({ companyId }: { companyId: string }) {
       );
 
       if (!response.ok) {
-        throw new Error('Błąd podczas generowania pliku');
+        throw new DomainError('Błąd podczas generowania pliku');
       }
 
       const blob = await response.blob();

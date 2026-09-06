@@ -126,7 +126,7 @@ model InvoiceItem {
   vatRate     Decimal @db.Decimal(5, 2)
 
   serviceId String?
-  service   Service? @relation(fields: [serviceId], references: [id])
+  service   Service? @relation(fields: [serviceId], references: [id], onDelete: SetNull)
 
   invoiceId String
   invoice   Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)

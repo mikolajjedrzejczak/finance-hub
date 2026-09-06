@@ -1,6 +1,7 @@
 'use server';
 
 import { auth } from '@/auth';
+import { DomainError, UnauthorizedError } from '@/errors/domain.errors';
 import { CompanyInput, companySchema } from '@/schemas/company.schema';
 import { companyService } from '@/services/company.service';
 import { revalidatePath } from 'next/cache';
@@ -9,7 +10,7 @@ export async function createCompanyAction(data: CompanyInput) {
   try {
     const session = await auth();
     if (!session?.user?.id) {
-      return { error: 'Musisz być zalogowany, aby dodać firmę.' };
+      throw new UnauthorizedError('Musisz być zalogowany, aby dodać firmę.');
     }
 
     const validatedData = companySchema.safeParse(data);
@@ -29,9 +30,10 @@ export async function createCompanyAction(data: CompanyInput) {
 
     return { success: true, company: newCompany };
   } catch (error: unknown) {
-    if (error instanceof Error) {
+    if (error instanceof DomainError) {
       return { error: error.message };
     }
+
     return { error: 'Wystąpił nieoczekiwany błąd serwera.' };
   }
 }
@@ -42,7 +44,7 @@ export async function updateCompanyAction(
 ) {
   try {
     const session = await auth();
-    if (!session?.user?.id) throw new Error('Brak autoryzacji');
+    if (!session?.user?.id) throw new UnauthorizedError();
 
     const validateData = await companySchema.safeParse(data);
     if (!validateData.success) {
@@ -62,7 +64,7 @@ export async function updateCompanyAction(
 
     return { success: true, updatedComapany: result };
   } catch (error: unknown) {
-    if (error instanceof Error) {
+    if (error instanceof DomainError) {
       return { error: error.message };
     }
 
@@ -74,7 +76,7 @@ export async function deleteCompanyAction(companyId: string) {
   try {
     const session = await auth();
 
-    if (!session?.user?.id) return { error: 'Brak autoryzacji' };
+    if (!session?.user?.id) throw new UnauthorizedError();
 
     await companyService.deleteCompany(companyId, session.user.id);
 
@@ -82,7 +84,7 @@ export async function deleteCompanyAction(companyId: string) {
 
     return { success: true };
   } catch (error: unknown) {
-    if (error instanceof Error) {
+    if (error instanceof DomainError) {
       return { error: error.message };
     }
 
@@ -93,13 +95,16 @@ export async function deleteCompanyAction(companyId: string) {
 export async function setActiveCompanyAction(companyId: string) {
   try {
     const session = await auth();
-    if (!session?.user?.id) return { error: 'Brak autoryzacji' };
+    if (!session?.user?.id) throw new UnauthorizedError();
 
     await companyService.setActiveCompany(companyId, session.user.id);
 
     revalidatePath('/', 'layout');
     return { success: true };
   } catch (error: unknown) {
+    if (error instanceof DomainError) {
+      return { error: error.message };
+    }
     return { error: 'Nie udało się zmienić aktywnej firmy' };
   }
 }

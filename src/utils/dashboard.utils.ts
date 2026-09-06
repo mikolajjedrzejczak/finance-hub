@@ -138,9 +138,6 @@ export function calculateKPIs(companies: CompanyData[]) {
 
         if (inv.status === InvoiceStatus.PAID) {
           paid = gross;
-        } else if (inv.status === InvoiceStatus.PARTIALLY_PAID) {
-          paid = Number(inv.paidAmount) || 0;
-          pending = Math.max(0, gross - paid);
         } else {
           paid = Number(inv.paidAmount) || 0;
           pending = Math.max(0, gross - paid);

@@ -1,3 +1,4 @@
+import { BadRequestError, ConflictError } from '@/errors/domain.errors';
 import { companyRepository } from '@/repositories/company.repository';
 import { serviceRepository } from '@/repositories/service.repository';
 import { ServiceInput } from '@/schemas/service.schema';
@@ -7,16 +8,16 @@ export const catalogService = {
     const userCompany = await companyRepository.findDefaultForUser(userId);
 
     if (!userCompany) {
-      throw new Error('Musisz najpierw uzupełnić profil swojej firmy.');
+      throw new BadRequestError('Musisz najpierw uzupełnić profil swojej firmy.');
     }
 
-    const existing = await serviceRepository.findByNameAndUserId(
+    const existing = await serviceRepository.findByNameAndCompanyId(
       data.name,
       userCompany.id,
     );
 
     if (existing) {
-      throw new Error('Usługa o tej nazwie już istnieje');
+      throw new ConflictError('Usługa o tej nazwie już istnieje');
     }
 
     return serviceRepository.create({
@@ -32,7 +33,7 @@ export const catalogService = {
   async updateService(id: string, data: any, userId: string) {
     const userCompany = await companyRepository.findDefaultForUser(userId);
 
-    if (!userCompany) throw new Error('Brak profilu firmy');
+    if (!userCompany) throw new BadRequestError('Brak profilu firmy');
 
     return serviceRepository.update(id, userCompany.id, data);
   },
@@ -40,7 +41,7 @@ export const catalogService = {
   async deleteService(id: string, userId: string) {
     const userCompany = await companyRepository.findDefaultForUser(userId);
 
-    if (!userCompany) throw new Error('Brak profilu firmy');
+    if (!userCompany) throw new BadRequestError('Brak profilu firmy');
 
     return serviceRepository.delete(id, userCompany.id);
   },

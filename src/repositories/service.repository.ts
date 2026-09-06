@@ -1,4 +1,5 @@
 import prisma from '@/lib/prisma';
+import { NotFoundError } from '@/errors/domain.errors';
 import { Prisma } from '@prisma/client';
 
 export const serviceRepository = {
@@ -15,7 +16,7 @@ export const serviceRepository = {
       where: { id, companyId },
     });
 
-    if (!existing) throw new Error('Nie znaleziono usługi');
+    if (!existing) throw new NotFoundError('Nie znaleziono usługi');
 
     return prisma.service.update({
       where: { id },
@@ -26,7 +27,7 @@ export const serviceRepository = {
   async delete(id: string, companyId: string) {
     const existing = await prisma.service.findFirst({ where: { id, companyId}});
 
-    if (!existing) throw new Error("Nie znaleziono usługi")
+    if (!existing) throw new NotFoundError('Nie znaleziono usługi');
 
     return prisma.service.update({
       where: { id },
@@ -34,7 +35,7 @@ export const serviceRepository = {
     })
   },
 
-  async findByNameAndUserId(name: string, companyId: string) {
+  async findByNameAndCompanyId(name: string, companyId: string) {
     return prisma.service.findFirst({
       where: { name, companyId },
     });

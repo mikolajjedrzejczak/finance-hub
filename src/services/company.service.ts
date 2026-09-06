@@ -1,6 +1,7 @@
 import { companyRepository } from '@/repositories/company.repository';
 import { CompanyInput } from '@/schemas/company.schema';
 import { invoiceRepository } from '@/repositories/invoice.repository';
+import { ConflictError, NotFoundError } from '@/errors/domain.errors';
 
 export const companyService = {
   async createCompany(data: CompanyInput, userId: string) {
@@ -9,7 +10,7 @@ export const companyService = {
 
     const existig = await companyRepository.findByNip(data.nip);
     if (existig)
-      throw new Error('Firma o podanym NIPie istnieje już w systemie.');
+      throw new ConflictError('Firma o podanym NIPie istnieje już w systemie.');
 
     return companyRepository.create({
       ...data,
@@ -27,7 +28,7 @@ export const companyService = {
       userId,
     );
 
-    if (!existig) throw new Error('Nie znaleziono firmy');
+    if (!existig) throw new NotFoundError('Nie znaleziono firmy');
 
     return companyRepository.update(companyId, userId, data);
   },
@@ -38,13 +39,13 @@ export const companyService = {
       userId,
     );
 
-    if (!existig) throw new Error('Nie znaleziono firmy');
+    if (!existig) throw new NotFoundError('Nie znaleziono firmy');
 
     const invoicesCount = await invoiceRepository.countByCompanyId(existig.id);
 
     if (invoicesCount > 0) {
-      throw new Error(
-        'Nie można usunąć firmy, która posiada wystawione faktury.',
+      throw new ConflictError(
+        'Nie można usunąć firmy, która posiada wystawione faktury. Usuń najpierw wystawione faktury.',
       );
     }
 

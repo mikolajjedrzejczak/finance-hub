@@ -90,7 +90,7 @@ resource "azurerm_linux_web_app" "app" {
     "PORT"                              = "8080"
     "NEXTAUTH_URL"                      = "https://app-${var.project_name}-${random_string.suffix.result}.azurewebsites.net"
     "NEXTAUTH_SECRET"                   = var.nextauth_secret
-    "AUTH_MICROSOFT_ENTRA_ID_ID"        = var.ms_client_id
+    "AUTH_MICROSOFT_ENTRA_ID"        = var.ms_client_id
     "AUTH_MICROSOFT_ENTRA_ID_SECRET"    = var.ms_client_secret
     "AUTH_MICROSOFT_ENTRA_ID_TENANT_ID" = var.ms_tenant_id
 

@@ -4,7 +4,7 @@ import {
 } from '@/app/actions/client.actions';
 import { ClientInput } from '@/schemas/client.schema';
 import { Client } from '@prisma/client';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useAction } from './useAction';
 
 export function useClientTable(clients: Client[]) {
@@ -14,16 +14,16 @@ export function useClientTable(clients: Client[]) {
   const [searchTerm, setSearchTerm] = useState('');
   const { isPending, executionAction } = useAction();
 
-  const onUpdate = (id: string, data: ClientInput) =>
-    executionAction(updateClientAction(id, data), () => setEditingClient(null));
+  const onUpdate = useCallback((id: string, data: ClientInput) =>
+    executionAction(updateClientAction(id, data), () => setEditingClient(null)), [executionAction]);
 
-  const onDelete = () => {
+  const onDelete = useCallback(() => {
     if (deletingClient) {
       executionAction(deleteClientAction(deletingClient.id), () =>
         setDeletingClient(null),
       );
     }
-  };
+  }, [deletingClient, executionAction]);
 
   const filteredClients = useMemo(() => {
     if (!searchTerm.trim()) return clients;

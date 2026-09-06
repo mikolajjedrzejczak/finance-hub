@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { Company } from '@prisma/client';
 import { CompanyInput } from '@/schemas/company.schema';
@@ -12,16 +12,16 @@ export function useCompanyTable(companies: Company[]) {
 
    const { isPending, executionAction } = useAction();
 
-  const onUpdate = (id: string, data: CompanyInput) =>
-    executionAction(updateCompanyAction(id, data), () => setEditingCompany(null));
+  const onUpdate = useCallback((id: string, data: CompanyInput) =>
+    executionAction(updateCompanyAction(id, data), () => setEditingCompany(null)), [executionAction]);
 
-  const onDelete = () => {
+  const onDelete = useCallback(() => {
     if (deletingCompany) {
       executionAction(deleteCompanyAction(deletingCompany.id), () =>
         setDeletingCompany(null),
       );
     }
-  };
+  }, [deletingCompany, executionAction]);
 
   const filteredCompanies = useMemo(() => {
     if (!searchTerm.trim()) return companies;

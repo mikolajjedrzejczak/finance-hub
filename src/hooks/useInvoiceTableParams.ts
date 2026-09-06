@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 export function useInvoiceTableParams() {
   const searchParams = useSearchParams();
@@ -18,6 +18,14 @@ export function useInvoiceTableParams() {
     query || (status && status !== 'ALL') || startDate || endDate,
   );
 
+  useEffect(() => {
+    return () => {
+      if (debounceRef.current) {
+        clearTimeout(debounceRef.current);
+      }
+    };
+  }, []);
+
   const updateParam = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams.toString());
 
@@ -28,7 +36,7 @@ export function useInvoiceTableParams() {
     }
 
     params.set('page', '1');
-    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
   const setPage = (newPage: number) => {
@@ -37,15 +45,18 @@ export function useInvoiceTableParams() {
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
-  const handleSearchChange = (value: string) => {
-    if (debounceRef.current) {
-      clearTimeout(debounceRef.current);
-    }
+  const handleSearchChange = useCallback(
+    (value: string) => {
+      if (debounceRef.current) {
+        clearTimeout(debounceRef.current);
+      }
 
-    debounceRef.current = setTimeout(() => {
-      updateParam('query', value);
-    }, 400);
-  };
+      debounceRef.current = setTimeout(() => {
+        updateParam('query', value);
+      }, 400);
+    },
+    [updateParam],
+  );
 
   const resetFilters = () => {
     const params = new URLSearchParams(searchParams.toString());
@@ -54,14 +65,14 @@ export function useInvoiceTableParams() {
     params.delete('startDate');
     params.delete('endDate');
     params.set('page', '1');
-    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
   return {
-    query: searchParams.get('query') || '',
-    status: searchParams.get('status') || '',
-    startDate: searchParams.get('startDate') || '',
-    endDate: searchParams.get('endDate') || '',
+    query,
+    status,
+    startDate,
+    endDate,
     hasActiveFilters,
     updateParam,
     setPage,

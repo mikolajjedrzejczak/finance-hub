@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import { RegisterInput } from '@/schemas/auth.schema';
 import { authRepository } from '@/repositories/auth.repository';
+import { ConflictError } from '@/errors/domain.errors';
 
 const SALT_ROUNDS = 12;
 
@@ -11,7 +12,7 @@ export const authService = {
     const existingUser = await authRepository.findUser(email);
 
     if (existingUser) {
-      throw new Error('Użytkownik o tym adresie e-mail już istnieje.');
+      throw new ConflictError('Użytkownik o tym adresie e-mail już istnieje.');
     }
 
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);

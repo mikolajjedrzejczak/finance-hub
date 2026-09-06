@@ -6,6 +6,7 @@ import bcrypt from 'bcryptjs';
 
 import { authConfig } from '@/auth.config';
 import prisma from './lib/prisma';
+import { DomainError } from './errors/domain.errors';
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
@@ -20,7 +21,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error('Brakujące dane logowania');
+          throw new DomainError('Brakujące dane logowania');
         }
 
         const user = await prisma.user.findUnique({
@@ -28,7 +29,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         });
 
         if (!user || !user.password) {
-          throw new Error('Nieprawidłowy e-mail lub hasło');
+          throw new DomainError('Nieprawidłowy e-mail lub hasło');
         }
 
         const isPasswordValid = await bcrypt.compare(
@@ -37,7 +38,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         );
 
         if (!isPasswordValid) {
-          throw new Error('Nieprawidłowy e-mail lub hasło');
+          throw new DomainError('Nieprawidłowy e-mail lub hasło');
         }
 
         return {

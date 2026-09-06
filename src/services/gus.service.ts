@@ -1,7 +1,9 @@
+import { DomainError, NotFoundError } from "@/errors/domain.errors";
+
 export const gusService = {
   async fetchCompanyByNip(nip: string) {
     const cleanNip = nip.replace(/[^0-9]/g, '');
-    if (cleanNip.length !== 10) throw new Error('NIP musi mieć 10 cyfr');
+    if (cleanNip.length !== 10) throw new DomainError('NIP musi mieć 10 cyfr');
 
     const today = new Date().toISOString().split('T')[0];
     const url = `https://wl-api.mf.gov.pl/api/search/nip/${cleanNip}?date=${today}`;
@@ -9,15 +11,14 @@ export const gusService = {
     const response = await fetch(url);
 
     if (!response.ok) {
-      throw new Error('Błąd łączenia z bazą Ministerstwa Finansów');
+      throw new DomainError('Błąd łączenia z bazą Ministerstwa Finansów');
     }
 
     const data = await response.json();
-    console.log(data)
     const subject = data.result.subject;
 
     if (!subject) {
-      throw new Error('Nie znaleziono fimy o podanym NIP w rejestrze VAT');
+      throw new NotFoundError('Nie znaleziono fimy o podanym NIP w rejestrze VAT');
     }
 
     const rawAddress = subject.workingAddress || subject.residenceAddress || '';

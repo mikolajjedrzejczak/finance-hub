@@ -5,12 +5,13 @@ import { clientRepository } from '@/repositories/client.repository';
 import { InvoiceStatus } from '@prisma/client';
 import { roundMoney } from '@/utils/money.utils';
 import { GetPaginatedInvoiceInput } from '@/types/invoice.type';
+import { BadRequestError, ConflictError, NotFoundError } from '@/errors/domain.errors';
 
 export const invoiceService = {
   async createInvoice(data: InvoiceInput, userId: string) {
     const userCompany = await companyRepository.findDefaultForUser(userId);
     if (!userCompany) {
-      throw new Error('Musisz najpierw uzupełnić profil swojej firmy.');
+      throw new BadRequestError('Musisz najpierw uzupełnić profil swojej firmy.');
     }
 
     const client = await clientRepository.findByIdAndCompanyId(
@@ -19,7 +20,7 @@ export const invoiceService = {
     );
 
     if (!client) {
-      throw new Error('Wybrany klient nie istnieje.');
+      throw new NotFoundError('Wybrany klient nie istnieje.');
     }
 
     const existing = await invoiceRepository.findByNumberAndCompanyId(
@@ -28,7 +29,7 @@ export const invoiceService = {
     );
 
     if (existing) {
-      throw new Error(`Faktura o numerze ${data.number} już istnieje.`);
+      throw new ConflictError(`Faktura o numerze ${data.number} już istnieje.`);
     }
 
     let calculatedTotalNet = 0;
@@ -96,7 +97,7 @@ export const invoiceService = {
 
   async getPaginatedInvoices({
     userId,
-    companyId: explicitCompanyId,
+    companyId,
     query = '',
     status,
     startDate,
@@ -104,7 +105,17 @@ export const invoiceService = {
     page = 1,
     pageSize = 20,
   }: GetPaginatedInvoiceInput) {
-    let targetCompanyId = explicitCompanyId;
+    let targetCompanyId: string | undefined = undefined;
+
+    if (companyId !== undefined) {
+      const userCompany = await companyRepository.findCompanyByIdAndUserId(
+        companyId,
+        userId,
+      );
+      if (userCompany) {
+        targetCompanyId = userCompany.id;
+      }
+    }
 
     if (!targetCompanyId) {
       const userCompany = await companyRepository.findDefaultForUser(userId);
@@ -184,12 +195,8 @@ export const invoiceService = {
 
   async updateInvoiceStatus(id: string, status: string, userId: string) {
     const userCompany = await companyRepository.findDefaultForUser(userId);
-    if (!userCompany) throw new Error('Brak profilu firmy');
-    return invoiceRepository.updateStatus(
-      id,
-      userCompany.id,
-      status as InvoiceStatus,
-    );
+    if (!userCompany) throw new NotFoundError('Nie znaleziono firmy');
+    return invoiceRepository.updateStatus(id, userCompany.id, status as InvoiceStatus);
   },
 
   async getNextInvoiceNumber(userId: string) {

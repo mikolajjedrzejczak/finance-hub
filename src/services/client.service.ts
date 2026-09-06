@@ -1,3 +1,4 @@
+import { BadRequestError, ConflictError, NotFoundError } from '@/errors/domain.errors';
 import { clientRepository } from '@/repositories/client.repository';
 import { companyRepository } from '@/repositories/company.repository';
 import { invoiceRepository } from '@/repositories/invoice.repository';
@@ -8,13 +9,13 @@ export const clientService = {
     const userCompany = await companyRepository.findDefaultForUser(userId);
 
     if (!userCompany) {
-      throw new Error(
+      throw new BadRequestError(
         'Musisz najpierw uzupełnić profil swojej firmy, aby móc dodawać klientów.',
       );
     }
 
     if (userCompany.nip === data.nip) {
-      throw new Error('Nie możesz przypisać NIP-u własnej firmy do klienta.');
+      throw new BadRequestError('Nie możesz przypisać NIP-u własnej firmy do klienta.');
     }
 
     const existingClient = await clientRepository.findByNipAndCompanyId(
@@ -23,7 +24,7 @@ export const clientService = {
     );
 
     if (existingClient) {
-      throw new Error(
+      throw new ConflictError(
         'Klient o podanym numerze NIP już istnieje w Twojej bazie.',
       );
     }
@@ -47,18 +48,18 @@ export const clientService = {
   async updateClient(id: string, data: ClientInput, userId: string) {
     const userCompany = await companyRepository.findDefaultForUser(userId);
 
-    if (!userCompany) throw new Error('Brak profilu firmy');
+    if (!userCompany) throw new NotFoundError('Brak profilu firmy');
 
     const client = await clientRepository.findByIdAndCompanyId(id, userCompany.id);
 
-    if (!client) throw new Error("Nie znaleziono klienta.")
+    if (!client) throw new NotFoundError("Nie znaleziono klienta.")
 
-    if (userCompany.nip === data.nip) throw new Error("Nie możesz przypisać NIP-u własnej firmy do klienta.")
+    if (userCompany.nip === data.nip) throw new ConflictError("Nie możesz przypisać NIP-u własnej firmy do klienta.")
 
     if (data.nip !== client.nip) {
         const duplicate = await clientRepository.findByNipAndCompanyId(data.nip, userCompany.id);
-        if (duplicate && duplicate.id === id) {
-          throw new Error("Inny klient z podanym numerem NIP istnieje w Twojej bazie klientów.")
+        if (duplicate && duplicate.id !== id) {
+          throw new ConflictError("Inny klient z podanym numerem NIP istnieje w Twojej bazie klientów.")
         }
     }
 
@@ -68,14 +69,14 @@ export const clientService = {
   async deleteClient(id: string, userId: string) {
     const userCompany = await companyRepository.findDefaultForUser(userId);
 
-    if (!userCompany) throw new Error('Brak profilu firmy');
+    if (!userCompany) throw new NotFoundError('Brak profilu firmy');
 
     const client = await clientRepository.findByIdAndCompanyId(id, userCompany.id);
     
-    if (!client) throw new Error("Nie znaleziono klienta.")
+    if (!client) throw new NotFoundError("Nie znaleziono klienta.")
 
     const invoiceCount = await invoiceRepository.countByClientId(client.id, userCompany.id);
-    if (invoiceCount > 0) throw new Error("Nie można usunąć klienta, który posiada powiązane faktury.")
+    if (invoiceCount > 0) throw new ConflictError("Nie można usunąć klienta, który posiada powiązane faktury.")
 
     return clientRepository.delete(id, userCompany.id);
   },

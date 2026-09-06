@@ -104,7 +104,7 @@ export default function Sidebar({ companies = [] }: { companies?: Company[] }) {
         <div className="flex h-14 items-center border-b border-sidebar-border px-4 lg:h-[60px] lg:px-6">
           <Link
             href="/dashboard"
-            className="flex items-center gap-2 text-2xl font-bold text-blue-600"
+            className="flex items-center gap-2 text-2xl font-bold text-blue-600 cursor-pointer"
           >
             Finance Hub
           </Link>
@@ -118,7 +118,7 @@ export default function Sidebar({ companies = [] }: { companies?: Company[] }) {
               <Link
                 key={item.name}
                 href={item.href}
-                className={`${isActive(item.href) ? 'text-primary bg-muted' : 'text-muted-foreground'} flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary hover:bg-muted`}
+                className={`${isActive(item.href) ? 'text-primary bg-muted' : 'text-muted-foreground'} flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary hover:bg-muted cursor-pointer`}
               >
                 <item.icon className="h-5 w-5" />
                 {item.name}
@@ -134,7 +134,7 @@ export default function Sidebar({ companies = [] }: { companies?: Company[] }) {
           >
             <button
               type="submit"
-              className="w-full py-1 rounded-md hover:bg-blue-600 hover:text-white transition-colors cursor-pointer"
+              className="w-full py-1 rounded-md text-muted-foreground hover:bg-blue-600 hover:text-white transition-colors cursor-pointer"
             >
               Wyloguj się
             </button>

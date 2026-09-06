@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { LinkIcon, Check } from 'lucide-react';
+import { DomainError } from '@/errors/domain.errors';
 
 type CopyLinkButtonProps = {
   invoiceId: string;
@@ -31,7 +32,7 @@ export function CopyLinkButton({ invoiceId }: CopyLinkButtonProps) {
           textArea.remove();
         } catch (err) {
           textArea.remove();
-          throw new Error('execCommand copy failed');
+          throw new DomainError('Nie udało się skopiować linku');
         }
       }
 

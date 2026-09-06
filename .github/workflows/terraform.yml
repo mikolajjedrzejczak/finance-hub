@@ -2,18 +2,24 @@ name: Terraform Infrastructure
 
 on:
   push:
-    branches: [ main ]
-    paths:
-      - '**/*.tf' 
-  pull_request:
-    branches: [ main ]
+    branches: [main]
     paths:
       - '**/*.tf'
+  pull_request:
+    branches: [main]
+    paths:
+      - '**/*.tf'
+
+concurrency:
+  group: terraform-state
+  cancel-in-progress: false
 
 jobs:
   terraform:
     name: Terraform Plan & Apply
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: ${{ (github.ref == 'refs/heads/main' && github.event_name == 'push') && 'production' || ''}}
 
     env:
       ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
@@ -34,14 +40,17 @@ jobs:
           terraform_version: 1.8.0
 
       - name: Terraform Init
-        run: terraform init
+        run: terraform init -input=false
 
       - name: Terraform Format Check
         run: terraform fmt -check
 
+      - name: Terraform Validate
+        run: terraform validate
+
       - name: Terraform Plan
-        run: terraform plan -no-color
+        run: terraform plan -no-color -out=tfplan
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve tfplan

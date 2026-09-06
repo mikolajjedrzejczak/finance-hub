@@ -1,6 +1,7 @@
 'use server';
 
 import { auth } from '@/auth';
+import { DomainError, UnauthorizedError } from '@/errors/domain.errors';
 import { ClientInput, clientSchema } from '@/schemas/client.schema';
 import { clientService } from '@/services/client.service';
 import { revalidatePath } from 'next/cache';
@@ -10,7 +11,7 @@ export async function createClientAction(data: ClientInput) {
     const session = await auth();
 
     if (!session?.user?.id) {
-      return { error: 'Musisz być zalogowany, aby dodać klienta.' };
+      throw new UnauthorizedError('Musisz być zalogowany, aby dodać klienta.');
     }
 
     const validateData = clientSchema.safeParse(data);
@@ -30,7 +31,7 @@ export async function createClientAction(data: ClientInput) {
     revalidatePath('/clients');
     return { success: true, client: newClient };
   } catch (error: unknown) {
-    if (error instanceof Error) {
+    if (error instanceof DomainError) {
       return { error: error.message };
     }
     return { error: 'Wystąpił nieoczekiwany błąd serwera.' };
@@ -41,7 +42,7 @@ export async function updateClientAction(id: string, data: ClientInput) {
   try {
     const session = await auth();
 
-    if (!session?.user?.id) return { error: 'Brak autoryzacji' };
+    if (!session?.user?.id) throw new UnauthorizedError();
 
     const validateData = await clientSchema.safeParse(data);
 
@@ -52,13 +53,13 @@ export async function updateClientAction(id: string, data: ClientInput) {
       };
     }
 
-    await clientService.updateClient(id, data, session.user.id);
+    await clientService.updateClient(id, validateData.data, session.user.id);
 
     revalidatePath('/', 'layout');
 
     return { success: true };
   } catch (error: unknown) {
-    if (error instanceof Error) {
+    if (error instanceof DomainError) {
       return { error: error.message };
     }
 
@@ -70,7 +71,7 @@ export async function deleteClientAction(id: string) {
   try {
     const session = await auth();
 
-    if (!session?.user?.id) return { error: 'Brak autoryzacji' };
+    if (!session?.user?.id) throw new UnauthorizedError();
 
     await clientService.deleteClient(id, session.user.id);
 
@@ -78,7 +79,7 @@ export async function deleteClientAction(id: string) {
 
     return { success: true };
   } catch (error: unknown) {
-    if (error instanceof Error) {
+    if (error instanceof DomainError) {
       return { error: error.message };
     }
 
