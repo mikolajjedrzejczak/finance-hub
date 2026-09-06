@@ -51,9 +51,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     MicrosoftEntraID({
       clientId: process.env['AUTH_MICROSOFT_ENTRA_ID']!,
       clientSecret: process.env['AUTH_MICROSOFT_ENTRA_ID_SECRET']!,
-      issuer: process.env['AUTH_MICROSOFT_ENTRA_ID_TENANT_ID']
-        ? `issuer: 'https://login.microsoftonline.com/common/v2.0',`
-        : undefined,
+      issuer: 'https://login.microsoftonline.com/common/v2.0',
     }),
   ],
   callbacks: {
